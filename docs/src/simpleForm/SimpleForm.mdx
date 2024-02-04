@@ -1,0 +1,17 @@
+import SimpleForm from "./SimpleForm.tsx";
+import SimpleFormRaw from "./SimpleForm.tsx?raw";
+import CodeSamplesLayout from '../CodeSamplesLayout.tsx'
+
+# Simple Form
+
+This is basic example of the form.
+<br />
+First It uses `useForm` to create a form.
+Then `<Field />` is used to render controls.
+
+<CodeSamplesLayout
+  codeFiles={[
+    { name: 'SimpleForm.tsx', code: SimpleFormRaw },
+  ]}>
+  <SimpleForm />
+</CodeSamplesLayout>
