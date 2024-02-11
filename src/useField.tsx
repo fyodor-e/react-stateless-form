@@ -1,12 +1,22 @@
 import { type FC, useCallback, useMemo, DependencyList } from "react";
 
+type OwnProps<ComponentProps = {}> = {
+  as: FC<ComponentProps>;
+  name: string;
+};
+
+type FormProps = {
+  error: string | undefined;
+  touched: boolean | undefined;
+  onBlur: () => void;
+};
+
 type ConvertFunction<
-GeneratedProps extends {},
-ComponentProps extends GeneratedProps,
-PassedProps extends ComponentProps,
-> = (
-  props: PassedProps,
-) => GeneratedProps;
+  ComponentProps extends {},
+  PassedProps extends ComponentProps & OwnProps<ComponentProps> & FormProps,
+> = (props: PassedProps) => ComponentProps;
+
+type ValuesFunction<Values extends {} = any> = () => { values: Values };
 
 // function useField<
 //   ComponentProps extends Record<string, any>,
@@ -31,22 +41,31 @@ PassedProps extends ComponentProps,
 //   convertFunction: ConvertFunction<PassedProps, GeneratedProps>;
 // }, deps: DependencyList): FC<PassedProps>;
 
+const defaultConvertFunction = <ComponentProps extends {} = {}>(props: ComponentProps) => props;
+
 function useField<
-  GeneratedProps extends {},
-  ComponentProps extends GeneratedProps,
-  PassedProps extends (ComponentProps & Record<ComponentPropName, FC<ComponentProps>>),
-  ComponentPropName extends string = string
->({
-  componentPropName,
-  convertFunction,
-}: {
-  componentPropName: ComponentPropName;
-  convertFunction: ConvertFunction<GeneratedProps, ComponentProps, PassedProps>;
-}, deps: DependencyList): FC<PassedProps> {
+  ComponentProps extends {},
+  PassedProps extends ComponentProps & OwnProps<ComponentProps>,
+  Values extends {} = any,
+>(
+  {
+    valuesFunction,
+    convertFunction = defaultConvertFunction<ComponentProps>,
+  }: {
+    valuesFunction: ValuesFunction<Values>;
+    convertFunction?: ConvertFunction<ComponentProps, PassedProps & FormProps>;
+  },
+  deps: DependencyList,
+): FC<PassedProps> {
   return useCallback<FC<PassedProps>>(
     (props) => {
-      const generatedProps = convertFunction(props);
-      const Component: FC<ComponentProps> = props[componentPropName]
+      const generatedProps = convertFunction({
+        ...props,
+        error: "error",
+        touched: true,
+        onBlur: () => {},
+      });
+      const Component: FC<ComponentProps> = props.as;
       return <Component {...props} {...generatedProps} />;
     },
     [componentPropName, deps],
