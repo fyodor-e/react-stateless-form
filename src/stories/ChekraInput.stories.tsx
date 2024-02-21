@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Input, InputProps } from '@chakra-ui/react';
-import useField from '../useField';
+import useField from '../useField/useField';
 import { FC } from 'react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -22,11 +22,13 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default: Story = {
     render: (args) => {
-        const Field = useField<{}, InputProps, InputProps & { cmp: FC<InputProps>, b: string }, 'cmp'>({
-          componentPropName: 'cmp',
-          convertFunction: (v) => ({ isInvalid: true, value1: v.b })
+        const Field = useField<{ a: string }, InputProps, InputProps & { name: string, as: FC<InputProps>, b: string }>({
+          values: { a: "werty" },
+          errors: { a: undefined },
+          touched: { a: undefined },
+          convertFunction: (v) => ({ isInvalid: true, valuel: v.b })
         }, [])
 
-        return <Field cmp={Input} isDisabled b='1' />
+        return <Field as={Input} name='' isDisabled b='1' />
     }
 };
