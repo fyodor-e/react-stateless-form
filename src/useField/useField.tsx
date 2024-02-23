@@ -114,11 +114,11 @@ type OwnProps<ComponentProps = {}> = {
   name: string;
 };
 
-type ConvertFunction<ComponentProps extends {}, AdditionalProps extends {}> = (
-  props: Partial<ComponentProps> &
-    OwnProps<ComponentProps> &
-    FormProps &
-    AdditionalProps,
+type ConvertFunction<
+  ComponentProps extends {},
+  AdditionalProps extends {} = {},
+> = (
+  props: Partial<ComponentProps> & FormProps & AdditionalProps,
 ) => ComponentProps;
 
 const defaultConvertFunction = <ComponentProps extends {} = {}>(
@@ -128,20 +128,37 @@ const defaultConvertFunction = <ComponentProps extends {} = {}>(
 function useField<
   Values extends {},
   ComponentProps extends {},
-  AdditionalProps extends {} = {},
+  AdditionalProps extends object = object,
+  AsProp extends string = "as",
+  NameProp extends string = "name",
 >(
   {
     values,
     convertFunction, // = defaultConvertFunction<ComponentProps>,
+    asProp = 'as',
+    nameProp,
   }: {
     values: Values;
     errors: FormErrors<Values>;
     touched: FormTouched<Values>;
     convertFunction: ConvertFunction<ComponentProps, AdditionalProps>;
-  },
+    nameProp?: NameProp;
+  } & (AsProp extends 'as' ? { asProp?: 'as' } : { asProp: AsProp }),
   deps: DependencyList,
-): FC<AdditionalProps & OwnProps<ComponentProps> & Partial<ComponentProps>> {
-  return useCallback<FC<AdditionalProps & OwnProps<ComponentProps> & Partial<ComponentProps>>>(
+): FC<
+  AdditionalProps & { [K in AsProp]: FC<ComponentProps> } & {
+    [N in NameProp]: string;
+  } & Partial<ComponentProps>
+> {
+  return useCallback<
+    FC<
+      AdditionalProps & {
+        [K in AsProp]: FC<ComponentProps>;
+      } & {
+        [N in NameProp]: string;
+      } & Partial<ComponentProps>
+    >
+  >(
     (props) => {
       const generatedProps = convertFunction({
         ...props,
@@ -149,7 +166,8 @@ function useField<
         touched: true,
         onBlur: () => {},
       });
-      const { as: Component, ...restProps } = props;
+      const { [asProp]: C, ...restProps } = props as any;
+      const Component = C as FC<ComponentProps>
       return <Component {...restProps} {...generatedProps} />;
     },
     [deps],
