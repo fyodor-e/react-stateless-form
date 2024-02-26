@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-	"tsc": "tsc"
+	  "tsc": "tsc"
   },
-  "author": "",
+  "author": "Fyodor Yemelyanenko",
   "license": "MIT",
   "devDependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -34,6 +34,7 @@
     "prettier": "^3.2.4",
     "react-dom": "^18.2.0",
     "storybook": "^7.6.10",
+    "tsup": "^6.5.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {

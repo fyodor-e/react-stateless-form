@@ -1,5 +1,5 @@
 import { FC } from "react"
-import useField from "../useField"
+import useField from "../src/useField"
 
 type SimpleComponentProps = { requiredProp: string, optionalProp?: number }
 type Value = {}

@@ -1,6 +1,7 @@
 import { type FC, useCallback, useMemo, DependencyList } from "react";
 
 type FormProps = {
+  value: any | undefined
   error: string | undefined;
   touched: boolean | undefined;
   onBlur: () => void;
@@ -109,17 +110,19 @@ type A = {
 const n: Name1<O, "b"> = ["b", "d"];
 const nn: Name<A> = [2, ""];
 
-type OwnProps<ComponentProps = {}> = {
-  as: FC<ComponentProps>;
-  name: string;
-};
-
 type ConvertFunction<
   ComponentProps extends {},
   AdditionalProps extends {} = {},
 > = (
   props: Partial<ComponentProps> & FormProps & AdditionalProps,
 ) => ComponentProps;
+
+type DisplayLoading<
+ComponentProps extends {},
+AdditionalProps extends {} = {}
+> = (props: Partial<ComponentProps> & FormProps & AdditionalProps) => boolean;
+
+const defaultDisplayLoading: DisplayLoading<{}> = ({ value }) => value === undefined
 
 const defaultConvertFunction = <ComponentProps extends {} = {}>(
   props: ComponentProps,
@@ -135,15 +138,20 @@ function useField<
   {
     values,
     convertFunction, // = defaultConvertFunction<ComponentProps>,
-    asProp = 'as',
-    nameProp,
+    asProp = "as",
+    nameProp = "name",
+    Loading,
+    displayLoading = defaultDisplayLoading,
   }: {
     values: Values;
     errors: FormErrors<Values>;
     touched: FormTouched<Values>;
+
     convertFunction: ConvertFunction<ComponentProps, AdditionalProps>;
-    nameProp?: NameProp;
-  } & (AsProp extends 'as' ? { asProp?: 'as' } : { asProp: AsProp }),
+    Loading?: FC<Partial<ComponentProps> & FormProps & AdditionalProps>;
+    displayLoading?: DisplayLoading<ComponentProps, AdditionalProps>;
+  } & (AsProp extends "as" ? { asProp?: "as" } : { asProp: AsProp }) &
+    (NameProp extends "name" ? { nameProp?: "name" } : { nameProp: NameProp }),
   deps: DependencyList,
 ): FC<
   AdditionalProps & { [K in AsProp]: FC<ComponentProps> } & {
@@ -162,12 +170,23 @@ function useField<
     (props) => {
       const generatedProps = convertFunction({
         ...props,
+        value: 1,
         error: "error",
         touched: true,
         onBlur: () => {},
       });
+      const isLoading = displayLoading({
+        ...props,
+        value: 1,
+        error: "error",
+        touched: true,
+        onBlur: () => {},
+      })
       const { [asProp]: C, ...restProps } = props as any;
-      const Component = C as FC<ComponentProps>
+      const Component = C as FC<ComponentProps>;
+
+      if (isLoading && Loading) return <Loading {...restProps} {...generatedProps} />
+
       return <Component {...restProps} {...generatedProps} />;
     },
     [deps],
