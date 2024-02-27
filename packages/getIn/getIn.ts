@@ -56,7 +56,7 @@ const aaa: AAA = [];
 
 type bfg = keyof AAA;
 
-const ag = getIn(aaa, '[1]');
+const ag = getIn(aaa, '[1].d');
 
 type a = {
   b: number;
