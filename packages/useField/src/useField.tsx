@@ -1,7 +1,8 @@
 import { type FC, useCallback, useMemo, DependencyList } from "react";
+import { KeyPaths } from "../../../utils/types";
 
 type FormProps = {
-  value: any | undefined
+  value: any | undefined;
   error: string | undefined;
   touched: boolean | undefined;
   onBlur: () => void;
@@ -46,70 +47,6 @@ type FormTouched<V> = {
       : boolean;
 };
 
-type Name<V, K extends keyof V = keyof V> = V extends object
-  ? [K, ...Name<V[K]>]
-  : V extends (infer A)[]
-    ? [number, ...Name<A>]
-    : [""];
-
-type O = {
-  a: string;
-  c: {
-    ff: number;
-  };
-  m: {
-    x: string;
-  }[];
-  b: {
-    d: {
-      s: string;
-      e: number;
-    }[];
-    h: boolean;
-  };
-};
-
-// https://stackoverflow.com/a/49402091
-type Keyof<T> = T extends any[] ? number : T extends T ? keyof T : never;
-type ObjectOf<T> = T extends (infer A)[] ? A : T extends T ? T[keyof T] : never;
-
-type K1 = Keyof<O>;
-type O1 = Extract<O, object>;
-
-type O2 = Extract<O1["b"], object>;
-type K2 = Keyof<O2>;
-
-type O3 = Extract<ObjectOf<O2>, object>;
-type K3 = Keyof<O3>;
-
-type O4 = Extract<ObjectOf<O3>, object>;
-type K4 = Keyof<O4>;
-
-type O5 = Extract<ObjectOf<O4>, object>;
-type K5 = Keyof<O5>;
-
-type Name1<
-  V,
-  K1 extends keyof Extract<V, object> = keyof Extract<V, object>,
-  K2 extends keyof Extract<Extract<V, object>[K1], object> = keyof Extract<
-    Extract<V, object>[K1],
-    object
-  >,
-> = [K1, K2];
-
-type ZZ = O["a"];
-
-type OO = Name1<O>;
-type NN = Extract<O[keyof O], object>;
-type NN1 = Extract<O["a"], object>;
-
-type A = {
-  d: string;
-}[];
-
-const n: Name1<O, "b"> = ["b", "d"];
-const nn: Name<A> = [2, ""];
-
 type ConvertFunction<
   ComponentProps extends {},
   AdditionalProps extends {} = {},
@@ -118,11 +55,12 @@ type ConvertFunction<
 ) => ComponentProps;
 
 type DisplayLoading<
-ComponentProps extends {},
-AdditionalProps extends {} = {}
+  ComponentProps extends {},
+  AdditionalProps extends {} = {},
 > = (props: Partial<ComponentProps> & FormProps & AdditionalProps) => boolean;
 
-const defaultDisplayLoading: DisplayLoading<{}> = ({ value }) => value === undefined
+const defaultDisplayLoading: DisplayLoading<{}> = ({ value }) =>
+  value === undefined;
 
 const defaultConvertFunction = <ComponentProps extends {} = {}>(
   props: ComponentProps,
@@ -155,7 +93,7 @@ function useField<
   deps: DependencyList,
 ): FC<
   AdditionalProps & { [K in AsProp]: FC<ComponentProps> } & {
-    [N in NameProp]: string;
+    [N in NameProp]: KeyPaths<Values>;
   } & Partial<ComponentProps>
 > {
   return useCallback<
@@ -181,11 +119,12 @@ function useField<
         error: "error",
         touched: true,
         onBlur: () => {},
-      })
+      });
       const { [asProp]: C, ...restProps } = props as any;
       const Component = C as FC<ComponentProps>;
 
-      if (isLoading && Loading) return <Loading {...restProps} {...generatedProps} />
+      if (isLoading && Loading)
+        return <Loading {...restProps} {...generatedProps} />;
 
       return <Component {...restProps} {...generatedProps} />;
     },
