@@ -184,3 +184,85 @@ expectType<
   DeepPick<RootArray, "[0].nestedArray.2.prop3">,
   RootArray[number]["nestedArray"][number]["prop3"]
 >(true);
+
+// Object with undefined
+
+type ObjectWithUndefined = {
+  nestedObject:
+    | undefined
+    | {
+        prop1: "prop1";
+      };
+  nestedArray:
+    | undefined
+    | {
+        prop2: "prop2";
+      }[];
+  nestedArray2: (
+    | undefined
+    | {
+        prop4: "prop4";
+      }
+  )[];
+  nullObjects: null | {
+    prop3: "prop3";
+  };
+  nullUndefinedObject:
+    | null
+    | undefined
+    | {
+        prop4: "prop4";
+      };
+  deeplyNestedNull: null | {
+    nestedObject: {
+      prop5: "prop5";
+    };
+  };
+};
+
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedObject">,
+  ObjectWithUndefined["nestedObject"]
+>({ prop1: "prop1" });
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedObject">,
+  ObjectWithUndefined["nestedObject"]
+>(undefined);
+
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedObject.prop1">,
+  "prop1" | undefined
+>("prop1");
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedObject.prop1">,
+  "prop1" | undefined
+>(undefined);
+
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedArray[0].prop2">,
+  "prop2" | undefined
+>("prop2");
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedArray[0].prop2">,
+  "prop2" | undefined
+>(undefined);
+
+expectType<DeepPick<ObjectWithUndefined, "nullObjects.prop3">, "prop3" | null>(
+  "prop3",
+);
+
+expectType<
+  DeepPick<ObjectWithUndefined, "nullUndefinedObject.prop4">,
+  "prop4" | null | undefined
+>("prop4");
+
+expectType<
+  DeepPick<ObjectWithUndefined, "deeplyNestedNull.nestedObject.prop5">,
+  "prop5" | null
+>("prop5");
+
+expectType<
+  DeepPick<ObjectWithUndefined, "nestedObject.prop1">,
+  NonNullable<ObjectWithUndefined["nestedObject"]>["prop1"]
+  // @ts-expect-error
+>(null);
