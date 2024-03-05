@@ -1,5 +1,5 @@
 import { type FC, useCallback, useMemo, DependencyList } from "react";
-import { KeyPaths } from "../../../utils/types";
+import { KeyPaths } from "@react-stateless-form/types";
 
 type FormProps = {
   value: any | undefined;

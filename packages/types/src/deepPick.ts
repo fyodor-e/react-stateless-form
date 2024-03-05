@@ -86,10 +86,8 @@ type SingleDeepPick<
                 >
               : unknown;
 
-type DeepPick<T, P> = (
+export type DeepPick<T, P> = (
   P extends unknown ? (k: SingleDeepPick<T, P, false, false>) => void : never
 ) extends (k: infer I) => void
   ? I
   : never;
-
-export default DeepPick;

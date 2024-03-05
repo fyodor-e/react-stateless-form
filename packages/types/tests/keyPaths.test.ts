@@ -1,4 +1,4 @@
-import KeyPaths from "./keyPaths";
+import { KeyPaths } from "../src/keyPaths";
 
 type TestObject = {
   p1: string;
