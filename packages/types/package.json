@@ -25,6 +25,12 @@
     "url": "https://github.com/fyodore82/react-stateless-form/issues"
   },
   "homepage": "https://github.com/fyodore82/react-stateless-form#readme",
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "react": "^18.0.0"
+  },
   "tsup": {
     "clean": true,
     "target": "es2019",
