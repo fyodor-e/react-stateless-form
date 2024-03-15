@@ -31,6 +31,10 @@ export type FormContext<Values extends {}> = {
   values: Values;
   errors: FormErrors<Values>;
   touched: FormTouched<Values>;
+  setValue: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
+    name: Name;
+    value: DeepPick<Values, Name>;
+  }) => void;
 };
 
 export type DefaultBaseProps<
@@ -40,22 +44,14 @@ export type DefaultBaseProps<
   ValueProp extends string = "value",
 > = {
   [key in ValueProp]: DeepPick<Values, Name>;
-} & (BaseProps extends undefined
-  ? {
-      onBlur: () => void;
-    }
-  : BaseProps);
+} & OtherBaseProps<BaseProps>;
 
-// export type ConvertFunction<
-//   Values extends {},
-//   BaseProps extends DefaultBaseProps<
-//     Values,
-//     KeyPaths<Values>
-//   > = DefaultBaseProps<Values, KeyPaths<Values>>,
-// > = (
-//   props: NameAndComponentProps<Values, BaseProps, KeyPaths<Values>> &
-//     FormContext<Values>,
-// ) => BaseProps;
+export type OtherBaseProps<BaseProps extends {} | undefined = undefined> =
+  BaseProps extends undefined
+    ? {
+        onBlur: () => void;
+      }
+    : BaseProps;
 
 export type FieldType<
   Values extends {},

@@ -7,91 +7,87 @@ import {
 } from "react";
 import {
   KeyPaths,
-  Field,
+  FieldType,
   FormErrors,
   FormTouched,
-  ConvertFunction,
   NameAndComponentProps,
   DefaultBaseProps,
   FormContext,
+  OtherBaseProps,
 } from "@react-stateless-form/types";
 
-type FormProps = {
-  value: any | undefined;
-  error: string | undefined;
-  touched: boolean | undefined;
-  onBlur: () => void;
-};
-
-// type ConvertFunction<
-//   Values extends {},
-//   ComponentProps extends {},
-//   Name extends KeyPaths<Values> = KeyPaths<Values>,
-//   AdditionalProps extends {} = {},
-// > = (
-//   props: Partial<ComponentProps> &
-//     NameAndComponentProps<Values, ComponentProps, Name> &
-//     FormProps &
-//     AdditionalProps,
-// ) => ComponentProps;
-
-// type DisplayLoading<
-//   Values extends {},
-//   ComponentProps extends {},
-//   Name extends KeyPaths<Values> = KeyPaths<Values>,
-//   AdditionalProps extends {} = {},
-// > = (
-//   props: Partial<ComponentProps> &
-//     NameAndComponentProps<Values, ComponentProps, Name> &
-//     FormProps &
-//     AdditionalProps,
-// ) => boolean;
-
-// const defaultDisplayLoading: DisplayLoading<{}> = ({ value }) =>
-//   value === undefined;
+export type ConvertFunction<
+  Values extends {},
+  BaseProps extends {} | undefined = undefined,
+  ValueName extends string = "value",
+> = (
+  props: {
+    rsfName: KeyPaths<Values>;
+  } & FormContext<Values>,
+) => {
+  [key in ValueName]: any;
+} & OtherBaseProps<BaseProps>;
 
 const defaultConvertFunction: ConvertFunction<any> = (props) => props as any;
 
-function useField<Values extends {}>(
-  {
-    values,
-    errors,
-    touched,
+type DisplayLoading<Values extends {}> = (
+  props: {
+    rsfName: KeyPaths<Values>;
+  } & FormContext<Values>,
+) => boolean;
 
-    convertFunction = defaultConvertFunction,
-    // Loading,
-    // displayLoading = defaultDisplayLoading,
+const defaultDisplayLoading: DisplayLoading<any> = ({ values, rsfName }) =>
+  values === undefined;
+
+const useField = <
+  Values extends {},
+  BaseProps extends {} | undefined = undefined,
+  ValueName extends string = "value",
+>(
+  {
+    convertFunction,
+    LoadingComponent,
+    displayLoading = defaultDisplayLoading,
+    ...context
   }: {
-    convertFunction: ConvertFunction<Values>;
-    // Loading?: FC<Partial<ComponentProps> & FormProps & AdditionalProps>;
-    // displayLoading?: DisplayLoading<Values, ComponentProps, KeyPaths<Values>, AdditionalProps>;
+    convertFunction: ConvertFunction<Values, BaseProps, ValueName>;
+    LoadingComponent?: FC<
+      DefaultBaseProps<Values, KeyPaths<Values>, BaseProps, ValueName>
+    >;
+    displayLoading?: DisplayLoading<Values>;
   } & FormContext<Values>,
   deps: DependencyList,
-): Field<Values> {
+): FieldType<Values, BaseProps, ValueName> => {
   return useCallback(
-    (props) => {
+    ({ rsfName, rsfComponent: Component, ...restProps }) => {
       const generatedProps = convertFunction({
-        ...props,
-        values,
-        errors,
-        touched,
+        rsfName,
+        ...context,
       });
-      // const isLoading = displayLoading({
-      //   ...props,
-      //   value: 1,
-      //   error: "error",
-      //   touched: true,
-      //   onBlur: () => {},
-      // });
-      const { rsfComponent: Component, ...restProps } = props;
+      const isLoading = displayLoading({
+        rsfName,
+        ...context,
+      });
 
-      // if (isLoading && Loading)
-      //   return <Loading {...restProps} {...generatedProps} />;
+      if (isLoading && LoadingComponent)
+        return <LoadingComponent {...generatedProps} {...restProps} />;
 
-      return <Component {...generatedProps} {...restProps} />;
+      // restProps as any is not ideal solution.
+      //   - typeof generatedProps === BaseProps
+      //   - typeof restProps == Omit<ComponentProps, keyof BaseProps>
+      //     ComponentProps extends BaseProps
+      // The problem.
+      // Say BaseProps = { p: { c: string } }
+      //     ComponentProps = { p: { c: string, b: number }, other: string }
+      // Omit<ComponentProps, keyof BaseProps> will produce { other: string }
+      // and BaseProps & Omit<ComponentProps, keyof BaseProps> will produce
+      // { p: { c: string }, other: string } which is not ComponentProps
+      // In most situation neted props with the same name are not passed in both
+      // BaseProps and ComponentProps, so code below will work
+      return <Component {...generatedProps} {...(restProps as any)} />;
     },
     [deps],
   );
-}
+};
 
 export default useField;
