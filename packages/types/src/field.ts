@@ -37,34 +37,31 @@ export type FormContext<Values extends {}> = {
   }) => void;
 };
 
-export type DefaultBaseProps<
+export type BasePropsCreator<
   Values extends {},
   Name extends KeyPaths<Values> = KeyPaths<Values>,
-  BaseProps extends {} | undefined = undefined,
+  BaseProps extends {} = DefaultBaseProps,
   ValueProp extends string = "value",
 > = {
   [key in ValueProp]: DeepPick<Values, Name>;
-} & OtherBaseProps<BaseProps>;
+} & BaseProps;
 
-export type OtherBaseProps<BaseProps extends {} | undefined = undefined> =
-  BaseProps extends undefined
-    ? {
-        onBlur: () => void;
-      }
-    : BaseProps;
+export type DefaultBaseProps = {
+  onBlur: () => void;
+};
 
 export type FieldType<
   Values extends {},
-  BaseProps extends {} | undefined = undefined,
+  BaseProps extends {} = DefaultBaseProps,
   ValueName extends string = "value",
 > = <
-  ComponentProps extends DefaultBaseProps<Values, Name, BaseProps, ValueName>,
+  ComponentProps extends BasePropsCreator<Values, Name, BaseProps, ValueName>,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >(
   props: NameAndComponentProps<Values, ComponentProps, Name> &
     Omit<
       ComponentProps,
-      keyof DefaultBaseProps<Values, Name, BaseProps, ValueName>
+      keyof BasePropsCreator<Values, Name, BaseProps, ValueName>
     > &
-    Partial<DefaultBaseProps<Values, Name, BaseProps, ValueName>>,
+    Partial<BasePropsCreator<Values, Name, BaseProps, ValueName>>,
 ) => ReactNode;

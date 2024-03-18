@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { FieldType } from "../src/field";
+import { DefaultBaseProps, FieldType } from "../src/field";
 
 type Values = {
   prop1: "prop1";
@@ -70,7 +70,7 @@ const ComponentWithSelected: FC<ComponentWithSelectedProps> = () => null;
 
 const FieldComponentWithSelected: FieldType<
   Values,
-  undefined,
+  DefaultBaseProps,
   "selected"
 > = () => null;
 
