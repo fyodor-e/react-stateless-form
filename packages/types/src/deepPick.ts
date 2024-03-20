@@ -1,10 +1,26 @@
 export type CheckUndefined<
   T,
   IsUndefined extends boolean,
-> = undefined extends T & undefined ? true : IsUndefined;
+  IsArray extends boolean,
+  IsObject extends boolean,
+> = undefined extends T & undefined
+  ? true
+  : IsArray extends true
+    ? Exclude<NonNullable<T>, Array<any>> extends never
+      ? IsUndefined
+      : true
+    : IsObject extends true
+      ?
+          | ExtractArray<NonNullable<T>>
+          | Exclude<NonNullable<T>, object> extends never
+        ? IsUndefined
+        : true
+      : IsUndefined;
+
 export type CheckNull<T, IsNull extends boolean> = null extends T & null
   ? true
   : IsNull;
+
 export type SetNullUndefined<
   T,
   IsNull extends boolean,
@@ -17,72 +33,97 @@ export type SetNullUndefined<
     ? T | undefined
     : T;
 
+type O =
+  | {
+      prop1: "prop1";
+    }
+  | { prop2: "prop2" }[]
+  | null
+  | undefined
+  | string[]
+  | string
+  | { p3: "a" };
+
+type ExtractArray<A> = Extract<A, Array<any>>;
+type ExtractObject<O, R = Extract<Exclude<O, Array<any>>, object>> = (
+  R extends any ? (x: R) => void : never
+) extends (x: infer I) => void
+  ? I
+  : never;
+
 type SingleDeepPick<
   T,
   P,
   IsNull extends boolean,
   IsUndefined extends boolean,
+  InputArray = ExtractArray<T>,
+  InputObject = ExtractObject<T>,
 > = P extends `[${number}].${infer R}`
-  ? NonNullable<T> extends (infer A)[]
-    ? SingleDeepPick<A, R, CheckNull<T, IsNull>, CheckUndefined<T, IsUndefined>>
+  ? InputArray extends (infer A)[]
+    ? SingleDeepPick<
+        A,
+        R,
+        CheckNull<T, IsNull>,
+        CheckUndefined<T, IsUndefined, true, false>
+      >
     : unknown
   : P extends `${number}.${infer R}`
-    ? NonNullable<T> extends (infer A)[]
+    ? ExtractArray<T> extends (infer A)[]
       ? SingleDeepPick<
           A,
           R,
           CheckNull<T, IsNull>,
-          CheckUndefined<T, IsUndefined>
+          CheckUndefined<T, IsUndefined, true, false>
         >
       : unknown
     : P extends `${infer K}.${infer R}`
       ? K extends `${infer KK}[${number}]`
-        ? KK extends keyof NonNullable<T>
+        ? KK extends keyof InputObject
           ? SingleDeepPick<
-              NonNullable<T>[KK],
+              InputObject[KK],
               `[${number}].${R}`,
               CheckNull<T, IsNull>,
-              CheckUndefined<T, IsUndefined>
+              CheckUndefined<T, IsUndefined, false, true>
             >
           : unknown
-        : K extends keyof NonNullable<T>
+        : K extends keyof InputObject
           ? SingleDeepPick<
-              NonNullable<T>[K],
+              InputObject[K],
               R,
               CheckNull<T, IsNull>,
-              CheckUndefined<T, IsUndefined>
+              CheckUndefined<T, IsUndefined, false, true>
             >
           : unknown
       : P extends `[${number}]`
-        ? NonNullable<T> extends (infer A)[]
+        ? InputArray extends (infer A)[]
           ? SetNullUndefined<
               A,
               CheckNull<T, IsNull>,
-              CheckUndefined<T, IsUndefined>
+              CheckUndefined<T, IsUndefined, true, false>
             >
           : unknown
         : P extends `${number}`
-          ? NonNullable<T> extends (infer A)[]
+          ? InputArray extends (infer A)[]
             ? SetNullUndefined<
                 A,
                 CheckNull<T, IsNull>,
-                CheckUndefined<T, IsUndefined>
+                CheckUndefined<T, IsUndefined, true, false>
               >
             : unknown
           : P extends `${infer K}[${number}]`
-            ? K extends keyof NonNullable<T>
+            ? K extends keyof InputObject
               ? SingleDeepPick<
-                  NonNullable<T>[K],
+                  InputObject[K],
                   `[${number}]`,
                   CheckNull<T, IsNull>,
-                  CheckUndefined<T, IsUndefined>
+                  CheckUndefined<T, IsUndefined, false, true>
                 >
               : unknown
-            : P extends keyof NonNullable<T>
+            : P extends keyof InputObject
               ? SetNullUndefined<
-                  NonNullable<T>[P],
+                  InputObject[P],
                   CheckNull<T, IsNull>,
-                  CheckUndefined<T, IsUndefined>
+                  CheckUndefined<T, IsUndefined, false, true>
                 >
               : unknown;
 

@@ -266,3 +266,76 @@ expectType<
   NonNullable<ObjectWithUndefined["nestedObject"]>["prop1"]
   // @ts-expect-error
 >(null);
+
+// Object with unions
+
+type ObjectWithUnions = {
+  nestedObject:
+    | string
+    | {
+        prop1: "prop1";
+      }
+    | { arrayProp2: "arrayProp2" }[];
+};
+
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject">,
+  ObjectWithUnions["nestedObject"]
+>({ prop1: "prop1" });
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject">,
+  ObjectWithUnions["nestedObject"]
+>("");
+
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.prop1">,
+  "prop1" | undefined
+>("prop1");
+
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.errorProp1">,
+  "errorProp1" | undefined
+  // @ts-expect-error
+>("errorProp1");
+
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject[0]">,
+  { arrayProp2: "arrayProp2" } | undefined
+>({ arrayProp2: "arrayProp2" });
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.[1]">,
+  { arrayProp2: "arrayProp2" } | undefined
+>({ arrayProp2: "arrayProp2" });
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.2">,
+  { arrayProp2: "arrayProp2" } | undefined
+>({ arrayProp2: "arrayProp2" });
+
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject[0].arrayProp2">,
+  "arrayProp2" | undefined
+>("arrayProp2");
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.[1].arrayProp2">,
+  "arrayProp2" | undefined
+>("arrayProp2");
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.2.arrayProp2">,
+  "arrayProp2" | undefined
+>("arrayProp2");
+
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject[0].errorArrayProp2">,
+  "errorArrayProp2" | undefined
+  // @ts-expect-error
+>("errorArrayProp2");
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.[1].errorArrayProp2">,
+  "errorArrayProp2" | undefined
+  // @ts-expect-error
+>("errorArrayProp2");
+expectType<
+  DeepPick<ObjectWithUnions, "nestedObject.2.errorArrayProp2">,
+  "errorArrayProp2" | undefined
+  // @ts-expect-error
+>("errorArrayProp2");

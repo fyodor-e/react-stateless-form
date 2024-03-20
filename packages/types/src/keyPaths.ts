@@ -8,11 +8,24 @@ type GenNode<
 export type KeyPaths<
   V extends any,
   IsRoot extends boolean = true,
-  K extends keyof V = keyof V,
-> = V extends (infer A)[]
-  ? GenNode<number, IsRoot> | `${GenNode<number, IsRoot>}${KeyPaths<A, false>}`
-  : V extends object
-    ? K extends string | number
-      ? GenNode<K, IsRoot> | `${GenNode<K, IsRoot>}${KeyPaths<V[K], false>}`
-      : never
-    : never;
+  O extends Exclude<Extract<V, object>, Array<any>> = Exclude<
+    Extract<V, object>,
+    Array<any>
+  >,
+  K extends keyof O = keyof O,
+> =
+  Extract<V, object> extends never
+    ? never
+    :
+        | (Extract<V, Array<any>> extends never
+            ? never
+            :
+                | GenNode<number, IsRoot>
+                | `${GenNode<number, IsRoot>}${KeyPaths<Extract<V, Array<any>>[number], false>}`)
+        | (O extends never
+            ? never
+            : K extends string | number
+              ?
+                  | GenNode<K, IsRoot>
+                  | `${GenNode<K, IsRoot>}${KeyPaths<O[K], false>}`
+              : never);
