@@ -5,6 +5,7 @@ type TestObject = {
   p1: "p1";
   p2: "p2" | undefined;
   nestedObj: {
+    2: "2";
     nestedProp1: string;
     nestedArray: {
       aProp1: number;
@@ -23,8 +24,20 @@ expectType<DeepPick<TestObject, "p2">, TestObject["p2"]>("p2");
 
 expectType<DeepPick<TestObject, "nestedObj">, TestObject["nestedObj"]>({
   nestedProp1: "",
+  2: "2",
   nestedArray: [{ aProp1: 0, objNestedInArr: { prop1: "" } }],
 });
+
+expectType<DeepPick<TestObject, "nestedObj.2">, "2">("2");
+expectType<DeepPick<TestObject, "nestedObj.[2]">, "2">("2");
+expectType<DeepPick<TestObject, "nestedObj[2]">, "2">("2");
+
+// @ts-expect-error
+expectType<DeepPick<TestObject, "nestedObj.1">, "2">("2");
+// @ts-expect-error
+expectType<DeepPick<TestObject, "nestedObj.[1]">, "2">("2");
+// @ts-expect-error
+expectType<DeepPick<TestObject, "nestedObj[1]">, "2">("2");
 
 expectType<DeepPick<TestObject, "nestedObj.nestedProp1">, string>("");
 
@@ -266,8 +279,6 @@ expectType<
   NonNullable<ObjectWithUndefined["nestedObject"]>["prop1"]
   // @ts-expect-error
 >(null);
-
-// Object with unions
 
 type ObjectWithUnions = {
   nestedObject:
