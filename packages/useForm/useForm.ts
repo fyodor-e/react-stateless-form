@@ -1,9 +1,7 @@
-type Props = {
-  
-}
+import {} from "@react-stateless-form/types";
 
-const useForm = () => {
+type Props = {};
 
-}
+const useForm = () => {};
 
-export default useForm
+export default useForm;

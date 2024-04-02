@@ -1,72 +1,111 @@
 import { type FC, useCallback, useMemo } from "react";
 import {
-  KeyPaths,
   FieldType,
-  BasePropsCreator,
-  FormContext,
   DefaultBaseProps,
+  UseFieldArg,
 } from "@react-stateless-form/types";
+import { useDefaultConvertFunction } from "./useDefaultConvertFunction";
+import { defaultDisplayLoading } from "./defaultLoadingFunction";
+import Renderer from "./Renderer";
 
-export type ConvertFunction<
-  Values extends {},
-  BaseProps extends {} = DefaultBaseProps,
-  ValueName extends string = "value",
-> = (
-  props: {
-    rsfName: KeyPaths<Values>;
-  } & FormContext<Values>,
-) => {
-  [key in ValueName]: any;
-} & BaseProps;
-
-const defaultConvertFunction: ConvertFunction<any> = (props) => props as any;
-
-type DisplayLoading<Values extends {}> = (
-  props: {
-    rsfName: KeyPaths<Values>;
-  } & FormContext<Values>,
-) => boolean;
-
-const defaultDisplayLoading: DisplayLoading<{}> = ({ values, rsfName }) =>
-  values === undefined;
-
-const useField = <
-  Values extends {},
-  BaseProps extends {} = DefaultBaseProps,
-  ValueName extends string = "value",
->({
+const useField = <Values extends {}, BaseProps extends {} = DefaultBaseProps>({
   convertFunction,
   LoadingComponent,
-  displayLoading, // = defaultDisplayLoading,
-  ...context
-}: {
-  convertFunction: ConvertFunction<Values, BaseProps, ValueName>;
-  LoadingComponent?: FC<
-    BasePropsCreator<Values, KeyPaths<Values>, BaseProps, ValueName>
-  >;
-  displayLoading?: DisplayLoading<Values>;
-} & FormContext<Values>): FieldType<Values, BaseProps, ValueName> =>
+  displayLoading = defaultDisplayLoading,
+
+  // Context
+  values,
+  setValues,
+  errors,
+  setErrors,
+  touched,
+  setTouched,
+
+  setFieldError,
+  setFieldTouched,
+  setFieldValue,
+}: UseFieldArg<Values, BaseProps>): FieldType<Values, BaseProps> =>
   useCallback(({ rsfName, rsfComponent: Component, ...restProps }) => {
     const generatedProps = useMemo(
       () =>
+        convertFunction &&
         convertFunction({
           rsfName,
-          ...context,
+          values,
+          setValues,
+          errors,
+          setErrors,
+          touched,
+          setTouched,
+
+          setFieldError,
+          setFieldTouched,
+          setFieldValue,
         }),
-      [rsfName, ...Object.values(context)],
+      [
+        rsfName,
+        values,
+        setValues,
+        errors,
+        setErrors,
+        touched,
+        setTouched,
+
+        setFieldError,
+        setFieldTouched,
+        setFieldValue,
+      ],
     );
+
+    const defaultGeneratedProps = useDefaultConvertFunction({
+      rsfName,
+      values,
+      errors,
+      touched,
+
+      // Skip typecheck for defaultconvertfunction for perf reasons
+      setFieldTouched: setFieldTouched as any,
+      setFieldValue: setFieldValue as any,
+    });
+
     const isLoading = useMemo(
       () =>
         displayLoading &&
         displayLoading({
           rsfName,
-          ...context,
+          values,
+          setValues,
+          errors,
+          setErrors,
+          touched,
+          setTouched,
+
+          setFieldError,
+          setFieldTouched,
+          setFieldValue,
         }),
-      [rsfName, context],
+      [
+        rsfName,
+        values,
+        setValues,
+        errors,
+        setErrors,
+        touched,
+        setTouched,
+
+        setFieldError,
+        setFieldTouched,
+        setFieldValue,
+      ],
     );
 
     if (isLoading && LoadingComponent)
-      return <LoadingComponent {...generatedProps} {...restProps} />;
+      return (
+        <LoadingComponent
+          {...(generatedProps || defaultGeneratedProps)}
+          {...(restProps as any)}
+        />
+      );
 
     // restProps as any is not ideal solution.
     //   - typeof generatedProps === BaseProps
@@ -80,10 +119,18 @@ const useField = <
     // { p: { c: string }, other: string } which is not ComponentProps
     // In most situation neted props with the same name are not passed in both
     // BaseProps and ComponentProps, so code below will work
-    return useMemo(
-      () => <Component {...generatedProps} {...(restProps as any)} />,
-      [...Object.values(generatedProps), ...Object.values(restProps)],
+    return (
+      <Renderer
+        Component={Component}
+        {...(generatedProps || defaultGeneratedProps)}
+        {...(restProps as any)}
+      />
     );
+
+    // return useMemo(
+    //   () => <Component {...generatedProps} {...(restProps as any)} />,
+    //   [...Object.values(generatedProps), ...Object.values(restProps)],
+    // );
   }, []);
 
 export default useField;

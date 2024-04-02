@@ -10,28 +10,54 @@ const context: FormContext<Values> = {
   values: { prop1: "prop1" },
   touched: {},
   errors: {},
-  setValue: () => {},
+  setValues: () => {},
+  setErrors: () => {},
+  setTouched: () => {},
+  setFieldValue: () => {},
+  setFieldError: () => {},
+  setFieldTouched: () => {},
 };
 
 type SimpleComponentProps = {
   requiredProp: string;
   optionalProp?: number;
   value: "prop1";
-  onBlur: () => void;
 };
+
 const SimpleComponent: FC<SimpleComponentProps> = () => null;
 
 const Success = () => {
-  const Field = useField<Values>({
-    ...context,
-    convertFunction: ({ rsfName, values }) => ({
-      value: "prop2",
-      onBlur: () => {},
-    }),
-  });
+  const Field = useField(context);
 
   return (
-    <Field rsfComponent={SimpleComponent} rsfName="prop1" requiredProp="2" />
+    <>
+      <Field rsfComponent={SimpleComponent} rsfName="prop1" requiredProp="2" />
+      <Field
+        rsfComponent={SimpleComponent}
+        // @ts-expect-error
+        rsfName="errorProp"
+        requiredProp="2"
+      />
+      {/* @ts-expect-error */}
+      <Field
+        rsfComponent={SimpleComponent}
+        rsfName="prop1" /* requiredProp="2" */
+      />
+    </>
+  );
+};
+
+type IncompatibleValueType = {
+  value: number;
+};
+const IncompatibleValueTypeComponent: FC<IncompatibleValueType> = () => null;
+
+const IncompatibleValueTypeTest = () => {
+  const Field = useField(context);
+
+  return (
+    // @ts-expect-error
+    <Field rsfComponent={IncompatibleValueTypeComponent} rsfName="prop1" />
   );
 };
 
@@ -40,6 +66,7 @@ type AlternativeBaseProps = {
   optionalProp?: number;
   onBlur: () => void;
 };
+const Component2: FC<AlternativeBaseProps> = () => null;
 
 const RequiredPropMissingInConvertFunction = () => {
   const Field = useField<Values, AlternativeBaseProps>({
@@ -52,7 +79,7 @@ const RequiredPropMissingInConvertFunction = () => {
     }),
   });
 
-  return <Field rsfComponent={SimpleComponent} rsfName="prop1" />;
+  return <Field rsfComponent={Component2} rsfName="prop1" />;
 };
 
 type AnotherComponentProps = { anotherRequiredProp: number };

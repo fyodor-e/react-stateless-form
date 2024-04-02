@@ -14,18 +14,21 @@ export type KeyPaths<
   >,
   K extends keyof O = keyof O,
 > =
-  Extract<V, object> extends never
-    ? never
-    :
-        | (Extract<V, Array<any>> extends never
-            ? never
-            :
-                | GenNode<number, IsRoot>
-                | `${GenNode<number, IsRoot>}${KeyPaths<Extract<V, Array<any>>[number], false>}`)
-        | (O extends never
-            ? never
-            : K extends string | number
-              ?
-                  | GenNode<K, IsRoot>
-                  | `${GenNode<K, IsRoot>}${KeyPaths<O[K], false>}`
-              : never);
+  // First step is check for any. Any cannot be processed correctly
+  0 extends 1 & V
+    ? string
+    : Extract<V, object> extends never
+      ? never
+      :
+          | (Extract<V, Array<any>> extends never
+              ? never
+              :
+                  | GenNode<number, IsRoot>
+                  | `${GenNode<number, IsRoot>}${KeyPaths<Extract<V, Array<any>>[number], false>}`)
+          | (O extends never
+              ? never
+              : K extends string | number
+                ?
+                    | GenNode<K, IsRoot>
+                    | `${GenNode<K, IsRoot>}${KeyPaths<O[K], false>}`
+                : never);

@@ -1,8 +1,8 @@
 {
-  "name": "utils",
+  "name": "@react-stateless-form/utils",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.ts",
   "directories": {
     "test": "tests"
   },

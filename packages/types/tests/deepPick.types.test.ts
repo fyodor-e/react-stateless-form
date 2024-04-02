@@ -29,7 +29,9 @@ expectType<DeepPick<TestObject, "nestedObj">, TestObject["nestedObj"]>({
 });
 
 expectType<DeepPick<TestObject, "nestedObj.2">, "2">("2");
+// @ts-expect-error
 expectType<DeepPick<TestObject, "nestedObj.[2]">, "2">("2");
+// @ts-expect-error
 expectType<DeepPick<TestObject, "nestedObj[2]">, "2">("2");
 
 // @ts-expect-error
@@ -350,3 +352,41 @@ expectType<
   "errorArrayProp2" | undefined
   // @ts-expect-error
 >("errorArrayProp2");
+
+type ArrayWithUnions = {
+  nestedObject:
+    | string[]
+    | {
+        prop1: "prop1";
+      }[];
+};
+
+expectType<
+  DeepPick<ArrayWithUnions, "nestedObject">,
+  ArrayWithUnions["nestedObject"]
+>([{ prop1: "prop1" }]);
+
+expectType<
+  DeepPick<ArrayWithUnions, "nestedObject[1]">,
+  ArrayWithUnions["nestedObject"]["1"] | undefined
+>({ prop1: "prop1" });
+
+type ObjectWithAny = {
+  nestedObject: {
+    prop1: any;
+  };
+};
+
+expectType<
+  DeepPick<ObjectWithAny, "nestedObject">,
+  ObjectWithAny["nestedObject"]
+>({ prop1: "any" });
+
+expectType<
+  DeepPick<ObjectWithAny, "nestedObject.prop1">,
+  ObjectWithAny["nestedObject"]["prop1"]
+>("any");
+
+expectType<DeepPick<ObjectWithAny, "nestedObject.prop1.nonExitingProp">, any>(
+  "any",
+);

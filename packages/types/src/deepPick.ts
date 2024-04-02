@@ -38,14 +38,10 @@ type SingleDeepPick<
   IsNull extends boolean,
   IsUndefined extends boolean,
   Intersection = UnionToIntersection<Extract<NonNullable<T>, object>>,
-> = P extends `[${infer I}].${infer R}`
-  ? GetKey<I> extends keyof Intersection
-    ? SingleDeepPick<
-        Intersection[GetKey<I>],
-        R,
-        CheckNull<T, IsNull>,
-        CheckUndefined<T, IsUndefined>
-      >
+  ArrayT = Extract<T, Array<any>>,
+> = P extends `[${number}].${infer R}`
+  ? ArrayT extends (infer A)[]
+    ? SingleDeepPick<A, R, CheckNull<T, IsNull>, CheckUndefined<T, IsUndefined>>
     : unknown
   : P extends `${infer K}.${infer R}`
     ? K extends `${infer KK}[${infer I}]`
@@ -65,10 +61,10 @@ type SingleDeepPick<
             CheckUndefined<T, IsUndefined>
           >
         : unknown
-    : P extends `[${infer I}]`
-      ? GetKey<I> extends keyof Intersection
+    : P extends `[${number}]`
+      ? ArrayT extends (infer A)[]
         ? SetNullUndefined<
-            Intersection[GetKey<I>],
+            A,
             CheckNull<T, IsNull>,
             CheckUndefined<T, IsUndefined>
           >

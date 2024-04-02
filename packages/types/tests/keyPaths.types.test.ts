@@ -164,3 +164,5 @@ const unionObjectErr4: UnionObjectKeys = "nestedObj.nestedProp1[0]";
 const unionObjectErr5: UnionObjectKeys = "nestedObj.nestedProp1.[1]";
 // @ts-expect-error
 const unionObjectErr6: UnionObjectKeys = "nestedObj.nestedProp1.2";
+
+expectType<KeyPaths<any>, string>("any string");
