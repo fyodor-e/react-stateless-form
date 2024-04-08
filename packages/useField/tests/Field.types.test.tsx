@@ -1,6 +1,6 @@
 import { FC } from "react";
-import useField from "../src/useField";
-import { FormContext } from "@react-stateless-form/types";
+import { Field } from "../src/Field";
+import { FormContext, Modifiers } from "@react-stateless-form/types";
 
 type Values = {
   prop1: "prop1";
@@ -27,12 +27,25 @@ type SimpleComponentProps = {
 const SimpleComponent: FC<SimpleComponentProps> = () => null;
 
 const Success = () => {
-  const Field = useField(context);
+  const modifiers: Modifiers<Values> = {
+    converter: () => ({
+      requiredProp: "123",
+      optionalProp: 1,
+      value: "prop1",
+    }),
+    ...context,
+  };
 
   return (
     <>
-      <Field rsfComponent={SimpleComponent} rsfName="prop1" requiredProp="2" />
       <Field
+        modifiers={modifiers}
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        requiredProp="2"
+      />
+      <Field
+        modifiers={modifiers}
         rsfComponent={SimpleComponent}
         // @ts-expect-error
         rsfName="errorProp"
@@ -40,6 +53,7 @@ const Success = () => {
       />
       {/* @ts-expect-error */}
       <Field
+        modifiers={modifiers}
         rsfComponent={SimpleComponent}
         rsfName="prop1" /* requiredProp="2" */
       />
@@ -53,11 +67,20 @@ type IncompatibleValueType = {
 const IncompatibleValueTypeComponent: FC<IncompatibleValueType> = () => null;
 
 const IncompatibleValueTypeTest = () => {
-  const Field = useField(context);
+  const modifiers: Modifiers<Values> = {
+    converter: () => ({
+      value: 1,
+    }),
+    ...context,
+  };
 
   return (
-    // @ts-expect-error
-    <Field rsfComponent={IncompatibleValueTypeComponent} rsfName="prop1" />
+    <Field
+      modifiers={modifiers}
+      // @ts-expect-error
+      rsfComponent={IncompatibleValueTypeComponent}
+      rsfName="prop1"
+    />
   );
 };
 
@@ -65,61 +88,75 @@ type AlternativeBaseProps = {
   requiredProp: string;
   optionalProp?: number;
   onBlur: () => void;
+  value: "prop1";
 };
 const Component2: FC<AlternativeBaseProps> = () => null;
 
-const RequiredPropMissingInConvertFunction = () => {
-  const Field = useField<Values, AlternativeBaseProps>({
-    ...context,
+const RequiredPropMissingInConverter = () => {
+  const modifiers: Modifiers<Values, AlternativeBaseProps> = {
     // @ts-expect-error
-    convertFunction: () => ({
+    converter: () => ({
       onBlur: () => {},
       value: "prop1",
       optionalProp: 2,
     }),
-  });
+    ...context,
+  };
 
-  return <Field rsfComponent={Component2} rsfName="prop1" />;
+  return null;
 };
 
 type AnotherComponentProps = { anotherRequiredProp: number };
 const AnotherComponent: FC<AnotherComponentProps> = () => null;
 
 const IncompatibleComponent = () => {
-  const Field = useField<Values, AlternativeBaseProps>({
-    ...context,
-    convertFunction: () => ({
+  const modifiers: Modifiers<Values> = {
+    converter: () => ({
       onBlur: () => {},
       value: "prop1",
       optionalProp: 2,
       requiredProp: "",
     }),
-  });
-
-  // @ts-expect-error
-  return <Field rsfComponent={AnotherComponent} rsfName="prop1" />;
-};
-
-type AlternativeBaseProps2 = { additionlProp: string };
-const AlternativeComponent: FC<AlternativeBaseProps2> = () => null;
-
-const AdditionalConevrtFunctionProps = () => {
-  const Field = useField<Values, AlternativeBaseProps2>({
     ...context,
-    convertFunction: () => ({ value: "prop1", additionlProp: "" }),
-  });
-
-  return <Field rsfComponent={AlternativeComponent} rsfName="prop1" />;
-};
-
-const AdditionalPropIsPresentInFieldProps = () => {
-  const Field = useField<Values, AlternativeBaseProps2>({
-    ...context,
-    convertFunction: () => ({ value: "prop1", additionlProp: "" }),
-  });
+  };
 
   return (
     <Field
+      modifiers={modifiers}
+      // @ts-expect-error
+      rsfComponent={AnotherComponent}
+      rsfName="prop1"
+    />
+  );
+};
+
+type AlternativeBaseProps2 = { additionlProp: string; value: "prop1" };
+const AlternativeComponent: FC<AlternativeBaseProps2> = () => null;
+
+const AdditionalConevrtFunctionProps = () => {
+  const modifiers: Modifiers<Values, AlternativeBaseProps2> = {
+    converter: () => ({ value: "prop1", additionlProp: "" }),
+    ...context,
+  };
+
+  return (
+    <Field
+      modifiers={modifiers}
+      rsfComponent={AlternativeComponent}
+      rsfName="prop1"
+    />
+  );
+};
+
+const AdditionalPropIsPresentInFieldProps = () => {
+  const modifiers: Modifiers<Values> = {
+    converter: () => ({ value: "prop1", additionlProp: "" }),
+    ...context,
+  };
+
+  return (
+    <Field
+      modifiers={modifiers}
       rsfComponent={AlternativeComponent}
       rsfName="prop1"
       additionlProp=""

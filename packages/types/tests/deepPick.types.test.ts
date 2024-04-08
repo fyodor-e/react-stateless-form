@@ -390,3 +390,5 @@ expectType<
 expectType<DeepPick<ObjectWithAny, "nestedObject.prop1.nonExitingProp">, any>(
   "any",
 );
+
+type A = DeepPick<any, string>;

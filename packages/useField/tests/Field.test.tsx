@@ -1,20 +1,26 @@
-import { FormContext } from "@react-stateless-form/types";
-import { FC, useEffect, useRef } from "react";
-import useField from "../src/useField";
+import { FormContext, Modifiers } from "@react-stateless-form/types";
+import { FC, useCallback, useEffect, useMemo } from "react";
+import { Field } from "../src/Field";
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 type Values = {
-  prop1: "prop1";
+  prop1: string;
+  prop2: number;
 };
 
 const context: FormContext<Values> = {
-  values: { prop1: "prop1" },
+  values: { prop1: "prop1", prop2: 12 },
   touched: {},
   errors: {},
-  setValue: () => {},
+  setValues: () => {},
+  setTouched: () => {},
+  setErrors: () => {},
+  setFieldValue: () => {},
+  setFieldTouched: () => {},
+  setFieldError: () => {},
 };
 
 type SimpleComponentProps = {
@@ -42,16 +48,19 @@ const ComponentWithRenderCounter: FC<SimpleComponentProps> = () => {
 const TestComponent: FC<
   Partial<SimpleComponentProps> & { context: FormContext<Values> }
 > = ({ context, ...props }) => {
-  const Field = useField<Values>({
-    ...context,
-    convertFunction: ({ rsfName, values }) => ({
-      value: "prop2",
-      onBlur: () => {},
+  const onBlur = useCallback(() => {}, []);
+
+  const modifiers: Modifiers<Values> = {
+    converter: ({ values }) => ({
+      value: values["prop1"],
+      onBlur,
     }),
-  });
+    ...context,
+  };
 
   return (
     <Field
+      modifiers={modifiers}
       rsfComponent={ComponentWithRenderCounter}
       rsfName="prop1"
       requiredProp="2"
@@ -66,10 +75,8 @@ beforeEach(() => {
 });
 
 test("should use memoized version of the component when rendering with same props", async () => {
-  const { rerender, debug } = render(<TestComponent context={context} />);
-  debug();
+  const { rerender } = render(<TestComponent context={context} />);
   rerender(<TestComponent context={context} />);
-  debug();
   expect(mountCounter).toBe(1);
   expect(renderCounter).toBe(1);
 });
@@ -84,12 +91,34 @@ test("should rerender component when prop was changed", async () => {
 });
 
 test("should rerender on context change", async () => {
+  const requiredProp = "2";
   const { rerender } = render(
-    <TestComponent context={{ ...context }} requiredProp="2" />,
+    <TestComponent context={{ ...context }} requiredProp={requiredProp} />,
   );
   rerender(
-    <TestComponent context={{ ...context, values: {} }} requiredProp="3" />,
+    <TestComponent
+      context={{ ...context, values: { prop1: "another value", prop2: 12 } }}
+      requiredProp={requiredProp}
+    />,
   );
   expect(mountCounter).toBe(1);
   expect(renderCounter).toBe(2);
+});
+
+test("should NOT rerender on another prop change in context", async () => {
+  const requiredProp = "2";
+  const { rerender } = render(
+    <TestComponent context={{ ...context }} requiredProp={requiredProp} />,
+  );
+  rerender(
+    <TestComponent
+      context={{
+        ...context,
+        values: { ...context.values, prop2: context.values.prop2 + 1 },
+      }}
+      requiredProp={requiredProp}
+    />,
+  );
+  expect(mountCounter).toBe(1);
+  expect(renderCounter).toBe(1);
 });

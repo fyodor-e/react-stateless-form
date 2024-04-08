@@ -1,6 +1,8 @@
 import { FC, ReactNode } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
+import { ConvertFunction } from "./convertFunction";
+import { FormContext } from "./context";
 
 export type NameAndComponentProps<
   Values extends {},
@@ -14,26 +16,45 @@ export type NameAndComponentProps<
 export type BasePropsCreator<
   Values extends {},
   Name extends KeyPaths<Values> = KeyPaths<Values>,
-  BaseProps extends {} = DefaultBaseProps,
+  BaseProps extends { value: any } = DefaultBaseProps,
 > = {
   value: DeepPick<Values, Name>;
-} & BaseProps;
+} & Omit<BaseProps, "value">;
 
 export type DefaultBaseProps = {
+  value: any;
   onBlur?: () => void;
   onChange?: (arg: { target: { value: string | number } }) => void;
   error?: string;
   touched?: boolean;
 };
 
-export type FieldType<
+export type Modifiers<
   Values extends {},
-  BaseProps extends {} = DefaultBaseProps,
-> = <
+  BaseProps extends { value: any } = DefaultBaseProps,
+> = {
+  converter: ConvertFunction<Values, BaseProps>;
+} & FormContext<Values>;
+
+export type FieldProps<
+  Values extends {},
   ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
+  BaseProps extends { value: any } = DefaultBaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
->(
-  props: NameAndComponentProps<Values, ComponentProps, Name> &
-    Omit<ComponentProps, keyof BasePropsCreator<Values, Name, BaseProps>> &
-    Partial<BasePropsCreator<Values, Name, BaseProps>>,
-) => ReactNode;
+> = {
+  modifiers: Modifiers<Values, BaseProps>;
+} & NameAndComponentProps<Values, ComponentProps, Name> &
+  Omit<ComponentProps, keyof BasePropsCreator<Values, Name, BaseProps>> &
+  Partial<BasePropsCreator<Values, Name, BaseProps>>;
+
+// export type FieldType<
+//   Values extends {},
+//   BaseProps extends { value: any } = DefaultBaseProps,
+// > = <
+//   ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
+//   Name extends KeyPaths<Values> = KeyPaths<Values>,
+// >(
+//   props: NameAndComponentProps<Values, ComponentProps, Name> &
+//     Omit<ComponentProps, keyof BasePropsCreator<Values, Name, BaseProps>> &
+//     Partial<BasePropsCreator<Values, Name, BaseProps>>,
+// ) => ReactNode;

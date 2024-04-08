@@ -4,14 +4,12 @@ import { DefaultBaseProps } from "./field";
 
 export type ConvertFunction<
   Values extends {},
-  BaseProps extends {} = DefaultBaseProps,
+  BaseProps extends { value: any } = DefaultBaseProps,
 > = (
   props: {
     rsfName: KeyPaths<Values>;
   } & FormContext<Values>,
-) => {
-  value: any;
-} & BaseProps;
+) => BaseProps;
 
 export type DefaultConvertFunction = (
   props: {
