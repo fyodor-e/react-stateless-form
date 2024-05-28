@@ -25,14 +25,18 @@ export type FormTouched<V> =
             : boolean;
       };
 
-export type FormContext<Values extends {}> = {
+export type FormContext<
+  Values extends {},
+  SetValues extends (arg: Values) => void,
+  SetErrors extends (arg: FormErrors<Values>) => void,
+  SetTouched extends (arg: FormTouched<Values>) => void,
+> = {
   values: Values;
-  setValues: (values: Values) => void;
+  setValues: SetValues;
   errors: FormErrors<Values>;
-  setErrors: (errors: FormErrors<Values>) => void;
+  setErrors: SetErrors;
   touched: FormTouched<Values>;
-  setTouched: (touched: FormTouched<Values>) => void;
-
+  setTouched: SetTouched;
   setFieldValue: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
     name: Name;
     value: DeepPick<Values, Name>;

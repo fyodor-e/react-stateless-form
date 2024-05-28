@@ -6,6 +6,8 @@ import {
   FieldProps,
 } from "@react-stateless-form/types";
 import Renderer from "./Renderer";
+import { defaultDisplayLoading } from "./defaultLoadingFunction";
+import { useDefaultConvertFunction } from "./useDefaultConvertFunction";
 
 export const Field = <
   Values extends {},
@@ -13,69 +15,107 @@ export const Field = <
   BaseProps extends { value: any } = DefaultBaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
-  modifiers,
+  modifiers: {
+    converter,
+    displayLoading = defaultDisplayLoading,
+    LoadingComponent,
+
+    values,
+    setValues,
+    errors,
+    setErrors,
+    touched,
+    setTouched,
+
+    setFieldError,
+    setFieldTouched,
+    setFieldValue,
+  },
   rsfName,
   rsfComponent: Component,
   ...restProps
 }: FieldProps<Values, ComponentProps, BaseProps, Name>) => {
-  const generatedProps = useMemo(() => {
-    if (!modifiers) return;
-    const { converter, ...context } = modifiers;
-    return converter({
+  const generatedProps = useMemo(
+    () =>
+      converter &&
+      converter({
+        rsfName,
+
+        values,
+        setValues,
+        errors,
+        setErrors,
+        touched,
+        setTouched,
+
+        setFieldError,
+        setFieldTouched,
+        setFieldValue,
+      }),
+    [
       rsfName,
-      ...context,
-    });
-  }, [rsfName, modifiers]);
+      values,
+      setValues,
+      errors,
+      setErrors,
+      touched,
+      setTouched,
 
-  // const defaultGeneratedProps = useDefaultConvertFunction({
-  //   rsfName,
-  //   values,
-  //   errors,
-  //   touched,
+      setFieldError,
+      setFieldTouched,
+      setFieldValue,
+    ],
+  );
 
-  //   // Skip typecheck for defaultconvertfunction for perf reasons
-  //   setFieldTouched: setFieldTouched as any,
-  //   setFieldValue: setFieldValue as any,
-  // });
+  const defaultGeneratedProps = useDefaultConvertFunction({
+    rsfName,
+    values,
+    errors,
+    touched,
 
-  // const isLoading = useMemo(
-  //   () =>
-  //     displayLoading &&
-  //     displayLoading({
-  //       rsfName,
-  //       values,
-  //       setValues,
-  //       errors,
-  //       setErrors,
-  //       touched,
-  //       setTouched,
+    // Skip typecheck for defaultconvertfunction for perf reasons
+    setFieldTouched: setFieldTouched as any,
+    setFieldValue: setFieldValue as any,
+  });
 
-  //       setFieldError,
-  //       setFieldTouched,
-  //       setFieldValue,
-  //     }),
-  //   [
-  //     rsfName,
-  //     values,
-  //     setValues,
-  //     errors,
-  //     setErrors,
-  //     touched,
-  //     setTouched,
+  const isLoading = useMemo(
+    () =>
+      displayLoading &&
+      displayLoading({
+        rsfName,
+        values,
+        setValues,
+        errors,
+        setErrors,
+        touched,
+        setTouched,
 
-  //     setFieldError,
-  //     setFieldTouched,
-  //     setFieldValue,
-  //   ],
-  // );
+        setFieldError,
+        setFieldTouched,
+        setFieldValue,
+      }),
+    [
+      rsfName,
+      values,
+      setValues,
+      errors,
+      setErrors,
+      touched,
+      setTouched,
 
-  // if (isLoading && LoadingComponent)
-  //   return (
-  //     <LoadingComponent
-  //       {...(generatedProps || defaultGeneratedProps)}
-  //       {...(restProps as any)}
-  //     />
-  //   );
+      setFieldError,
+      setFieldTouched,
+      setFieldValue,
+    ],
+  );
+
+  if (isLoading && LoadingComponent)
+    return (
+      <LoadingComponent
+        {...(generatedProps || defaultGeneratedProps)}
+        {...(restProps as any)}
+      />
+    );
 
   // restProps as any is not ideal solution.
   //   - typeof generatedProps === BaseProps
@@ -92,7 +132,7 @@ export const Field = <
   return (
     <Renderer
       Component={Component}
-      {...generatedProps}
+      {...(generatedProps || defaultGeneratedProps)}
       {...(restProps as any)}
     />
   );

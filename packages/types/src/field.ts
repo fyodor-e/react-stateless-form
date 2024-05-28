@@ -1,8 +1,9 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { ConvertFunction } from "./convertFunction";
 import { FormContext } from "./context";
+import { DisplayLoading } from ".";
 
 export type NameAndComponentProps<
   Values extends {},
@@ -33,7 +34,9 @@ export type Modifiers<
   Values extends {},
   BaseProps extends { value: any } = DefaultBaseProps,
 > = {
-  converter: ConvertFunction<Values, BaseProps>;
+  converter?: ConvertFunction<Values, BaseProps>;
+  LoadingComponent?: FC<BasePropsCreator<Values, KeyPaths<Values>, BaseProps>>;
+  displayLoading?: DisplayLoading<Values>;
 } & FormContext<Values>;
 
 export type FieldProps<
@@ -44,17 +47,5 @@ export type FieldProps<
 > = {
   modifiers: Modifiers<Values, BaseProps>;
 } & NameAndComponentProps<Values, ComponentProps, Name> &
-  Omit<ComponentProps, keyof BasePropsCreator<Values, Name, BaseProps>> &
+  Omit<ComponentProps, keyof BaseProps> &
   Partial<BasePropsCreator<Values, Name, BaseProps>>;
-
-// export type FieldType<
-//   Values extends {},
-//   BaseProps extends { value: any } = DefaultBaseProps,
-// > = <
-//   ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
-//   Name extends KeyPaths<Values> = KeyPaths<Values>,
-// >(
-//   props: NameAndComponentProps<Values, ComponentProps, Name> &
-//     Omit<ComponentProps, keyof BasePropsCreator<Values, Name, BaseProps>> &
-//     Partial<BasePropsCreator<Values, Name, BaseProps>>,
-// ) => ReactNode;

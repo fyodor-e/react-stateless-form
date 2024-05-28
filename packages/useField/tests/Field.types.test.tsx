@@ -1,13 +1,21 @@
 import { FC } from "react";
-import { Field } from "../src/Field";
+import { Field } from "../../useField/src/Field";
 import { FormContext, Modifiers } from "@react-stateless-form/types";
 
 type Values = {
   prop1: "prop1";
+  embeddedObj: {
+    prop2: "prop2";
+  };
 };
 
 const context: FormContext<Values> = {
-  values: { prop1: "prop1" },
+  values: {
+    prop1: "prop1",
+    embeddedObj: {
+      prop2: "prop2",
+    },
+  },
   touched: {},
   errors: {},
   setValues: () => {},
@@ -46,6 +54,7 @@ const Success = () => {
       />
       <Field
         modifiers={modifiers}
+        // @ts-expect-error
         rsfComponent={SimpleComponent}
         // @ts-expect-error
         rsfName="errorProp"
@@ -56,6 +65,55 @@ const Success = () => {
         modifiers={modifiers}
         rsfComponent={SimpleComponent}
         rsfName="prop1" /* requiredProp="2" */
+      />
+    </>
+  );
+};
+
+const ValueTypeIncompatible = () => {
+  const modifiers: Modifiers<Values> = {
+    converter: () => ({
+      requiredProp: "123",
+      optionalProp: 1,
+      value: "prop1",
+    }),
+    ...context,
+  };
+
+  return (
+    <Field
+      modifiers={modifiers}
+      rsfName="embeddedObj.prop2"
+      // @ts-expect-error
+      rsfComponent={SimpleComponent}
+    />
+  );
+};
+
+const OverrideValue = () => {
+  const modifiers: Modifiers<Values, SimpleComponentProps> = {
+    converter: () => ({
+      requiredProp: "123",
+      optionalProp: 1,
+      value: "prop1",
+    }),
+    ...context,
+  };
+
+  return (
+    <>
+      <Field
+        modifiers={modifiers}
+        rsfName="prop1"
+        rsfComponent={SimpleComponent}
+        value="prop1"
+      />
+      <Field
+        modifiers={modifiers}
+        rsfName="prop1"
+        rsfComponent={SimpleComponent}
+        // @ts-expect-error
+        value={2} // Incorrect value type
       />
     </>
   );
