@@ -1,4 +1,5 @@
 import { KeyPaths, DeepPick } from "@react-stateless-form/types";
+import { prepareName } from "./prepareName";
 
 export const getIn = <
   Values extends {},
@@ -10,17 +11,8 @@ export const getIn = <
   values: Values;
   name: Name;
 }): DeepPick<Values, Name> => {
-  // Remove leading square bracket
-  // For situation like [0].prop
-  if (name[0] === "[") {
-    name = name.slice(1) as any;
-  }
+  const path = prepareName(name).split(".");
 
-  const path = name
-    .replaceAll("]", "")
-    .replaceAll("[", ".")
-    .replaceAll("..", ".")
-    .split(".");
   // TS cannot follow all the logic below to check return type validity
   // So cast to any
   let res: any = values;

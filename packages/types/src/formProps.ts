@@ -1,4 +1,4 @@
-import { FormErrors, FormTouched } from "./context";
+import { FormErrors, FormTouched } from "./formState";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 

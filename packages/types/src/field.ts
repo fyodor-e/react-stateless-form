@@ -2,7 +2,7 @@ import { FC } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { ConvertFunction } from "./convertFunction";
-import { FormContext } from "./context";
+import { FormState } from "./formState";
 import { DisplayLoading } from ".";
 
 export type NameAndComponentProps<
@@ -37,7 +37,7 @@ export type Modifiers<
   converter?: ConvertFunction<Values, BaseProps>;
   LoadingComponent?: FC<BasePropsCreator<Values, KeyPaths<Values>, BaseProps>>;
   displayLoading?: DisplayLoading<Values>;
-} & FormContext<Values>;
+} & FormState<Values>;
 
 export type FieldProps<
   Values extends {},

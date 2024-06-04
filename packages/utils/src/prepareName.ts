@@ -1,0 +1,9 @@
+export const prepareName = (name: string): string => {
+  // Remove leading square bracket
+  // For situation like [0].prop
+  if (name[0] === "[") {
+    name = name.slice(1) as any;
+  }
+
+  return name.replaceAll("]", "").replaceAll("[", ".").replaceAll("..", ".");
+};

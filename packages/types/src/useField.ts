@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { FormContext } from "./context";
+import { FormState } from "./formState";
 import { ConvertFunction } from "./convertFunction";
 import { DisplayLoading } from "./displayLoading";
 import { DefaultBaseProps, BasePropsCreator } from "./field";
@@ -12,4 +12,4 @@ export type UseFieldArg<
   LoadingComponent?: FC<BasePropsCreator<Values, KeyPaths<Values>, BaseProps>>;
   displayLoading?: DisplayLoading<Values>;
   convertFunction?: ConvertFunction<Values, BaseProps>;
-} & FormContext<Values>;
+} & FormState<Values>;

@@ -1,4 +1,4 @@
-import { FormContext, Modifiers } from "@react-stateless-form/types";
+import { FormState, Modifiers } from "@react-stateless-form/types";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { Field } from "../src/Field";
 import { beforeEach, describe, expect, test } from "@jest/globals";
@@ -11,7 +11,7 @@ type Values = {
   prop2: number;
 };
 
-const context: FormContext<Values> = {
+const formState: FormState<Values> = {
   values: { prop1: "prop1", prop2: 12 },
   touched: {},
   errors: {},
@@ -46,8 +46,8 @@ const ComponentWithRenderCounter: FC<SimpleComponentProps> = () => {
 };
 
 const TestComponent: FC<
-  Partial<SimpleComponentProps> & { context: FormContext<Values> }
-> = ({ context, ...props }) => {
+  Partial<SimpleComponentProps> & { formState: FormState<Values> }
+> = ({ formState, ...props }) => {
   const onBlur = useCallback(() => {}, []);
 
   const modifiers: Modifiers<Values> = {
@@ -55,7 +55,7 @@ const TestComponent: FC<
       value: values["prop1"],
       onBlur,
     }),
-    ...context,
+    ...formState,
   };
 
   return (
@@ -75,29 +75,32 @@ beforeEach(() => {
 });
 
 test("should use memoized version of the component when rendering with same props", async () => {
-  const { rerender } = render(<TestComponent context={context} />);
-  rerender(<TestComponent context={context} />);
+  const { rerender } = render(<TestComponent formState={formState} />);
+  rerender(<TestComponent formState={formState} />);
   expect(mountCounter).toBe(1);
   expect(renderCounter).toBe(1);
 });
 
 test("should rerender component when prop was changed", async () => {
   const { rerender } = render(
-    <TestComponent context={context} requiredProp="2" />,
+    <TestComponent formState={formState} requiredProp="2" />,
   );
-  rerender(<TestComponent context={context} requiredProp="3" />);
+  rerender(<TestComponent formState={formState} requiredProp="3" />);
   expect(mountCounter).toBe(1);
   expect(renderCounter).toBe(2);
 });
 
-test("should rerender on context change", async () => {
+test("should rerender on form State change", async () => {
   const requiredProp = "2";
   const { rerender } = render(
-    <TestComponent context={{ ...context }} requiredProp={requiredProp} />,
+    <TestComponent formState={{ ...formState }} requiredProp={requiredProp} />,
   );
   rerender(
     <TestComponent
-      context={{ ...context, values: { prop1: "another value", prop2: 12 } }}
+      formState={{
+        ...formState,
+        values: { prop1: "another value", prop2: 12 },
+      }}
       requiredProp={requiredProp}
     />,
   );
@@ -105,16 +108,16 @@ test("should rerender on context change", async () => {
   expect(renderCounter).toBe(2);
 });
 
-test("should NOT rerender on another prop change in context", async () => {
+test("should NOT rerender on another prop change in form State", async () => {
   const requiredProp = "2";
   const { rerender } = render(
-    <TestComponent context={{ ...context }} requiredProp={requiredProp} />,
+    <TestComponent formState={{ ...formState }} requiredProp={requiredProp} />,
   );
   rerender(
     <TestComponent
-      context={{
-        ...context,
-        values: { ...context.values, prop2: context.values.prop2 + 1 },
+      formState={{
+        ...formState,
+        values: { ...formState.values, prop2: formState.values.prop2 + 1 },
       }}
       requiredProp={requiredProp}
     />,

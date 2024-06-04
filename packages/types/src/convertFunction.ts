@@ -1,5 +1,5 @@
 import { KeyPaths } from "./keyPaths";
-import { FormContext } from "./context";
+import { FormState } from "./formState";
 import { DefaultBaseProps } from "./field";
 
 export type ConvertFunction<
@@ -8,14 +8,14 @@ export type ConvertFunction<
 > = (
   props: {
     rsfName: KeyPaths<Values>;
-  } & FormContext<Values>,
+  } & FormState<Values>,
 ) => BaseProps;
 
 export type DefaultConvertFunction = (
   props: {
     rsfName: KeyPaths<any>;
   } & Pick<
-    FormContext<any>,
+    FormState<any>,
     "values" | "errors" | "touched" | "setFieldTouched" | "setFieldValue"
   >,
 ) => {

@@ -1,5 +1,5 @@
 import {
-  FormContext,
+  FormState,
   FormErrors,
   FormProps,
   FormTouched,
@@ -29,12 +29,7 @@ const useForm = <
   setFieldValue,
   setFieldError,
   setFieldTouched,
-}: FormProps<Values, SetValues, SetErrors, SetTouched>): FormContext<
-  Values,
-  (arg: Values) => void,
-  (arg: FormErrors<Values>) => void,
-  (arg: FormTouched<Values>) => void
-> => {
+}: FormProps<Values, SetValues, SetErrors, SetTouched>): FormState<Values> => {
   // 1. Types are replaced with any for compilation performance
   // 2. setField...Local variants may be used only if
   //    set... functions accept function as argument.
