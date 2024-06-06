@@ -19,7 +19,11 @@ export const setIn = <
 
   const path = prepareName(name).split(".");
 
-  return values;
+  return setInInternal({
+    values,
+    path,
+    value,
+  });
 };
 
 const setInInternal = ({
@@ -31,24 +35,33 @@ const setInInternal = ({
   path: string[];
   value: any;
 }): any => {
-  if (path.length === 1) {
-    return {
-      ...values,
-      [path[0]]: value,
-    };
+  // If not path was provided
+  if (path.length === 0 || path[0] === "") {
+    return value;
   }
 
-  let newValues = values[path[0]];
-  if (newValues == null) {
-    newValues = typeof path[1] === "number" ? [] : {};
+  if (values == null || typeof values !== "object") {
+    values = isNaN(+path[0]) ? {} : [];
   }
 
-  // What to do if newValues is primitive, i.e. string, number or boolean?
+  if (Array.isArray(values)) {
+    if (isNaN(+path[0])) return values;
+
+    return [
+      ...values.slice(0, +path[0]),
+      setInInternal({
+        values: values[+path[0]],
+        path: path.slice(1),
+        value,
+      }),
+      ...values.slice(+path[0] + 1),
+    ];
+  }
 
   return {
     ...values,
     [path[0]]: setInInternal({
-      values: newValues,
+      values: values[path[0]],
       path: path.slice(1),
       value,
     }),
