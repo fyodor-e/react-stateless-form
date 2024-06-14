@@ -19,18 +19,8 @@ export const Field = <
     converter,
     displayLoading = defaultDisplayLoading,
     LoadingComponent,
-
-    values,
-    setValues,
-    errors,
-    setErrors,
-    touched,
-    setTouched,
-
-    setFieldError,
-    setFieldTouched,
-    setFieldValue,
   },
+  formControl,
   rsfName,
   rsfComponent: Component,
   ...restProps
@@ -40,42 +30,14 @@ export const Field = <
       converter &&
       converter({
         rsfName,
-
-        values,
-        setValues,
-        errors,
-        setErrors,
-        touched,
-        setTouched,
-
-        setFieldError,
-        setFieldTouched,
-        setFieldValue,
+        formControl,
       }),
-    [
-      rsfName,
-      values,
-      setValues,
-      errors,
-      setErrors,
-      touched,
-      setTouched,
-
-      setFieldError,
-      setFieldTouched,
-      setFieldValue,
-    ],
+    [converter, rsfName, formControl],
   );
 
   const defaultGeneratedProps = useDefaultConvertFunction({
     rsfName,
-    values,
-    errors,
-    touched,
-
-    // Skip typecheck for defaultconvertfunction for perf reasons
-    setFieldTouched: setFieldTouched as any,
-    setFieldValue: setFieldValue as any,
+    formControl: formControl as any,
   });
 
   const isLoading = useMemo(
@@ -83,30 +45,9 @@ export const Field = <
       displayLoading &&
       displayLoading({
         rsfName,
-        values,
-        setValues,
-        errors,
-        setErrors,
-        touched,
-        setTouched,
-
-        setFieldError,
-        setFieldTouched,
-        setFieldValue,
+        formControl,
       }),
-    [
-      rsfName,
-      values,
-      setValues,
-      errors,
-      setErrors,
-      touched,
-      setTouched,
-
-      setFieldError,
-      setFieldTouched,
-      setFieldValue,
-    ],
+    [displayLoading, rsfName, formControl],
   );
 
   if (isLoading && LoadingComponent)

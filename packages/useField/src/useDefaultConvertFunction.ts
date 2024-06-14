@@ -4,11 +4,7 @@ import { useMemo } from "react";
 
 export const useDefaultConvertFunction: DefaultConvertFunction = ({
   rsfName: name,
-  values,
-  errors,
-  touched,
-  setFieldTouched,
-  setFieldValue,
+  formControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {
   const value = getIn({ values, name });
   const error = getIn({ values: errors, name });

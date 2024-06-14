@@ -37,7 +37,7 @@ export type Modifiers<
   converter?: ConvertFunction<Values, BaseProps>;
   LoadingComponent?: FC<BasePropsCreator<Values, KeyPaths<Values>, BaseProps>>;
   displayLoading?: DisplayLoading<Values>;
-} & FormControl<Values>;
+};
 
 export type FieldProps<
   Values extends object,
@@ -46,6 +46,7 @@ export type FieldProps<
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 > = {
   modifiers: Modifiers<Values, BaseProps>;
+  formControl: FormControl<Values>;
 } & NameAndComponentProps<Values, ComponentProps, Name> &
   Omit<ComponentProps, keyof BaseProps> &
   Partial<BasePropsCreator<Values, Name, BaseProps>>;

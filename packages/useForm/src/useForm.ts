@@ -5,7 +5,7 @@ import {
 } from "@react-stateless-form/types";
 import { FormProps, FunctionValueFunction, ValueFunction } from "./formProps";
 import { setIn } from "@react-stateless-form/utils";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const useForm = <
   Values extends object,
@@ -55,7 +55,7 @@ const useForm = <
   //    set... functions accept function as argument.
   //    Otherwise setField... functions should be provided as arguments
   //    and setField...Local variants will never be called.
-  const [internalValues, setInternalValues] = useState<Values>(values);
+  const [internalValues, setInternalValues] = useState<Values>(initialValues);
   const [internalErrors, setInternalErrors] = useState<FormErrors<Values>>(
     errors ?? {},
   );
@@ -105,6 +105,10 @@ const useForm = <
     },
     [setDirty],
   );
+
+  useEffect(() => {
+    // ToDo: implement setDirty
+  }, [values, setDirty]);
 
   return {
     values: (setValuesFromProps && values) || internalValues,
