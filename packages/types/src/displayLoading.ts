@@ -1,13 +1,13 @@
-import { KeyPaths, FormState } from "@react-stateless-form/types";
+import { KeyPaths, formControl } from "@react-stateless-form/types";
 
-export type DisplayLoading<Values extends {}> = (
+export type DisplayLoading<Values extends object> = (
   props: {
     rsfName: KeyPaths<Values>;
-  } & FormState<Values>,
+  } & FormControl<Values>,
 ) => boolean;
 
 export type DefaultDisplayLoading = (
   props: {
     rsfName: string;
-  } & Pick<FormState<any>, "values">,
+  } & Pick<FormControl<any>, "values">,
 ) => boolean;

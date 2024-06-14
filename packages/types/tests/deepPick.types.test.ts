@@ -1,6 +1,7 @@
 import { DeepPick } from "../src/deepPick";
 import expectType from "../src/isTypeEquals";
 
+// 1. Object
 type TestObject = {
   p1: "p1";
   p2: "p2" | undefined;
@@ -110,6 +111,7 @@ expectType<
   TestObject["nestedObj"]["nestedArray"][number]["aProp1"]
 >(0);
 
+// 2. Array
 type RootArray = {
   prop1: "prop1";
   nestedObject: {
@@ -200,8 +202,7 @@ expectType<
   RootArray[number]["nestedArray"][number]["prop3"]
 >(true);
 
-// Object with undefined
-
+// 3. Object with undefined
 type ObjectWithUndefined = {
   nestedObject:
     | undefined
@@ -282,6 +283,7 @@ expectType<
   // @ts-expect-error
 >(null);
 
+// 4. Object with unions
 type ObjectWithUnions = {
   nestedObject:
     | string
@@ -353,6 +355,7 @@ expectType<
   // @ts-expect-error
 >("errorArrayProp2");
 
+// 5. Array with unions
 type ArrayWithUnions = {
   nestedObject:
     | string[]
@@ -371,6 +374,7 @@ expectType<
   ArrayWithUnions["nestedObject"]["1"] | undefined
 >({ prop1: "prop1" });
 
+// 6. Object with any
 type ObjectWithAny = {
   nestedObject: {
     prop1: any;

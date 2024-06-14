@@ -1,4 +1,4 @@
-import { FormState } from "@react-stateless-form/types";
+import { FormControl } from "@react-stateless-form/types";
 import { expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -9,10 +9,11 @@ jest.mock("@react-stateless-form/utils", () => ({
   getIn: ({ values, name }: { values: any; name: string }) => values[name],
 }));
 
-const formState: FormState<{ prop1: string; prop2: number }> = {
+const formControl: FormControl<{ prop1: string; prop2: number }> = {
   values: { prop1: "prop1", prop2: 1 },
   errors: { prop1: "prop1Error" },
   touched: { prop1: true },
+  dirty: {},
 
   setErrors: jest.fn() as any,
   setFieldError: jest.fn() as any,
@@ -20,30 +21,35 @@ const formState: FormState<{ prop1: string; prop2: number }> = {
   setFieldTouched: jest.fn() as any,
   setValues: jest.fn() as any,
   setFieldValue: jest.fn() as any,
+  setDirty: jest.fn() as any,
+  setFieldDirty: jest.fn() as any,
+
+  submitCount: 0,
+  isSubmitting: false,
 };
 
 test("should return value, error and touched using passed rsfName", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formState,
+    ...formControl,
   };
 
   const { result } = renderHook((props) => useDefaultConvertFunction(props), {
     initialProps,
   });
 
-  expect(result.current.value).toBe(formState.values.prop1);
-  expect(result.current.error).toBe(formState.errors.prop1);
-  expect(result.current.touched).toBe(formState.touched.prop1);
+  expect(result.current.value).toBe(formControl.values.prop1);
+  expect(result.current.error).toBe(formControl.errors.prop1);
+  expect(result.current.touched).toBe(formControl.touched.prop1);
 
   expect(result.current.onBlur).toEqual(expect.any(Function));
   expect(result.current.onChange).toEqual(expect.any(Function));
 });
 
-test("should memoize values event if other props of the formState has been changed", () => {
+test("should memoize values event if other props of the formControl has been changed", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formState,
+    ...formControl,
   };
 
   const { result, rerender } = renderHook(
@@ -60,22 +66,22 @@ test("should memoize values event if other props of the formState has been chang
   const initialOnBlur = result.current.onBlur;
   const initialOnChange = result.current.onChange;
 
-  const updatedProps: FormState<{ prop1: string; prop2: number }> & {
+  const updatedProps: FormControl<{ prop1: string; prop2: number }> & {
     rsfName: string;
   } = {
     rsfName: initialProps.rsfName,
-    ...formState,
+    ...formControl,
     values: {
-      ...formState.values,
-      prop2: formState.values.prop2 + 10,
+      ...formControl.values,
+      prop2: formControl.values.prop2 + 10,
     },
     errors: {
-      ...formState.errors,
+      ...formControl.errors,
       prop2: "another error",
     },
     touched: {
-      ...formState.touched,
-      prop2: !formState.touched.prop2,
+      ...formControl.touched,
+      prop2: !formControl.touched.prop2,
     },
   };
 
@@ -89,10 +95,10 @@ test("should memoize values event if other props of the formState has been chang
   expect(result.current.onChange).toBe(initialOnChange);
 });
 
-test("should update result when formState is changed", () => {
+test("should update result when formControl is changed", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formState,
+    ...formControl,
   };
 
   const { result, rerender } = renderHook(
@@ -136,7 +142,7 @@ test("should update result when formState is changed", () => {
 test("onBlur should call setFieldTouched", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formState,
+    ...formControl,
   };
 
   const { result } = renderHook((props) => useDefaultConvertFunction(props), {
@@ -145,8 +151,8 @@ test("onBlur should call setFieldTouched", () => {
 
   result.current.onBlur && result.current.onBlur();
 
-  expect((formState.setFieldTouched as any).mock.calls).toHaveLength(1);
-  expect((formState.setFieldTouched as any).mock.calls[0][0]).toEqual({
+  expect((formControl.setFieldTouched as any).mock.calls).toHaveLength(1);
+  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual({
     name: initialProps.rsfName,
   });
 });
@@ -154,7 +160,7 @@ test("onBlur should call setFieldTouched", () => {
 test("onChange should call setFieldValue", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formState,
+    ...formControl,
   };
 
   const { result } = renderHook((props) => useDefaultConvertFunction(props), {
@@ -164,8 +170,8 @@ test("onChange should call setFieldValue", () => {
   result.current.onChange &&
     result.current.onChange({ target: { value: "some value" } });
 
-  expect((formState.setFieldValue as any).mock.calls).toHaveLength(1);
-  expect((formState.setFieldValue as any).mock.calls[0][0]).toEqual({
+  expect((formControl.setFieldValue as any).mock.calls).toHaveLength(1);
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual({
     name: initialProps.rsfName,
     value: "some value",
   });
@@ -174,7 +180,7 @@ test("onChange should call setFieldValue", () => {
 test("should return undefined if error is not a string", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formState,
+    ...formControl,
     errors: {
       prop1: { p: "other" },
     },

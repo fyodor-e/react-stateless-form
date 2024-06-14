@@ -2,11 +2,11 @@ import { FC } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { ConvertFunction } from "./convertFunction";
-import { FormState } from "./formState";
+import { FormControl } from "./formControl";
 import { DisplayLoading } from ".";
 
 export type NameAndComponentProps<
-  Values extends {},
+  Values extends object,
   ComponentProps extends {},
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 > = {
@@ -15,7 +15,7 @@ export type NameAndComponentProps<
 };
 
 export type BasePropsCreator<
-  Values extends {},
+  Values extends object,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   BaseProps extends { value: any } = DefaultBaseProps,
 > = {
@@ -31,16 +31,16 @@ export type DefaultBaseProps = {
 };
 
 export type Modifiers<
-  Values extends {},
+  Values extends object,
   BaseProps extends { value: any } = DefaultBaseProps,
 > = {
   converter?: ConvertFunction<Values, BaseProps>;
   LoadingComponent?: FC<BasePropsCreator<Values, KeyPaths<Values>, BaseProps>>;
   displayLoading?: DisplayLoading<Values>;
-} & FormState<Values>;
+} & FormControl<Values>;
 
 export type FieldProps<
-  Values extends {},
+  Values extends object,
   ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
   BaseProps extends { value: any } = DefaultBaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,

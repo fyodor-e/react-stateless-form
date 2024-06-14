@@ -10,7 +10,7 @@ import { defaultDisplayLoading } from "./defaultLoadingFunction";
 import { useDefaultConvertFunction } from "./useDefaultConvertFunction";
 
 export const Field = <
-  Values extends {},
+  Values extends object,
   ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
   BaseProps extends { value: any } = DefaultBaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,

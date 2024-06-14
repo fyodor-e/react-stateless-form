@@ -1,21 +1,21 @@
 import { KeyPaths } from "./keyPaths";
-import { FormState } from "./formState";
+import { formControl } from "./formControl";
 import { DefaultBaseProps } from "./field";
 
 export type ConvertFunction<
-  Values extends {},
+  Values extends object,
   BaseProps extends { value: any } = DefaultBaseProps,
 > = (
   props: {
     rsfName: KeyPaths<Values>;
-  } & FormState<Values>,
+  } & FormControl<Values>,
 ) => BaseProps;
 
 export type DefaultConvertFunction = (
   props: {
     rsfName: KeyPaths<any>;
   } & Pick<
-    FormState<any>,
+    FormControl<any>,
     "values" | "errors" | "touched" | "setFieldTouched" | "setFieldValue"
   >,
 ) => {
