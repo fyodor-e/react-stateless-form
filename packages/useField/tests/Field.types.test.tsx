@@ -41,7 +41,7 @@ type SimpleComponentProps = {
 const SimpleComponent: FC<SimpleComponentProps> = () => null;
 
 const Success = () => {
-  const modifiers: Modifiers<Values> = {
+  const modifiers: Modifiers = {
     converter: () => ({
       requiredProp: "123",
       optionalProp: 1,
@@ -72,14 +72,15 @@ const Success = () => {
         modifiers={modifiers}
         formControl={formControl}
         rsfComponent={SimpleComponent}
-        rsfName="prop1" /* requiredProp="2" */
+        rsfName="prop1"
+        /* requiredProp="2" */
       />
     </>
   );
 };
 
 const ValueTypeIncompatible = () => {
-  const modifiers: Modifiers<Values> = {
+  const modifiers: Modifiers = {
     converter: () => ({
       requiredProp: "123",
       optionalProp: 1,
@@ -99,7 +100,7 @@ const ValueTypeIncompatible = () => {
 };
 
 const OverrideValue = () => {
-  const modifiers: Modifiers<Values, SimpleComponentProps> = {
+  const modifiers: Modifiers<"value", SimpleComponentProps> = {
     converter: () => ({
       requiredProp: "123",
       optionalProp: 1,
@@ -134,7 +135,7 @@ type IncompatibleValueType = {
 const IncompatibleValueTypeComponent: FC<IncompatibleValueType> = () => null;
 
 const IncompatibleValueTypeTest = () => {
-  const modifiers: Modifiers<Values> = {
+  const modifiers: Modifiers = {
     converter: () => ({
       value: 1,
     }),
@@ -160,7 +161,7 @@ type AlternativeBaseProps = {
 const Component2: FC<AlternativeBaseProps> = () => null;
 
 const RequiredPropMissingInConverter = () => {
-  const modifiers: Modifiers<Values, AlternativeBaseProps> = {
+  const modifiers: Modifiers<"value", AlternativeBaseProps> = {
     // @ts-expect-error
     converter: () => ({
       onBlur: () => {},
@@ -175,8 +176,9 @@ const RequiredPropMissingInConverter = () => {
 type AnotherComponentProps = { anotherRequiredProp: number };
 const AnotherComponent: FC<AnotherComponentProps> = () => null;
 
+// Return props from converter function are not compatible with provided component
 const IncompatibleComponent = () => {
-  const modifiers: Modifiers<Values> = {
+  const modifiers: Modifiers = {
     converter: () => ({
       onBlur: () => {},
       value: "prop1",
@@ -200,7 +202,7 @@ type AlternativeBaseProps2 = { additionlProp: string; value: "prop1" };
 const AlternativeComponent: FC<AlternativeBaseProps2> = () => null;
 
 const AdditionalConevrtFunctionProps = () => {
-  const modifiers: Modifiers<Values, AlternativeBaseProps2> = {
+  const modifiers: Modifiers<"value", AlternativeBaseProps2> = {
     converter: () => ({ value: "prop1", additionlProp: "" }),
   };
 
@@ -215,7 +217,7 @@ const AdditionalConevrtFunctionProps = () => {
 };
 
 const AdditionalPropIsPresentInFieldProps = () => {
-  const modifiers: Modifiers<Values> = {
+  const modifiers: Modifiers = {
     converter: () => ({ value: "prop1", additionlProp: "" }),
   };
 
@@ -228,4 +230,67 @@ const AdditionalPropIsPresentInFieldProps = () => {
       additionlProp=""
     />
   );
+};
+
+// BaseProps does not contain value but has selected prop
+
+type BasePropsWithSelected = { additionlProp: string; selected: "prop1" };
+const ComponentWithSelectedProp: FC<BasePropsWithSelected> = () => null;
+
+const BasePropsWithSelectedField = () => {
+  const modifiers: Modifiers<"selected", BasePropsWithSelected> = {
+    converter: () => ({ selected: "prop1", additionlProp: "" }),
+  };
+
+  return (
+    <>
+      <Field
+        modifiers={modifiers}
+        formControl={formControl}
+        rsfComponent={ComponentWithSelectedProp}
+        rsfName="prop1"
+        additionlProp=""
+      />
+      {/* Override selected prop */}
+      <Field
+        modifiers={modifiers}
+        formControl={formControl}
+        rsfComponent={ComponentWithSelectedProp}
+        rsfName="prop1"
+        additionlProp=""
+        selected="prop1"
+      />
+      {/* Incorrect selected prop value */}
+      <Field
+        modifiers={modifiers}
+        formControl={formControl}
+        rsfComponent={ComponentWithSelectedProp}
+        rsfName="prop1"
+        additionlProp=""
+        // @ts-expect-error
+        selected="incorrect value" // should be selected='prop1'
+      />
+    </>
+  );
+};
+
+const BasePropsWithSelectedFieldIncorrectModifiers = () => {
+  const incorrectModifiers: Modifiers<"selected", BasePropsWithSelected> = {
+    // @ts-expect-error
+    converter: () => ({
+      selected: "prop2", // should be selected: "prop1"
+      additionlProp: "",
+    }),
+  };
+
+  const missingSelectedPropModifiers: Modifiers<
+    "selected",
+    BasePropsWithSelected
+  > = {
+    // @ts-expect-error
+    converter: () => ({
+      value: "prop1", // should be selected: "prop1"
+      additionlProp: "",
+    }),
+  };
 };

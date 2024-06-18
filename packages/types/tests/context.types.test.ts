@@ -1,18 +1,24 @@
-import { FormContext } from "../src/formControl";
+import { FormControl } from "../src/formControl";
 
 type Values = {
   p: "p";
 };
 
-const context: FormContext<Values> = {
+const control: FormControl<Values> = {
   values: { p: "p" },
   setValues: () => {},
   errors: {},
   setErrors: () => {},
   touched: {},
   setTouched: () => {},
+  dirty: {},
+  setDirty: () => {},
 
   setFieldValue: () => {},
   setFieldError: () => {},
   setFieldTouched: () => {},
+  setFieldDirty: () => {},
+
+  isSubmitting: false,
+  submitCount: 0,
 };

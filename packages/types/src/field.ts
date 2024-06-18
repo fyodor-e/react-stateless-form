@@ -17,36 +17,39 @@ export type NameAndComponentProps<
 export type BasePropsCreator<
   Values extends object,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
-  BaseProps extends { value: any } = DefaultBaseProps,
+  ValueName extends string = "value",
+  BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
 > = {
-  value: DeepPick<Values, Name>;
-} & Omit<BaseProps, "value">;
+  [key in ValueName]: DeepPick<Values, Name>;
+} & Omit<BaseProps, ValueName>;
 
-export type DefaultBaseProps = {
-  value: any;
+export type DefaultBaseProps<ValueName extends string = "value"> = {
   onBlur?: () => void;
   onChange?: (arg: { target: { value: string | number } }) => void;
   error?: string;
   touched?: boolean;
+} & {
+  [key in ValueName]: any;
 };
 
 export type Modifiers<
-  Values extends object,
-  BaseProps extends { value: any } = DefaultBaseProps,
+  ValueName extends string = "value",
+  BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
 > = {
-  converter?: ConvertFunction<Values, BaseProps>;
-  LoadingComponent?: FC<BasePropsCreator<Values, KeyPaths<Values>, BaseProps>>;
-  displayLoading?: DisplayLoading<Values>;
+  converter?: ConvertFunction<ValueName, BaseProps>;
+  LoadingComponent?: FC<BasePropsCreator<any, string, ValueName, BaseProps>>;
+  displayLoading?: DisplayLoading;
 };
 
 export type FieldProps<
   Values extends object,
-  ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
-  BaseProps extends { value: any } = DefaultBaseProps,
+  ComponentProps extends BasePropsCreator<Values, Name, ValueName, BaseProps>,
+  ValueName extends string = "value",
+  BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 > = {
-  modifiers: Modifiers<Values, BaseProps>;
+  modifiers: Modifiers<ValueName, BaseProps>;
   formControl: FormControl<Values>;
 } & NameAndComponentProps<Values, ComponentProps, Name> &
   Omit<ComponentProps, keyof BaseProps> &
-  Partial<BasePropsCreator<Values, Name, BaseProps>>;
+  Partial<BasePropsCreator<Values, Name, ValueName, BaseProps>>;

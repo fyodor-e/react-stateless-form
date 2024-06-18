@@ -55,12 +55,11 @@ const TestComponent: FC<
 > = ({ formControl, ...props }) => {
   const onBlur = useCallback(() => {}, []);
 
-  const modifiers: Modifiers<Values> = {
-    converter: ({ values }) => ({
-      value: values["prop1"],
+  const modifiers: Modifiers = {
+    converter: ({ formControl }) => ({
+      value: formControl.values["prop1"],
       onBlur,
     }),
-    ...formControl,
   };
 
   return (
@@ -69,6 +68,7 @@ const TestComponent: FC<
       rsfComponent={ComponentWithRenderCounter}
       rsfName="prop1"
       requiredProp="2"
+      formControl={formControl}
       {...props}
     />
   );

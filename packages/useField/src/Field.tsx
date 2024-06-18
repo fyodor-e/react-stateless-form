@@ -11,8 +11,9 @@ import { useDefaultConvertFunction } from "./useDefaultConvertFunction";
 
 export const Field = <
   Values extends object,
-  ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
-  BaseProps extends { value: any } = DefaultBaseProps,
+  ComponentProps extends BasePropsCreator<Values, Name, ValueName, BaseProps>,
+  ValueName extends string = "value",
+  BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
   modifiers: {
@@ -24,7 +25,7 @@ export const Field = <
   rsfName,
   rsfComponent: Component,
   ...restProps
-}: FieldProps<Values, ComponentProps, BaseProps, Name>) => {
+}: FieldProps<Values, ComponentProps, ValueName, BaseProps, Name>) => {
   const generatedProps = useMemo(
     () =>
       converter &&
