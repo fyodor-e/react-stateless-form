@@ -61,6 +61,7 @@ export type FormProps<
 
   modifiers?: FormModifiers<Values, SubmitProps>;
 
+  initialValues?: Values;
   values: Values;
   setValues?: SetValues;
 } & (

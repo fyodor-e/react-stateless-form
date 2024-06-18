@@ -4,7 +4,7 @@ import {
   FormTouched,
 } from "@react-stateless-form/types";
 import { FormProps, FunctionValueFunction, ValueFunction } from "./formProps";
-import { setIn } from "@react-stateless-form/utils";
+import { deepEqual, setIn } from "@react-stateless-form/utils";
 import { useCallback, useEffect, useState } from "react";
 
 const useForm = <
@@ -27,6 +27,7 @@ const useForm = <
     | undefined = undefined,
   SubmitProps = undefined,
 >({
+  initialValues: initialValuesFromProps,
   values,
   setValues: setValuesFromProps,
   errors,
@@ -106,9 +107,22 @@ const useForm = <
     [setDirty],
   );
 
+  const [initialValues, setInitialValues] = useState<Values | undefined>(
+    undefined,
+  );
+
   useEffect(() => {
-    // ToDo: implement setDirty
-  }, [values, setDirty]);
+    // initialValues are set only once using provided initialValuesFromProps
+    if (initialValuesFromProps && !initialValues) {
+      setInitialValues(initialValuesFromProps);
+    }
+  }, [initialValuesFromProps]);
+
+  useEffect(() => {
+    if (initialValues && values) {
+      setDirty(deepEqual(initialValues, values));
+    }
+  }, [values, setDirty, initialValues]);
 
   return {
     values: (setValuesFromProps && values) || internalValues,
