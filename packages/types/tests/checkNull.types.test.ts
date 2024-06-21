@@ -1,5 +1,5 @@
 import { CheckNull, CheckUndefined, SetNullUndefined } from "../src/deepPick";
-import expectType from "../src/isTypeEquals";
+import { expectType } from "../src/isTypeEquals";
 
 expectType<CheckNull<{ p: string } | null, false>, true>(true);
 expectType<CheckNull<{ p: string }, false>, false>(false);

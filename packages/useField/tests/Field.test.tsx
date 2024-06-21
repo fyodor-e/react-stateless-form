@@ -1,9 +1,8 @@
 import { FormControl, Modifiers } from "@react-stateless-form/types";
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { Field } from "../src/Field";
-import { beforeEach, describe, expect, test } from "@jest/globals";
-import { render, renderHook, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { beforeEach, expect, test } from "@jest/globals";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 type Values = {

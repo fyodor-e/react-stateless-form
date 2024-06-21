@@ -1,5 +1,5 @@
 import { DeepPick } from "../src/deepPick";
-import expectType from "../src/isTypeEquals";
+import { expectType } from "../src/isTypeEquals";
 
 // 1. Object
 type TestObject = {
@@ -396,3 +396,10 @@ expectType<DeepPick<ObjectWithAny, "nestedObject.prop1.nonExitingProp">, any>(
 );
 
 expectType<DeepPick<ObjectWithAny, any>, any>("any");
+
+type RecursiveObject = {
+  prop1: "12";
+  r: RecursiveObject;
+};
+
+type T = DeepPick<RecursiveObject, "r.r.r.r.r.r">;

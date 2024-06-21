@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { FormControl } from "./formControl";
-import { ConvertFunction } from "./convertFunction";
+import { ConvertHook } from "./convertHook";
 import { DisplayLoading } from "./displayLoading";
 import { DefaultBaseProps, BasePropsCreator } from "./field";
 import { KeyPaths } from "./keyPaths";
@@ -14,5 +14,5 @@ export type UseFieldArg<
     BasePropsCreator<Values, KeyPaths<Values>, ValueName, BaseProps>
   >;
   displayLoading?: DisplayLoading;
-  convertFunction?: ConvertFunction<ValueName, BaseProps>;
+  convertHook?: ConvertHook<ValueName, BaseProps>;
 } & FormControl<Values>;

@@ -7,7 +7,7 @@ import {
 } from "@react-stateless-form/types";
 import Renderer from "./Renderer";
 import { defaultDisplayLoading } from "./defaultLoadingFunction";
-import { useDefaultConvertFunction } from "./useDefaultConvertFunction";
+import { useDefaultConvert } from "./useDefaultConvert";
 
 export const Field = <
   Values extends object,
@@ -17,7 +17,7 @@ export const Field = <
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
   modifiers: {
-    converter,
+    useConvert = useDefaultConvert,
     displayLoading = defaultDisplayLoading,
     LoadingComponent,
   },
@@ -26,19 +26,9 @@ export const Field = <
   rsfComponent: Component,
   ...restProps
 }: FieldProps<Values, ComponentProps, ValueName, BaseProps, Name>) => {
-  const generatedProps = useMemo(
-    () =>
-      converter &&
-      converter({
-        rsfName,
-        formControl,
-      }),
-    [converter, rsfName, formControl],
-  );
-
-  const defaultGeneratedProps = useDefaultConvertFunction({
+  const generatedProps = useConvert({
     rsfName,
-    formControl: formControl as any,
+    formControl,
   });
 
   const isLoading = useMemo(
@@ -52,12 +42,7 @@ export const Field = <
   );
 
   if (isLoading && LoadingComponent)
-    return (
-      <LoadingComponent
-        {...(generatedProps || defaultGeneratedProps)}
-        {...(restProps as any)}
-      />
-    );
+    return <LoadingComponent {...generatedProps} {...(restProps as any)} />;
 
   // restProps as any is not ideal solution.
   //   - typeof generatedProps === BaseProps
@@ -74,7 +59,7 @@ export const Field = <
   return (
     <Renderer
       Component={Component}
-      {...(generatedProps || defaultGeneratedProps)}
+      {...generatedProps}
       {...(restProps as any)}
     />
   );

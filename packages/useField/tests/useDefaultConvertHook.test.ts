@@ -2,7 +2,7 @@ import { FormControl } from "@react-stateless-form/types";
 import { expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { useDefaultConvertFunction } from "../src/useDefaultConvertFunction";
+import { useDefaultConvert } from "../src/useDefaultConvert";
 
 jest.mock("@react-stateless-form/utils", () => ({
   // Simplified implementation of getIn for testing
@@ -31,10 +31,10 @@ const formControl: FormControl<{ prop1: string; prop2: number }> = {
 test("should return value, error and touched using passed rsfName", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formControl,
+    formControl,
   };
 
-  const { result } = renderHook((props) => useDefaultConvertFunction(props), {
+  const { result } = renderHook((props) => useDefaultConvert(props), {
     initialProps,
   });
 
@@ -49,15 +49,12 @@ test("should return value, error and touched using passed rsfName", () => {
 test("should memoize values event if other props of the formControl has been changed", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formControl,
+    formControl,
   };
 
-  const { result, rerender } = renderHook(
-    (props) => useDefaultConvertFunction(props),
-    {
-      initialProps,
-    },
-  );
+  const { result, rerender } = renderHook((props) => useDefaultConvert(props), {
+    initialProps,
+  });
 
   const initialValue = result.current.value;
   const initialError = result.current.error;
@@ -66,22 +63,25 @@ test("should memoize values event if other props of the formControl has been cha
   const initialOnBlur = result.current.onBlur;
   const initialOnChange = result.current.onChange;
 
-  const updatedProps: FormControl<{ prop1: string; prop2: number }> & {
+  const updatedProps: {
+    formControl: FormControl<{ prop1: string; prop2: number }>;
     rsfName: string;
   } = {
     rsfName: initialProps.rsfName,
-    ...formControl,
-    values: {
-      ...formControl.values,
-      prop2: formControl.values.prop2 + 10,
-    },
-    errors: {
-      ...formControl.errors,
-      prop2: "another error",
-    },
-    touched: {
-      ...formControl.touched,
-      prop2: !formControl.touched.prop2,
+    formControl: {
+      ...formControl,
+      values: {
+        ...formControl.values,
+        prop2: formControl.values.prop2 + 10,
+      },
+      errors: {
+        ...formControl.errors,
+        prop2: "another error",
+      },
+      touched: {
+        ...formControl.touched,
+        prop2: !formControl.touched.prop2,
+      },
     },
   };
 
@@ -98,15 +98,12 @@ test("should memoize values event if other props of the formControl has been cha
 test("should update result when formControl is changed", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formControl,
+    formControl,
   };
 
-  const { result, rerender } = renderHook(
-    (props) => useDefaultConvertFunction(props),
-    {
-      initialProps,
-    },
-  );
+  const { result, rerender } = renderHook((props) => useDefaultConvert(props), {
+    initialProps,
+  });
 
   const initialValue = result.current.value;
   const initialError = result.current.error;
@@ -117,17 +114,20 @@ test("should update result when formControl is changed", () => {
 
   rerender({
     ...initialProps,
-    values: {
-      ...initialProps.values,
-      prop1: "another value",
-    },
-    errors: {
-      ...initialProps.errors,
-      prop1: "another error",
-    },
-    touched: {
-      ...initialProps.touched,
-      prop1: !initialProps.touched.prop1,
+    formControl: {
+      ...initialProps.formControl,
+      values: {
+        ...initialProps.formControl.values,
+        prop1: "another value",
+      },
+      errors: {
+        ...initialProps.formControl.errors,
+        prop1: "another error",
+      },
+      touched: {
+        ...initialProps.formControl.touched,
+        prop1: !initialProps.formControl.touched.prop1,
+      },
     },
   });
 
@@ -142,10 +142,10 @@ test("should update result when formControl is changed", () => {
 test("onBlur should call setFieldTouched", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formControl,
+    formControl,
   };
 
-  const { result } = renderHook((props) => useDefaultConvertFunction(props), {
+  const { result } = renderHook((props) => useDefaultConvert(props), {
     initialProps,
   });
 
@@ -160,10 +160,10 @@ test("onBlur should call setFieldTouched", () => {
 test("onChange should call setFieldValue", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formControl,
+    formControl,
   };
 
-  const { result } = renderHook((props) => useDefaultConvertFunction(props), {
+  const { result } = renderHook((props) => useDefaultConvert(props), {
     initialProps,
   });
 
@@ -180,13 +180,15 @@ test("onChange should call setFieldValue", () => {
 test("should return undefined if error is not a string", () => {
   const initialProps = {
     rsfName: "prop1",
-    ...formControl,
-    errors: {
-      prop1: { p: "other" },
+    formControl: {
+      ...formControl,
+      errors: {
+        prop1: { p: "other" },
+      },
     },
   };
 
-  const { result } = renderHook((props) => useDefaultConvertFunction(props), {
+  const { result } = renderHook((props) => useDefaultConvert(props), {
     initialProps,
   });
 

@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
-import { ConvertFunction } from "./convertFunction";
 import { FormControl } from "./formControl";
 import { DisplayLoading } from ".";
+import { ConvertHook } from "./convertHook";
 
 export type NameAndComponentProps<
   Values extends object,
@@ -36,10 +36,13 @@ export type Modifiers<
   ValueName extends string = "value",
   BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
 > = {
-  converter?: ConvertFunction<ValueName, BaseProps>;
   LoadingComponent?: FC<BasePropsCreator<any, string, ValueName, BaseProps>>;
   displayLoading?: DisplayLoading;
-};
+} & ("value" extends ValueName
+  ? {
+      useConvert?: ConvertHook<"value", BaseProps>;
+    }
+  : { useConvert: ConvertHook<ValueName, BaseProps> });
 
 export type FieldProps<
   Values extends object,
