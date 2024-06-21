@@ -1,8 +1,8 @@
-import { DefaultConvertFunction } from "@react-stateless-form/types";
+import { DefaultConvertHook } from "@react-stateless-form/types";
 import { getIn } from "@react-stateless-form/utils";
 import { useMemo } from "react";
 
-export const useDefaultConvertFunction: DefaultConvertFunction = ({
+export const useDefaultConvert: DefaultConvertHook = ({
   rsfName: name,
   formControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {

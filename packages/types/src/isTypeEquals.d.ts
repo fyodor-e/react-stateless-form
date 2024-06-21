@@ -13,8 +13,6 @@ type IfEquals<T, U, Y = unknown, N = never> =
  * This means `typeof value` is not identical to `number | string`
  * @param actual
  */
-function expectType<Expected, Actual>(
+export function expectType<Expected, Actual>(
   actual: IfEquals<Actual, Expected, Actual>,
 ): void;
-
-export default expectType;

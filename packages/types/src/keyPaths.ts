@@ -1,3 +1,5 @@
+import { Increment } from "./increment";
+
 type GenNode<
   K extends string | number,
   IsRoot extends boolean,
@@ -8,6 +10,7 @@ type GenNode<
 export type KeyPaths<
   V extends any,
   IsRoot extends boolean = true,
+  Iteration extends number = 0,
   O extends Exclude<Extract<V, object>, Array<any>> = Exclude<
     Extract<V, object>,
     Array<any>
@@ -17,18 +20,21 @@ export type KeyPaths<
   // First step is check for any. Any cannot be processed correctly
   0 extends 1 & V
     ? string
-    : Extract<V, object> extends never
+    : // If iteration be more that 15 typescript stops processing
+      Iteration extends 15
       ? never
-      :
-          | (Extract<V, Array<any>> extends never
-              ? never
-              :
-                  | GenNode<number, IsRoot>
-                  | `${GenNode<number, IsRoot>}${KeyPaths<Extract<V, Array<any>>[number], false>}`)
-          | (O extends never
-              ? never
-              : K extends string | number
-                ?
-                    | GenNode<K, IsRoot>
-                    | `${GenNode<K, IsRoot>}${KeyPaths<O[K], false>}`
-                : never);
+      : Extract<V, object> extends never
+        ? never
+        :
+            | (Extract<V, Array<any>> extends never
+                ? never
+                :
+                    | GenNode<number, IsRoot>
+                    | `${GenNode<number, IsRoot>}${KeyPaths<Extract<V, Array<any>>[number], false, Increment<Iteration>>}`)
+            | (O extends never
+                ? never
+                : K extends string | number
+                  ?
+                      | GenNode<K, IsRoot>
+                      | `${GenNode<K, IsRoot>}${KeyPaths<O[K], false, Increment<Iteration>>}`
+                  : never);

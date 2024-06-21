@@ -1,4 +1,4 @@
-import expectType from "../src/isTypeEquals";
+import { expectType } from "../src/isTypeEquals";
 import { KeyPaths } from "../src/keyPaths";
 
 type TestObject = {
@@ -166,3 +166,42 @@ const unionObjectErr5: UnionObjectKeys = "nestedObj.nestedProp1.[1]";
 const unionObjectErr6: UnionObjectKeys = "nestedObj.nestedProp1.2";
 
 expectType<KeyPaths<any>, string>("any string");
+
+type RecursiveObject = {
+  prop1: "1";
+  r: RecursiveObject;
+};
+
+expectType<
+  KeyPaths<RecursiveObject>,
+  | "prop1"
+  | "r"
+  | "r.prop1"
+  | "r.r"
+  | "r.r.prop1"
+  | "r.r.r"
+  | "r.r.r.prop1"
+  | "r.r.r.r"
+  | "r.r.r.r.prop1"
+  | "r.r.r.r.r"
+  | "r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r"
+  | "r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r.r.r.r.r.r"
+  | "r.r.r.r.r.r.r.r.r.r.r.r.r.r.prop1"
+  | "r.r.r.r.r.r.r.r.r.r.r.r.r.r.r"
+>("r");
