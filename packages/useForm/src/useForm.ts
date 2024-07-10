@@ -56,7 +56,9 @@ const useForm = <
   //    set... functions accept function as argument.
   //    Otherwise setField... functions should be provided as arguments
   //    and setField...Local variants will never be called.
-  const [internalValues, setInternalValues] = useState<Values>(initialValues);
+  const [internalValues, setInternalValues] = useState<Values>(
+    initialValuesFromProps ?? values,
+  );
   const [internalErrors, setInternalErrors] = useState<FormErrors<Values>>(
     errors ?? {},
   );
