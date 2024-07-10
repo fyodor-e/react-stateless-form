@@ -1,145 +1,108 @@
-import { FormControl, Modifiers } from "@react-stateless-form/types";
+import {
+  FormControl,
+  FormErrors,
+  FormTouched,
+  Modifiers,
+} from "@react-stateless-form/types";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { beforeEach, describe, expect, test } from "@jest/globals";
-import { render, renderHook, screen } from "@testing-library/react";
+import { act, render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import useForm from "../src/useForm";
+import { FormProps } from "../src";
 
 type Values = {
   prop1: string;
   prop2: number;
 };
 
-const formControl: FormControl<Values> = {
-  values: { prop1: "prop1", prop2: 12 },
-  touched: {},
-  errors: {},
-  setValues: () => {},
-  setTouched: () => {},
-  setErrors: () => {},
-  setFieldValue: () => {},
-  setFieldTouched: () => {},
-  setFieldError: () => {},
+describe("1. Default props", () => {
+  test("Should return FormContext", async () => {
+    const formProps: FormProps<Values> = {
+      values: { prop1: "prop1", prop2: 12 },
+    };
 
-  submitCount: 0,
-  isSubmitting: false,
-};
+    const { result } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
 
-type SimpleComponentProps = {
-  requiredProp: string;
-  optionalProp?: number;
-  value: "prop1";
-  onBlur: () => void;
-};
+    expect(result.current.values).toEqual(formProps.values);
+    expect(result.current.setValues).toEqual(expect.any(Function));
+    expect(result.current.setFieldValue).toEqual(expect.any(Function));
 
-let renderCounter = 0;
-let mountCounter = 0;
+    expect(result.current.errors).toEqual({});
+    expect(result.current.setErrors).toEqual(expect.any(Function));
+    expect(result.current.setFieldError).toEqual(expect.any(Function));
 
-const ComponentWithRenderCounter: FC<SimpleComponentProps> = () => {
-  renderCounter++;
-  useEffect(() => {
-    mountCounter++;
-  }, []);
-  return (
-    <>
-      <div id="render-counter">{renderCounter}</div>
-    </>
-  );
-};
+    expect(result.current.touched).toEqual({});
+    expect(result.current.setTouched).toEqual(expect.any(Function));
+    expect(result.current.setFieldTouched).toEqual(expect.any(Function));
 
-const TestComponent: FC<
-  Partial<SimpleComponentProps> & { formControl: FormControl<Values> }
-> = ({ formControl, ...props }) => {
-  const onBlur = useCallback(() => {}, []);
+    expect(result.current.dirty).toEqual({});
+    expect(result.current.setDirty).toEqual(expect.any(Function));
+    expect(result.current.setFieldDirty).toEqual(expect.any(Function));
 
-  const modifiers: Modifiers<Values> = {
-    converter: ({ values }) => ({
-      value: values["prop1"],
-      onBlur,
-    }),
-    ...formControl,
-  };
-
-  return (
-    <Field
-      modifiers={modifiers}
-      rsfComponent={ComponentWithRenderCounter}
-      rsfName="prop1"
-      requiredProp="2"
-      {...props}
-    />
-  );
-};
-
-beforeEach(() => {
-  mountCounter = 0;
-  renderCounter = 0;
-});
-
-test("should use memoized version of the component when rendering with same props", async () => {
-  const values: Values = { prop1: "p1", prop2: 22 };
-  const { setValues, setErrors } = useForm({
-    values,
-    setValues: (arg: Values | ((v: Values) => Values)) => {},
-    errors: {},
-    setErrors: () => {},
-    touched: {},
-    setTouched: () => {},
-
-    setFieldValue: () => {},
-    setFieldTouched: () => {},
-    setFieldError: () => {},
+    expect(result.current.submitCount).toBe(0);
+    expect(result.current.isSubmitting).toBe(false);
   });
-});
 
-test("should rerender component when prop was changed", async () => {
-  const { rerender } = render(
-    <TestComponent formControl={formControl} requiredProp="2" />,
-  );
-  rerender(<TestComponent formControl={formControl} requiredProp="3" />);
-  expect(mountCounter).toBe(1);
-  expect(renderCounter).toBe(2);
-});
+  test("Should be able to change values, errors, touched and dirty useng set... functions", async () => {
+    const formProps: FormProps<Values> = {
+      values: { prop1: "prop1", prop2: 12 },
+    };
 
-test("should rerender on formControl change", async () => {
-  const requiredProp = "2";
-  const { rerender } = render(
-    <TestComponent
-      formControl={{ ...formControl }}
-      requiredProp={requiredProp}
-    />,
-  );
-  rerender(
-    <TestComponent
-      formControl={{
-        ...formControl,
-        values: { prop1: "another value", prop2: 12 },
-      }}
-      requiredProp={requiredProp}
-    />,
-  );
-  expect(mountCounter).toBe(1);
-  expect(renderCounter).toBe(2);
-});
+    const { result } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
 
-test("should NOT rerender on another prop change in formControl", async () => {
-  const requiredProp = "2";
-  const { rerender } = render(
-    <TestComponent
-      formControl={{ ...formControl }}
-      requiredProp={requiredProp}
-    />,
-  );
-  rerender(
-    <TestComponent
-      formControl={{
-        ...formControl,
-        values: { ...formControl.values, prop2: formControl.values.prop2 + 1 },
-      }}
-      requiredProp={requiredProp}
-    />,
-  );
-  expect(mountCounter).toBe(1);
-  expect(renderCounter).toBe(1);
+    const newValues: Values = { prop1: "another prop", prop2: 23 };
+    const newErrors: FormErrors<Values> = {
+      prop1: "prop1 error",
+      prop2: "prop2 error",
+    };
+    const newTouched: FormTouched<Values> = { prop1: true, prop2: false };
+    const newDirty: FormTouched<Values> = { prop1: false, prop2: true };
+
+    act(() => {
+      result.current.setValues(newValues);
+      result.current.setErrors(newErrors);
+      result.current.setTouched(newTouched);
+      result.current.setDirty(newDirty);
+    });
+
+    expect(result.current.values).toEqual(newValues);
+    expect(result.current.errors).toEqual(newErrors);
+    expect(result.current.touched).toEqual(newTouched);
+    expect(result.current.dirty).toEqual(newDirty);
+  });
+
+  test("Should be able to change values, errors, touched and dirty useng setField... functions", async () => {
+    const formProps: FormProps<Values> = {
+      values: { prop1: "prop1", prop2: 12 },
+    };
+
+    const { result } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
+
+    const newValue = "another prop";
+    const newError = "prop1 error";
+    const newDirty = false;
+
+    act(() => {
+      result.current.setFieldValue({ name: "prop1", value: newValue });
+      result.current.setFieldError({ name: "prop1", error: newError });
+      result.current.setFieldTouched({ name: "prop1" });
+      result.current.setFieldDirty({ name: "prop1", isDirty: newDirty });
+    });
+
+    expect(result.current.values).toEqual({
+      ...formProps.values,
+      prop1: newValue,
+    });
+    expect(result.current.errors).toEqual({ prop1: newError });
+    expect(result.current.touched).toEqual({ prop1: true });
+    expect(result.current.dirty).toEqual({ prop1: newDirty });
+  });
 });
