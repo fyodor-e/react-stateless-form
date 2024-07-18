@@ -14,7 +14,7 @@ export type FormErrors<V> =
             : string;
       };
 
-export type FormControl<Values extends object> = {
+export type FormControl<Values extends object, SubmitProps = undefined> = {
   values: Values;
   setValues: (arg: Values) => void;
   errors: FormErrors<Values>;
@@ -41,4 +41,6 @@ export type FormControl<Values extends object> = {
 
   submitCount: number;
   isSubmitting: boolean;
+
+  handleSubmit: (submitProps: SubmitProps) => Promise<void>;
 };

@@ -1,6 +1,6 @@
 import { FormErrors } from "@react-stateless-form/types";
-import { FormModifiers } from "./formProps";
 import { deepSetTouched } from "@react-stateless-form/utils";
+import { FormProps, FormSubmitCreatorArg } from "./formProps";
 
 export const defaultFormSubmitter =
   <Values extends object, SubmitProps = undefined>({
@@ -9,9 +9,7 @@ export const defaultFormSubmitter =
     onSubmit,
     setSubmitCount,
     setIsSubmitting,
-  }: Parameters<
-    NonNullable<FormModifiers<Values, SubmitProps>["formSubmitCreator"]>
-  >[0]) =>
+  }: FormSubmitCreatorArg<Values, SubmitProps>) =>
   async (submitProps: SubmitProps) => {
     setSubmitCount(formControl.submitCount + 1);
     setIsSubmitting(true);

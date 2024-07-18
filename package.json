@@ -7,7 +7,9 @@
     "test": "jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-types": "tsc --project tsconfig.types.test.json"
+    "test-types": "tsc --project tsconfig.types.test.json",
+    "build": "turbo run build --filter=!./docs/*",
+    "build:fast": "turbo run build:fast --filter=!./docs/*"
   },
   "author": "Fyodor Yemelyanenko",
   "license": "MIT",
@@ -45,7 +47,8 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "turbo": "^2.0.7"
   },
   "workspaces": [
     "packages/*"
