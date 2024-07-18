@@ -5,7 +5,8 @@ import {
 } from "@react-stateless-form/types";
 import { FormProps, FunctionValueFunction, ValueFunction } from "./formProps";
 import { deepEqual, setIn } from "@react-stateless-form/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { defaultFormSubmitter } from "./defaultFormSubmitter";
 
 const useForm = <
   Values extends object,
@@ -27,22 +28,32 @@ const useForm = <
     | undefined = undefined,
   SubmitProps = undefined,
 >({
+  onSubmit,
+
   initialValues: initialValuesFromProps,
-  values,
+  values: valuesFromProps,
   setValues: setValuesFromProps,
-  errors,
+  errors: errorsFromProps,
   setErrors: setErrorsFromProps,
-  touched,
+  touched: touchedFromProps,
   setTouched: setTouchedFromProps,
-  dirty,
+  dirty: dirtyFromProps,
   setDirty: setDirtyFromProps,
 
-  setFieldValue,
-  setFieldError,
-  setFieldTouched,
-  setFieldDirty,
+  setFieldValue: setFieldValueFromProps,
+  setFieldError: setFieldErrorFromProps,
+  setFieldTouched: setFieldTouchedFromProps,
+  setFieldDirty: setFieldDirtyFromProps,
 
-  modifiers,
+  formSubmitCreator = defaultFormSubmitter,
+
+  validator,
+
+  submitCount: submitCountFromProps,
+  setSubmitCount: setSubmitCountFromProps,
+
+  isSubmitting: isSubmittingFromProps,
+  setIsSubmitting: setIsSubmittingFromProps,
 }: FormProps<
   Values,
   SetValues,
@@ -50,23 +61,23 @@ const useForm = <
   SetTouched,
   SetDirty,
   SubmitProps
->): FormControl<Values> => {
+>): FormControl<Values, SubmitProps> => {
   // 1. Types are replaced with any for compilation performance
   // 2. setField...Local variants may be used only if
   //    set... functions accept function as argument.
   //    Otherwise setField... functions should be provided as arguments
   //    and setField...Local variants will never be called.
   const [internalValues, setInternalValues] = useState<Values>(
-    initialValuesFromProps ?? values,
+    initialValuesFromProps ?? valuesFromProps,
   );
   const [internalErrors, setInternalErrors] = useState<FormErrors<Values>>(
-    errors ?? {},
+    errorsFromProps ?? {},
   );
   const [internalTouched, setInternalTouched] = useState<FormTouched<Values>>(
-    touched ?? {},
+    touchedFromProps ?? {},
   );
   const [internalDirty, setInternalDirty] = useState<FormTouched<Values>>(
-    dirty ?? {},
+    dirtyFromProps ?? {},
   );
   const [internalSubmitCount, setInternalSubmitCount] = useState<number>(0);
   const [internalIsSubmitting, setInternalIsSubmitting] =
@@ -120,36 +131,137 @@ const useForm = <
     }
   }, [initialValuesFromProps]);
 
+  const values = (setValuesFromProps && valuesFromProps) || internalValues;
+  // If setErrors is provided errors will not be undefined
+  const errors = (setErrorsFromProps && errorsFromProps) || internalErrors;
+  // If setTouched is provided touched will not be undefined
+  const touched = (setTouchedFromProps && touchedFromProps) || internalTouched;
+  // If setDirty is provided dirty will not be undefined
+  const dirty = (setDirtyFromProps && dirtyFromProps) || internalDirty;
+
+  const setFieldValue = setFieldValueFromProps ?? setFieldValueLocal;
+  const setFieldError = setFieldErrorFromProps ?? setFieldErrorLocal;
+  const setFieldTouched = setFieldTouchedFromProps ?? setFieldTouchedLocal;
+  const setFieldDirty = setFieldDirtyFromProps ?? setFieldDirtyLocal;
+
+  const submitCount = submitCountFromProps ?? internalSubmitCount;
+  const setSubmitCount = setSubmitCountFromProps ?? setInternalSubmitCount;
+
+  const isSubmitting = isSubmittingFromProps ?? internalIsSubmitting;
+  const setIsSubmitting = setIsSubmittingFromProps ?? setInternalIsSubmitting;
+
   useEffect(() => {
     if (initialValues && values) {
       setDirty(deepEqual(initialValues, values));
     }
   }, [values, setDirty, initialValues]);
 
-  return {
-    values: (setValuesFromProps && values) || internalValues,
-    setValues,
+  const handleSubmit = useMemo(
+    () =>
+      formSubmitCreator({
+        formControl: {
+          values,
+          setValues,
 
-    // If setErrors is provided errors will not be undefined
-    errors: (setErrorsFromProps && errors) || internalErrors,
-    setErrors,
+          errors,
+          setErrors,
 
-    // If setTouched is provided touched will not be undefined
-    touched: (setTouchedFromProps && touched) || internalTouched,
-    setTouched,
+          touched,
+          setTouched,
 
-    // If setDirty is provided dirty will not be undefined
-    dirty: (setDirtyFromProps && dirty) || internalDirty,
-    setDirty: setDirty ?? setInternalDirty,
+          dirty,
+          setDirty,
 
-    setFieldValue: setFieldValue ?? setFieldValueLocal,
-    setFieldError: setFieldError ?? setFieldErrorLocal,
-    setFieldTouched: setFieldTouched ?? setFieldTouchedLocal,
-    setFieldDirty: setFieldDirty ?? setFieldDirtyLocal,
+          setFieldValue,
+          setFieldError,
+          setFieldTouched,
+          setFieldDirty,
 
-    submitCount: modifiers?.submitCount ?? internalSubmitCount,
-    isSubmitting: modifiers?.isSubmitting ?? internalIsSubmitting,
-  };
+          submitCount,
+          isSubmitting,
+        },
+        validator,
+        onSubmit,
+        setSubmitCount,
+        setIsSubmitting,
+      }),
+    [
+      values,
+      setValues,
+
+      errors,
+      setErrors,
+
+      touched,
+      setTouched,
+
+      dirty,
+      setDirty,
+
+      setFieldValue,
+      setFieldError,
+      setFieldTouched,
+      setFieldDirty,
+
+      submitCount,
+      isSubmitting,
+      validator,
+      onSubmit,
+      setSubmitCount,
+      setIsSubmitting,
+    ],
+  );
+
+  const formControl = useMemo<FormControl<Values, SubmitProps>>(
+    () => ({
+      values,
+      setValues,
+
+      errors,
+      setErrors,
+
+      touched,
+      setTouched,
+
+      dirty,
+      setDirty,
+
+      setFieldValue,
+      setFieldError,
+      setFieldTouched,
+      setFieldDirty,
+
+      submitCount,
+      isSubmitting,
+
+      handleSubmit,
+    }),
+    [
+      values,
+      setValues,
+
+      errors,
+      setErrors,
+
+      touched,
+      setTouched,
+
+      dirty,
+      setDirty,
+
+      setFieldValue,
+      setFieldError,
+      setFieldTouched,
+      setFieldDirty,
+
+      submitCount,
+      isSubmitting,
+
+      handleSubmit,
+    ],
+  );
+
+  return formControl;
 };
 
 export default useForm;

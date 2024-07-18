@@ -12,29 +12,20 @@ export type FunctionValueFunction<V extends {}> = (
   v: SetStateAction<V>,
 ) => void;
 
-export type FormModifiers<Values extends object, SubmitProps = undefined> = {
-  formSubmitCreator?: (arg: {
-    formControl: FormControl<Values>;
-    validator?: (
-      formControl: FormControl<Values>,
-    ) => Promise<FormErrors<Values>>;
-    onSubmit?: (arg: {
-      formControl: FormControl<Values>;
-      submitProps: SubmitProps;
-    }) => Promise<void>;
-    submitCount: number;
-    setSubmitCount: (submitCount: number) => void;
-    isSubmitting: boolean;
-    setIsSubmitting: (isSubmitting: boolean) => void;
-  }) => (submitProps: SubmitProps) => Promise<void>;
-
-  validator?: (formControl: FormControl<Values>) => Promise<FormErrors<Values>>;
-
-  submitCount?: number;
-  setSubmitCount?: (submitCount: number) => void;
-
-  isSubmitting?: boolean;
-  setIsSubmitting?: (isSubmitting: boolean) => void;
+export type FormSubmitCreatorArg<
+  Values extends object,
+  SubmitProps = undefined,
+> = {
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  validator?: (
+    formControl: Omit<FormControl<Values>, "handleSubmit">,
+  ) => Promise<FormErrors<Values>>;
+  onSubmit?: (arg: {
+    formControl: Omit<FormControl<Values>, "handleSubmit">;
+    submitProps: SubmitProps;
+  }) => Promise<void>;
+  setSubmitCount: (submitCount: number) => void;
+  setIsSubmitting: (isSubmitting: boolean) => void;
 };
 
 export type FormProps<
@@ -57,9 +48,24 @@ export type FormProps<
     | undefined = undefined,
   SubmitProps = undefined,
 > = {
-  onSubmit?: (formControl: FormControl<Values>) => Promise<void>;
+  onSubmit?: (arg: {
+    formControl: Omit<FormControl<Values>, "handleSubmit">;
+    submitProps: SubmitProps;
+  }) => Promise<void>;
 
-  modifiers?: FormModifiers<Values, SubmitProps>;
+  formSubmitCreator?: (
+    arg: FormSubmitCreatorArg<Values, SubmitProps>,
+  ) => (submitProps: SubmitProps) => Promise<void>;
+
+  validator?: (
+    formControl: Omit<FormControl<Values>, "handleSubmit">,
+  ) => Promise<FormErrors<Values>>;
+
+  submitCount?: number;
+  setSubmitCount?: (submitCount: number) => void;
+
+  isSubmitting?: boolean;
+  setIsSubmitting?: (isSubmitting: boolean) => void;
 
   initialValues?: Values;
   values: Values;
