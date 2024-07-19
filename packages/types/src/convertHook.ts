@@ -2,9 +2,9 @@ import { FormControl } from "./formControl";
 import { DefaultBaseProps } from "./field";
 
 export type ConvertHook<
-  ValueName extends string = "value",
-  BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
-> = (props: { rsfName: string; formControl: FormControl<any> }) => BaseProps;
+  Values extends object,
+  BaseProps extends { value?: any } = DefaultBaseProps,
+> = (props: { rsfName: string; formControl: FormControl<Values> }) => BaseProps;
 
 export type DefaultConvertHook = (props: {
   rsfName: string;
@@ -12,4 +12,4 @@ export type DefaultConvertHook = (props: {
     FormControl<any>,
     "values" | "errors" | "touched" | "setFieldTouched" | "setFieldValue"
   >;
-}) => DefaultBaseProps<"value">;
+}) => DefaultBaseProps;

@@ -26,6 +26,7 @@ const formControl: FormControl<{ prop1: string; prop2: number }> = {
 
   submitCount: 0,
   isSubmitting: false,
+  handleSubmit: () => Promise.resolve(),
 };
 
 test("should return value, error and touched using passed rsfName", () => {

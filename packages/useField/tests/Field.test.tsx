@@ -1,5 +1,5 @@
-import { FormControl, Modifiers } from "@react-stateless-form/types";
-import { FC, useCallback, useEffect } from "react";
+import { ConvertHook, FormControl } from "@react-stateless-form/types";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { Field } from "../src/Field";
 import { beforeEach, expect, test } from "@jest/globals";
 import { render } from "@testing-library/react";
@@ -25,6 +25,7 @@ const formControl: FormControl<Values> = {
   setFieldDirty: () => {},
   submitCount: 0,
   isSubmitting: false,
+  handleSubmit: () => Promise.resolve(),
 };
 
 type SimpleComponentProps = {
@@ -49,21 +50,24 @@ const ComponentWithRenderCounter: FC<SimpleComponentProps> = () => {
   );
 };
 
-const TestComponent: FC<
-  Partial<SimpleComponentProps> & { formControl: FormControl<Values> }
-> = ({ formControl, ...props }) => {
+const useConvert: ConvertHook<Values> = ({ formControl }) => {
   const onBlur = useCallback(() => {}, []);
 
-  const modifiers: Modifiers = {
-    converter: ({ formControl }) => ({
+  return useMemo(
+    () => ({
       value: formControl.values["prop1"],
       onBlur,
     }),
-  };
+    [formControl.values["prop1"]],
+  );
+};
 
+const TestComponent: FC<
+  Partial<SimpleComponentProps> & { formControl: FormControl<Values> }
+> = ({ formControl, ...props }) => {
   return (
     <Field
-      modifiers={modifiers}
+      useConvert={useConvert}
       rsfComponent={ComponentWithRenderCounter}
       rsfName="prop1"
       requiredProp="2"

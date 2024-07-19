@@ -1,4 +1,4 @@
-import { FormControl, Modifiers } from "@react-stateless-form/types";
+import { FormControl } from "@react-stateless-form/types";
 import { FC, useCallback, useEffect } from "react";
 import { beforeEach, expect, test, jest, describe } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
@@ -30,6 +30,7 @@ const formControl: FormControl<Values> = {
   setFieldDirty: () => {},
   submitCount: 0,
   isSubmitting: false,
+  handleSubmit: () => Promise.resolve(),
 };
 
 const name = "nestedArray";

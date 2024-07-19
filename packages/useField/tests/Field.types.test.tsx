@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Field } from "../../useField/src/Field";
-import { FormControl, Modifiers } from "@react-stateless-form/types";
+import { ConvertHook, FormControl } from "@react-stateless-form/types";
 
 type Values = {
   prop1: "prop1";
@@ -30,6 +30,7 @@ const formControl: FormControl<Values> = {
 
   submitCount: 0,
   isSubmitting: false,
+  handleSubmit: () => Promise.resolve(),
 };
 
 type SimpleComponentProps = {
@@ -40,26 +41,24 @@ type SimpleComponentProps = {
 
 const SimpleComponent: FC<SimpleComponentProps> = () => null;
 
-const Success = () => {
-  const modifiers: Modifiers = {
-    converter: () => ({
-      requiredProp: "123",
-      optionalProp: 1,
-      value: "prop1",
-    }),
-  };
+const useConvert: ConvertHook<Values> = () => ({
+  requiredProp: "123",
+  optionalProp: 1,
+  value: "prop1",
+});
 
+const Success = () => {
   return (
     <>
       <Field
-        modifiers={modifiers}
+        useConvert={useConvert}
         rsfComponent={SimpleComponent}
         rsfName="prop1"
         requiredProp="2"
         formControl={formControl}
       />
       <Field
-        modifiers={modifiers}
+        useConvert={useConvert}
         // @ts-expect-error
         rsfComponent={SimpleComponent}
         // @ts-expect-error
@@ -69,7 +68,7 @@ const Success = () => {
       />
       {/* @ts-expect-error */}
       <Field
-        modifiers={modifiers}
+        useConvert={useConvert}
         formControl={formControl}
         rsfComponent={SimpleComponent}
         rsfName="prop1"
@@ -79,18 +78,47 @@ const Success = () => {
   );
 };
 
-const ValueTypeIncompatible = () => {
-  const modifiers: Modifiers = {
-    converter: () => ({
-      requiredProp: "123",
-      optionalProp: 1,
-      value: "prop1",
-    }),
-  };
+// useConvert produce only base props
 
+const useConvertBase: ConvertHook<Values> = () => ({
+  value: "prop1",
+  onChange: () => {},
+});
+
+const ConvertWithOnlyBaseProps = () => {
+  return (
+    <>
+      <Field
+        useConvert={useConvertBase}
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        requiredProp="2"
+        formControl={formControl}
+      />
+      {/* @ts-expect-error */}
+      <Field
+        useConvert={useConvertBase}
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        // requiredProp="2" - missing
+        formControl={formControl}
+      />
+      <Field
+        useConvert={useConvertBase}
+        // @ts-expect-error
+        rsfComponent={SimpleComponent}
+        rsfName="embeddedObj" // should be prop1
+        requiredProp="2"
+        formControl={formControl}
+      />
+    </>
+  );
+};
+
+const ValueTypeIncompatible = () => {
   return (
     <Field
-      modifiers={modifiers}
+      useConvert={useConvert}
       formControl={formControl}
       rsfName="embeddedObj.prop2"
       // @ts-expect-error
@@ -99,26 +127,27 @@ const ValueTypeIncompatible = () => {
   );
 };
 
-const OverrideValue = () => {
-  const modifiers: Modifiers<"value", SimpleComponentProps> = {
-    converter: () => ({
-      requiredProp: "123",
-      optionalProp: 1,
-      value: "prop1",
-    }),
-  };
+const useConvertWithRequired: ConvertHook<
+  Values,
+  SimpleComponentProps
+> = () => ({
+  requiredProp: "123",
+  optionalProp: 1,
+  value: "prop1",
+});
 
+const OverrideValue = () => {
   return (
     <>
       <Field
-        modifiers={modifiers}
+        useConvert={useConvertWithRequired}
         formControl={formControl}
         rsfName="prop1"
         rsfComponent={SimpleComponent}
         value="prop1"
       />
       <Field
-        modifiers={modifiers}
+        useConvert={useConvertWithRequired}
         formControl={formControl}
         rsfName="prop1"
         rsfComponent={SimpleComponent}
@@ -134,16 +163,14 @@ type IncompatibleValueType = {
 };
 const IncompatibleValueTypeComponent: FC<IncompatibleValueType> = () => null;
 
-const IncompatibleValueTypeTest = () => {
-  const modifiers: Modifiers = {
-    converter: () => ({
-      value: 1,
-    }),
-  };
+const useConvertIncompatible: ConvertHook<Values> = () => ({
+  value: 1,
+});
 
+const IncompatibleValueTypeTest = () => {
   return (
     <Field
-      modifiers={modifiers}
+      useConvert={useConvertIncompatible}
       formControl={formControl}
       // @ts-expect-error
       rsfComponent={IncompatibleValueTypeComponent}
@@ -160,36 +187,32 @@ type AlternativeBaseProps = {
 };
 const Component2: FC<AlternativeBaseProps> = () => null;
 
-const RequiredPropMissingInConverter = () => {
-  const modifiers: Modifiers<"value", AlternativeBaseProps> = {
-    // @ts-expect-error
-    converter: () => ({
-      onBlur: () => {},
-      value: "prop1",
-      optionalProp: 2,
-    }),
-  };
-
-  return null;
-};
+const useConvertRequiredIsMissing: ConvertHook<
+  Values,
+  AlternativeBaseProps
+> = () =>
+  // @ts-expect-error
+  ({
+    onBlur: () => {},
+    value: "prop1",
+    optionalProp: 2,
+  });
 
 type AnotherComponentProps = { anotherRequiredProp: number };
 const AnotherComponent: FC<AnotherComponentProps> = () => null;
 
+const useConvertIncompatible2: ConvertHook<Values> = () => ({
+  onBlur: () => {},
+  value: "prop1",
+  optionalProp: 2,
+  requiredProp: "",
+});
+
 // Return props from converter function are not compatible with provided component
 const IncompatibleComponent = () => {
-  const modifiers: Modifiers = {
-    converter: () => ({
-      onBlur: () => {},
-      value: "prop1",
-      optionalProp: 2,
-      requiredProp: "",
-    }),
-  };
-
   return (
     <Field
-      modifiers={modifiers}
+      useConvert={useConvertIncompatible2}
       formControl={formControl}
       // @ts-expect-error
       rsfComponent={AnotherComponent}
@@ -201,14 +224,18 @@ const IncompatibleComponent = () => {
 type AlternativeBaseProps2 = { additionlProp: string; value: "prop1" };
 const AlternativeComponent: FC<AlternativeBaseProps2> = () => null;
 
-const AdditionalConevrtFunctionProps = () => {
-  const modifiers: Modifiers<"value", AlternativeBaseProps2> = {
-    converter: () => ({ value: "prop1", additionlProp: "" }),
-  };
+const useConvertAdditional: ConvertHook<
+  Values,
+  AlternativeBaseProps2
+> = () => ({
+  value: "prop1",
+  additionlProp: "",
+});
 
+const AdditionalConevrtFunctionProps = () => {
   return (
     <Field
-      modifiers={modifiers}
+      useConvert={useConvertAdditional}
       formControl={formControl}
       rsfComponent={AlternativeComponent}
       rsfName="prop1"
@@ -217,13 +244,9 @@ const AdditionalConevrtFunctionProps = () => {
 };
 
 const AdditionalPropIsPresentInFieldProps = () => {
-  const modifiers: Modifiers = {
-    converter: () => ({ value: "prop1", additionlProp: "" }),
-  };
-
   return (
     <Field
-      modifiers={modifiers}
+      useConvert={useConvertAdditional}
       formControl={formControl}
       rsfComponent={AlternativeComponent}
       rsfName="prop1"
@@ -234,26 +257,32 @@ const AdditionalPropIsPresentInFieldProps = () => {
 
 // BaseProps does not contain value but has selected prop
 
-type BasePropsWithSelected = { additionlProp: string; selected: "prop1" };
+type BasePropsWithSelected = {
+  additionlProp: string;
+  selected: "prop1";
+  value?: any;
+};
 const ComponentWithSelectedProp: FC<BasePropsWithSelected> = () => null;
 
-const BasePropsWithSelectedField = () => {
-  const modifiers: Modifiers<"selected", BasePropsWithSelected> = {
-    converter: () => ({ selected: "prop1", additionlProp: "" }),
-  };
+const useConvertSelected: ConvertHook<Values, BasePropsWithSelected> = () => ({
+  value: undefined,
+  selected: "prop1",
+  additionlProp: "",
+});
 
+const BasePropsWithSelectedField = () => {
   return (
     <>
       <Field
-        modifiers={modifiers}
+        useConvert={useConvertSelected}
         formControl={formControl}
         rsfComponent={ComponentWithSelectedProp}
-        rsfName="prop1"
         additionlProp=""
+        rsfName="prop1"
       />
       {/* Override selected prop */}
       <Field
-        modifiers={modifiers}
+        useConvert={useConvertSelected}
         formControl={formControl}
         rsfComponent={ComponentWithSelectedProp}
         rsfName="prop1"
@@ -262,7 +291,7 @@ const BasePropsWithSelectedField = () => {
       />
       {/* Incorrect selected prop value */}
       <Field
-        modifiers={modifiers}
+        useConvert={useConvertSelected}
         formControl={formControl}
         rsfComponent={ComponentWithSelectedProp}
         rsfName="prop1"
@@ -274,23 +303,59 @@ const BasePropsWithSelectedField = () => {
   );
 };
 
-const BasePropsWithSelectedFieldIncorrectModifiers = () => {
-  const incorrectModifiers: Modifiers<"selected", BasePropsWithSelected> = {
-    // @ts-expect-error
-    converter: () => ({
-      selected: "prop2", // should be selected: "prop1"
-      additionlProp: "",
-    }),
-  };
+const useConvertSelectedIncorrect: ConvertHook<
+  Values,
+  BasePropsWithSelected
+> = () => ({
+  // @ts-expect-error
+  selected: "prop2", // should be selected: "prop1"
+  additionlProp: "",
+});
 
-  const missingSelectedPropModifiers: Modifiers<
-    "selected",
-    BasePropsWithSelected
-  > = {
-    // @ts-expect-error
-    converter: () => ({
-      value: "prop1", // should be selected: "prop1"
-      additionlProp: "",
-    }),
-  };
+// useDefaultConvertHook tests
+
+type DefaultConvertHookCompatibleProps = {
+  value: "prop1";
+  onChange: (arg: { target: { value: string | number } }) => void;
+  onBlur: () => void;
+  error: string | undefined;
+  touched: boolean;
+};
+const DefaultConvertHookCompatibleComponent: FC<
+  DefaultConvertHookCompatibleProps
+> = () => null;
+
+const DefaultConvertHookField = () => {
+  return (
+    <>
+      <Field
+        formControl={formControl}
+        rsfComponent={DefaultConvertHookCompatibleComponent}
+        rsfName="prop1"
+      />
+      <Field
+        formControl={formControl}
+        // @ts-expect-error
+        rsfComponent={DefaultConvertHookCompatibleComponent}
+        rsfName="embeddedObj"
+      />
+    </>
+  );
+};
+
+const DefaultHookCompPropsWithRequired: FC<
+  DefaultConvertHookCompatibleProps & { reqProp: "reqProp" }
+> = () => null;
+
+const DefaultHookCompPropsWithRequiredField = () => {
+  return (
+    <>
+      <Field
+        formControl={formControl}
+        rsfComponent={DefaultHookCompPropsWithRequired}
+        rsfName="prop1"
+        reqProp="reqProp"
+      />
+    </>
+  );
 };
