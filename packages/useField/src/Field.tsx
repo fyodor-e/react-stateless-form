@@ -11,21 +11,18 @@ import { useDefaultConvert } from "./useDefaultConvert";
 
 export const Field = <
   Values extends object,
-  ComponentProps extends BasePropsCreator<Values, Name, ValueName, BaseProps>,
-  ValueName extends string = "value",
-  BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
+  ComponentProps extends BasePropsCreator<Values, Name, BaseProps>,
+  BaseProps extends { value?: any } = DefaultBaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
-  modifiers: {
-    useConvert = useDefaultConvert,
-    displayLoading = defaultDisplayLoading,
-    LoadingComponent,
-  },
+  useConvert = useDefaultConvert as any,
+  displayLoading = defaultDisplayLoading,
+  LoadingComponent,
   formControl,
   rsfName,
   rsfComponent: Component,
   ...restProps
-}: FieldProps<Values, ComponentProps, ValueName, BaseProps, Name>) => {
+}: FieldProps<Values, ComponentProps, BaseProps, Name>) => {
   const generatedProps = useConvert({
     rsfName,
     formControl,

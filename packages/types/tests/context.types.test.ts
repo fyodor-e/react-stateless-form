@@ -21,4 +21,5 @@ const control: FormControl<Values> = {
 
   isSubmitting: false,
   submitCount: 0,
+  handleSubmit: () => Promise.resolve(),
 };

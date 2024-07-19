@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Field } from "../src/Field";
-import { FormControl, Modifiers } from "@react-stateless-form/types";
+import { FormControl } from "@react-stateless-form/types";
 import useFieldArray from "../src/useFieldArray";
 import { expectType } from "@react-stateless-form/types";
 
@@ -10,6 +10,7 @@ type Values = {
     prop2: "prop2";
   };
   array: { arrP: string }[];
+  array2: { e2: number }[];
 };
 
 const formControl: FormControl<Values> = {
@@ -19,6 +20,7 @@ const formControl: FormControl<Values> = {
       prop2: "prop2",
     },
     array: [],
+    array2: [],
   },
   touched: {},
   errors: {},
@@ -34,6 +36,7 @@ const formControl: FormControl<Values> = {
 
   submitCount: 0,
   isSubmitting: false,
+  handleSubmit: () => Promise.resolve(),
 };
 
 const Success = () => {
@@ -48,6 +51,7 @@ const Success = () => {
 const NameIsNotArray = () => {
   const { append } = useFieldArray({
     formControl,
+    // @ts-expect-error
     name: "embeddedObj",
   });
 
@@ -58,6 +62,7 @@ const NameIsNotArray = () => {
 const NameIsArrayIndex = () => {
   const { append } = useFieldArray({
     formControl,
+    // @ts-expect-error
     name: "array.0",
   });
 

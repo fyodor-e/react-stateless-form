@@ -2,7 +2,6 @@ import {
   ArrayKeyPaths,
   DeepPick,
   FormControl,
-  KeyPaths,
 } from "@react-stateless-form/types";
 import { getIn } from "@react-stateless-form/utils";
 import { useCallback } from "react";

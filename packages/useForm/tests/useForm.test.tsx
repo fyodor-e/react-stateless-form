@@ -2,7 +2,6 @@ import {
   FormControl,
   FormErrors,
   FormTouched,
-  Modifiers,
 } from "@react-stateless-form/types";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { beforeEach, describe, expect, test } from "@jest/globals";

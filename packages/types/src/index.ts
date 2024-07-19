@@ -4,7 +4,6 @@ export * from "./field";
 export * from "./formControl";
 export * from "./convertHook";
 export * from "./displayLoading";
-export * from "./useField";
 export * from "./formTouched";
-export * from "./isTypeEquals";
+export * from "./isTypeEquals.d";
 export * from "./arrayKeyPaths";
