@@ -1,8 +1,5 @@
-import { FC } from "react";
-import { Field } from "../src/Field";
-import { FormControl } from "@react-stateless-form/types";
+import { FormControl, expectType } from "@react-stateless-form/types";
 import useFieldArray from "../src/useFieldArray";
-import { expectType } from "@react-stateless-form/types";
 
 type Values = {
   prop1: "prop1";

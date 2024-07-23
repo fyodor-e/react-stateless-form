@@ -1,4 +1,4 @@
-import { KeyPaths, FormControl } from "@react-stateless-form/types";
+import { FormControl } from "./formControl";
 
 export type DisplayLoading = (props: {
   rsfName: string;

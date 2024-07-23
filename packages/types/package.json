@@ -7,14 +7,13 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "typecheck",
     "build": "tsup src --dts",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fyodore82/react-stateless-form.git",
-    "directory": "src/types"
+    "directory": "packages/types"
   },
   "keywords": [
     "types"
