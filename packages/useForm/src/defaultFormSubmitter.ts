@@ -1,6 +1,6 @@
 import { FormErrors } from "@react-stateless-form/types";
 import { deepSetTouched } from "@react-stateless-form/utils";
-import { FormProps, FormSubmitCreatorArg } from "./formProps";
+import { FormSubmitCreatorArg } from "./formProps";
 
 export const defaultFormSubmitter =
   <Values extends object, SubmitProps = undefined>({
