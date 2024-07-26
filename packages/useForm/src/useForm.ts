@@ -8,7 +8,7 @@ import { deepEqual, setIn } from "@react-stateless-form/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { defaultFormSubmitter } from "./defaultFormSubmitter";
 
-const useForm = <
+export const useForm = <
   Values extends object,
   SetValues extends
     | ValueFunction<Values>
@@ -263,5 +263,3 @@ const useForm = <
 
   return formControl;
 };
-
-export default useForm;

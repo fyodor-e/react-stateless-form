@@ -2,7 +2,7 @@ import { FormErrors, FormTouched } from "@react-stateless-form/types";
 import { describe, expect, test } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import useForm from "../src/useForm";
+import { useForm } from "../src/useForm";
 import { FormProps } from "../src";
 
 type Values = {
