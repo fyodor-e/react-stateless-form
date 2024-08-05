@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { Component, ElementType, FC } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { FormControl } from "./formControl";
@@ -42,7 +42,7 @@ export type FieldProps<
   formControl: FormControl<Values>;
 
   rsfName: Name;
-  rsfComponent: FC<ComponentProps>;
+  rsfComponent: ElementType<ComponentProps>;
 
   LoadingComponent?: FC<BasePropsCreator<any, string, BaseProps>>;
   displayLoading?: DisplayLoading;

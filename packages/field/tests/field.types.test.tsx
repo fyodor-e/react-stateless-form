@@ -1,6 +1,10 @@
 import { FC } from "react";
-import { Field } from "../../useField/src/Field";
-import { ConvertHook, FormControl } from "@react-stateless-form/types";
+import { Field } from "../src/Field";
+import {
+  ConvertHook,
+  DefaultBaseProps,
+  FormControl,
+} from "@react-stateless-form/types";
 
 type Values = {
   prop1: "prop1";
@@ -355,6 +359,57 @@ const DefaultHookCompPropsWithRequiredField = () => {
         rsfComponent={DefaultHookCompPropsWithRequired}
         rsfName="prop1"
         reqProp="reqProp"
+      />
+    </>
+  );
+};
+
+// HTML <input /> component tests
+
+const HTMLInputComponent = () => {
+  return (
+    <>
+      <Field formControl={formControl} rsfComponent="input" rsfName="prop1" />
+    </>
+  );
+};
+
+// <div /> does not have props of the <input />, like onChange, etc.
+const HTMLDivComponent = () => {
+  return (
+    <>
+      <Field
+        formControl={formControl}
+        // @ts-expect-error
+        rsfComponent="div"
+        rsfName="prop1"
+      />
+    </>
+  );
+};
+
+type OnChangeIncompatibleForInputPorps = Omit<DefaultBaseProps, "onChange"> & {
+  onChange: (arg: string) => void;
+};
+
+const useConvertIncompatibleForInput: ConvertHook<
+  Values,
+  OnChangeIncompatibleForInputPorps
+> = () => ({
+  onBlur: () => {},
+  onChange: () => {},
+  value: "123",
+});
+
+const HTMLInputIncompatibleComponent = () => {
+  return (
+    <>
+      <Field
+        useConvert={useConvertIncompatibleForInput}
+        formControl={formControl}
+        // @ts-expect-error
+        rsfComponent="input"
+        rsfName="prop1"
       />
     </>
   );
