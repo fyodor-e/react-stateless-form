@@ -12,6 +12,11 @@ export type FunctionValueFunction<V extends {}> = (
   v: SetStateAction<V>,
 ) => void;
 
+export type OnSubmit<Values extends object, SubmitProps = undefined> = (arg: {
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  submitProps: SubmitProps;
+}) => Promise<void> | void;
+
 export type FormSubmitCreatorArg<
   Values extends object,
   SubmitProps = undefined,
@@ -20,10 +25,7 @@ export type FormSubmitCreatorArg<
   validator?: (
     formControl: Omit<FormControl<Values>, "handleSubmit">,
   ) => Promise<FormErrors<Values>>;
-  onSubmit?: (arg: {
-    formControl: Omit<FormControl<Values>, "handleSubmit">;
-    submitProps: SubmitProps;
-  }) => Promise<void>;
+  onSubmit?: OnSubmit<Values, SubmitProps>;
   setSubmitCount: (submitCount: number) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
 };
@@ -48,14 +50,13 @@ export type FormProps<
     | undefined = undefined,
   SubmitProps = undefined,
 > = {
-  onSubmit?: (arg: {
-    formControl: Omit<FormControl<Values>, "handleSubmit">;
-    submitProps: SubmitProps;
-  }) => Promise<void>;
+  onSubmit?: OnSubmit<Values, SubmitProps>;
 
   formSubmitCreator?: (
     arg: FormSubmitCreatorArg<Values, SubmitProps>,
-  ) => (submitProps: SubmitProps) => Promise<void>;
+  ) => undefined extends SubmitProps & undefined
+    ? () => Promise<void>
+    : (submitProps: SubmitProps) => Promise<void>;
 
   validator?: (
     formControl: Omit<FormControl<Values>, "handleSubmit">,
