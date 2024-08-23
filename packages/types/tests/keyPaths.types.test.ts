@@ -135,6 +135,9 @@ type UnionObject = {
     | {
         nestedProp1: string;
       }
+    | {
+        nestedProp2: string;
+      }
     | string[]
     | {
         aProp1: number;
@@ -145,7 +148,8 @@ type UnionObjectKeys = KeyPaths<UnionObject>;
 
 const unionObjectKeys: UnionObjectKeys = "nestedObj";
 const unionObjectKeys1: UnionObjectKeys = `nestedObj[0]`;
-const unionObjectKeys2: UnionObjectKeys = "nestedObj.nestedProp1";
+const unionObjectKeys21: UnionObjectKeys = "nestedObj.nestedProp1";
+const unionObjectKeys22: UnionObjectKeys = "nestedObj.nestedProp2";
 const unionObjectKeys3: UnionObjectKeys = `nestedObj.1`;
 const unionObjectKeys4: UnionObjectKeys = `nestedObj.[2]`;
 const unionObjectKeys5: UnionObjectKeys = `nestedObj[0].aProp1`;

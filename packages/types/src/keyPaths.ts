@@ -1,4 +1,5 @@
 import { Increment } from "./increment";
+import { UnionToIntersection } from "./unionToIntersection";
 
 type GenNode<
   K extends string | number,
@@ -11,10 +12,9 @@ export type KeyPaths<
   V extends any,
   IsRoot extends boolean = true,
   Iteration extends number = 0,
-  O extends Exclude<Extract<V, object>, Array<any>> = Exclude<
-    Extract<V, object>,
-    Array<any>
-  >,
+  O extends UnionToIntersection<
+    Exclude<Extract<V, object>, Array<any>>
+  > = UnionToIntersection<Exclude<Extract<V, object>, Array<any>>>,
   K extends keyof O = keyof O,
 > =
   // First step is check for any. Any cannot be processed correctly
