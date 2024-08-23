@@ -1,4 +1,5 @@
 import { Increment } from "./increment";
+import { UnionToIntersection } from "./unionToIntersection";
 
 export type CheckUndefined<
   T,
@@ -27,12 +28,6 @@ export type SetNullUndefined<
 
 // number literal (i.e. '1') is converted to number, string literal (i.e. 'prop') is left unchanged
 type GetKey<T> = T extends `${infer N extends number}` ? N : T;
-
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I,
-) => void
-  ? I
-  : never;
 
 type SingleDeepPick<
   T,

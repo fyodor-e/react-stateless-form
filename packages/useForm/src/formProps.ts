@@ -6,6 +6,7 @@ import {
   KeyPaths,
 } from "@react-stateless-form/types";
 import { SetStateAction } from "react";
+import { Resolver } from "./resolver";
 
 export type ValueFunction<V extends {}> = (v: V) => void;
 export type FunctionValueFunction<V extends {}> = (
@@ -58,9 +59,15 @@ export type FormProps<
     ? () => Promise<void>
     : (submitProps: SubmitProps) => Promise<void>;
 
-  validator?: (
-    formControl: Omit<FormControl<Values>, "handleSubmit">,
-  ) => Promise<FormErrors<Values>>;
+  useValidate?: (arg: {
+    formControl: Omit<FormControl<Values>, "handleSubmit">;
+    resolver?: Resolver<Values>;
+    context?: any;
+    criteriaMode?: "all" | "firstError";
+  }) => () => Promise<FormErrors<Values>>;
+  context?: any;
+  criteriaMode?: "all" | "firstError";
+  resolver?: Resolver<Values>;
 
   submitCount?: number;
   setSubmitCount?: (submitCount: number) => void;

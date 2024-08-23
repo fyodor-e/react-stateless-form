@@ -2,17 +2,27 @@ import { DeepPick } from "./deepPick";
 import { FormTouched } from "./formTouched";
 import { KeyPaths } from "./keyPaths";
 
+export type ValidateResult = string | string[] | boolean | undefined;
+
+export type FieldError = {
+  type?: string;
+  types?: {
+    [key: string]: ValidateResult;
+  };
+  message?: string;
+};
+
 export type FormErrors<V> =
   // Check for V = any
   0 extends 1 & V
     ? any
-    : {
-        [K in keyof V]?: V[K] extends (infer A)[]
-          ? string | string[] | FormErrors<A>[]
-          : V[K] extends object
-            ? FormErrors<V[K]>
-            : string;
-      };
+    : V extends object
+      ? {
+          [K in keyof V]?: V[K] extends (infer A)[]
+            ? FieldError | (FormErrors<A> | undefined)[]
+            : FieldError | FormErrors<V[K]>;
+        }
+      : FieldError;
 
 export type FormControl<Values extends object, SubmitProps = undefined> = {
   values: Values;

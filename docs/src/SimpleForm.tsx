@@ -1,11 +1,20 @@
 import { OnSubmit, useForm } from "@react-stateless-form/use-form";
 import { Field } from "@react-stateless-form/field";
 import { useCallback } from "react";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type Values = {
   firstName: string;
   lastName: string;
 };
+
+const resolver = yupResolver(
+  Yup.object({
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+  }),
+);
 
 const SimpleForm = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
@@ -14,10 +23,13 @@ const SimpleForm = () => {
     },
     [],
   );
+
   const formControl = useForm({
     values: { firstName: "", lastName: "" },
     onSubmit,
+    resolver,
   });
+
   return (
     <div
       style={{
@@ -40,6 +52,8 @@ const SimpleForm = () => {
         rsfName="lastName"
         rsfComponent="input"
       />
+      <div>Errors:</div>
+      <div>{JSON.stringify(formControl.errors)}</div>
       <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );

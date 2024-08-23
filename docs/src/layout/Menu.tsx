@@ -11,6 +11,8 @@ const Menu: FC = () => {
         fontSize: "14px",
         fontWeight: 500,
         flex: 1,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {routes.map(({ menuName, path }) => (

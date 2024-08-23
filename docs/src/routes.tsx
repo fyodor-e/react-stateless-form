@@ -6,6 +6,11 @@ const routes: ({
   path: NonNullable<RouteObject>;
 } & RouteObject)[] = [
   {
+    path: "get-started",
+    menuName: "Get Started",
+    element: <SimpleForm />,
+  },
+  {
     path: "simple-form",
     menuName: "Simple Form",
     element: <SimpleForm />,

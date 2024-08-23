@@ -7,6 +7,7 @@ import { FormProps, FunctionValueFunction, ValueFunction } from "./formProps";
 import { deepEqual, setIn } from "@react-stateless-form/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { defaultFormSubmitter } from "./defaultFormSubmitter";
+import defaultUseValidate from "./defaultUseValidate";
 
 export const useForm = <
   Values extends object,
@@ -45,9 +46,12 @@ export const useForm = <
   setFieldTouched: setFieldTouchedFromProps,
   setFieldDirty: setFieldDirtyFromProps,
 
-  formSubmitCreator = defaultFormSubmitter,
+  formSubmitCreator = defaultFormSubmitter as any,
 
-  validator,
+  useValidate = defaultUseValidate as any,
+  context,
+  criteriaMode,
+  resolver,
 
   submitCount: submitCountFromProps,
   setSubmitCount: setSubmitCountFromProps,
@@ -155,6 +159,33 @@ export const useForm = <
       setDirty(deepEqual(initialValues, values));
     }
   }, [values, setDirty, initialValues]);
+
+  const validator = useValidate({
+    formControl: {
+      values,
+      setValues,
+
+      errors,
+      setErrors,
+
+      touched,
+      setTouched,
+
+      dirty,
+      setDirty,
+
+      setFieldValue,
+      setFieldError,
+      setFieldTouched,
+      setFieldDirty,
+
+      submitCount,
+      isSubmitting,
+    },
+    criteriaMode,
+    context,
+    resolver,
+  });
 
   const handleSubmit = useMemo(
     () =>
