@@ -26,6 +26,7 @@ const formControl: FormControl<Values> = {
   submitCount: 0,
   isSubmitting: false,
   handleSubmit: () => Promise.resolve(),
+  isValid: true,
 };
 
 type SimpleComponentProps = {

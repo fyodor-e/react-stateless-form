@@ -1,5 +1,6 @@
 import { RouteObject } from "react-router-dom";
-import SimpleForm from "./SimpleForm";
+import SimpleForm from "./simpleForm/SimpleForm.mdx";
+import ChakraUIForm from "./chakra/ChakraUIForm.mdx";
 
 const routes: ({
   menuName: string;
@@ -14,6 +15,11 @@ const routes: ({
     path: "simple-form",
     menuName: "Simple Form",
     element: <SimpleForm />,
+  },
+  {
+    path: "chakra-ui-form",
+    menuName: "Chakra UI Form",
+    element: <ChakraUIForm />,
   },
 ];
 

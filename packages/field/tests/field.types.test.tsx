@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import { Field } from "../src/Field";
 import {
   ConvertHook,
@@ -35,6 +35,7 @@ const formControl: FormControl<Values> = {
   submitCount: 0,
   isSubmitting: false,
   handleSubmit: () => Promise.resolve(),
+  isValid: true,
 };
 
 type SimpleComponentProps = {
@@ -411,6 +412,41 @@ const HTMLInputIncompatibleComponent = () => {
         rsfComponent="input"
         rsfName="prop1"
       />
+    </>
+  );
+};
+
+// Component with children
+
+type ComponentWithChildrenProps = {
+  value: "prop1";
+};
+
+const ComponentWithChildren: FC<
+  PropsWithChildren<ComponentWithChildrenProps>
+> = ({ children }) => children;
+
+const ComponentWithoutChildren: FC<ComponentWithChildrenProps> = () => null;
+
+const ComponentWithChildrenField = () => {
+  return (
+    <>
+      <Field
+        formControl={formControl}
+        rsfComponent={ComponentWithChildren}
+        rsfName="prop1"
+      >
+        <></>
+      </Field>
+
+      {/* @ts-expect-error */}
+      <Field
+        formControl={formControl}
+        rsfComponent={ComponentWithoutChildren}
+        rsfName="prop1"
+      >
+        <></>
+      </Field>
     </>
   );
 };
