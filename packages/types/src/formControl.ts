@@ -52,6 +52,8 @@ export type FormControl<Values extends object, SubmitProps = undefined> = {
   submitCount: number;
   isSubmitting: boolean;
 
+  isValid: boolean;
+
   handleSubmit: undefined extends SubmitProps & undefined
     ? () => Promise<void>
     : (submitProps: SubmitProps) => Promise<void>;

@@ -160,90 +160,11 @@ export const useForm = <
     }
   }, [values, setDirty, initialValues]);
 
-  const validator = useValidate({
-    formControl: {
-      values,
-      setValues,
+  const isValid = useMemo(() => Object.keys(errors).length === 0, [errors]);
 
-      errors,
-      setErrors,
-
-      touched,
-      setTouched,
-
-      dirty,
-      setDirty,
-
-      setFieldValue,
-      setFieldError,
-      setFieldTouched,
-      setFieldDirty,
-
-      submitCount,
-      isSubmitting,
-    },
-    criteriaMode,
-    context,
-    resolver,
-  });
-
-  const handleSubmit = useMemo(
-    () =>
-      formSubmitCreator({
-        formControl: {
-          values,
-          setValues,
-
-          errors,
-          setErrors,
-
-          touched,
-          setTouched,
-
-          dirty,
-          setDirty,
-
-          setFieldValue,
-          setFieldError,
-          setFieldTouched,
-          setFieldDirty,
-
-          submitCount,
-          isSubmitting,
-        },
-        validator,
-        onSubmit,
-        setSubmitCount,
-        setIsSubmitting,
-      }),
-    [
-      values,
-      setValues,
-
-      errors,
-      setErrors,
-
-      touched,
-      setTouched,
-
-      dirty,
-      setDirty,
-
-      setFieldValue,
-      setFieldError,
-      setFieldTouched,
-      setFieldDirty,
-
-      submitCount,
-      isSubmitting,
-      validator,
-      onSubmit,
-      setSubmitCount,
-      setIsSubmitting,
-    ],
-  );
-
-  const formControl = useMemo<FormControl<Values, SubmitProps>>(
+  const formControlWoSubmit = useMemo<
+    Omit<FormControl<Values>, "handleSubmit">
+  >(
     () => ({
       values,
       setValues,
@@ -265,7 +186,7 @@ export const useForm = <
       submitCount,
       isSubmitting,
 
-      handleSubmit,
+      isValid,
     }),
     [
       values,
@@ -287,9 +208,42 @@ export const useForm = <
 
       submitCount,
       isSubmitting,
-
-      handleSubmit,
     ],
+  );
+
+  const validator = useValidate({
+    formControl: formControlWoSubmit,
+    criteriaMode,
+    context,
+    resolver,
+  });
+
+  const handleSubmit = useMemo(
+    () =>
+      formSubmitCreator({
+        formControl: formControlWoSubmit,
+        validator,
+        onSubmit,
+        setSubmitCount,
+        setIsSubmitting,
+      }),
+    [
+      formControlWoSubmit,
+      formSubmitCreator,
+
+      validator,
+      onSubmit,
+      setSubmitCount,
+      setIsSubmitting,
+    ],
+  );
+
+  const formControl = useMemo<FormControl<Values, SubmitProps>>(
+    () => ({
+      ...formControlWoSubmit,
+      handleSubmit,
+    }),
+    [formControlWoSubmit, handleSubmit],
   );
 
   return formControl;

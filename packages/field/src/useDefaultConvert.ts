@@ -1,5 +1,5 @@
 import { DefaultConvertHook } from "@react-stateless-form/types";
-import { getIn } from "@react-stateless-form/utils";
+import { getIn, getInErrors } from "@react-stateless-form/utils";
 import { useMemo } from "react";
 
 export const useDefaultConvert: DefaultConvertHook = ({
@@ -7,8 +7,8 @@ export const useDefaultConvert: DefaultConvertHook = ({
   formControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {
   const value = getIn({ values, name });
-  const error = getIn({ values: errors, name });
-  const fieldError = typeof error === "string" ? error : undefined;
+  const error = getInErrors<any, any>({ errors, name });
+  const fieldError = error.length ? error.join(", ") : undefined;
   const fieldTouched = !!getIn({ values: touched, name });
 
   return useMemo(() => {

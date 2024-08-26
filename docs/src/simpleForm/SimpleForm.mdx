@@ -1,3 +1,10 @@
+import SimpleForm from "./SimpleForm.tsx";
+
+# Simple Form
+
+This is very simple form example
+
+```tsx
 import { OnSubmit, useForm } from "@react-stateless-form/use-form";
 import { Field } from "@react-stateless-form/field";
 import { useCallback } from "react";
@@ -39,7 +46,6 @@ const SimpleForm = () => {
         flexDirection: "column",
       }}
     >
-      <h1>Simple Form</h1>
       <label>First Name</label>
       <Field
         formControl={formControl}
@@ -52,11 +58,18 @@ const SimpleForm = () => {
         rsfName="lastName"
         rsfComponent="input"
       />
-      <div>Errors:</div>
-      <div>{JSON.stringify(formControl.errors)}</div>
+      {!formControl.isValid && (
+        <>
+          <div css={{ color: "red" }}>Form have errors:</div>
+          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
+        </>
+      )}
       <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );
 };
 
 export default SimpleForm;
+```
+
+<SimpleForm />

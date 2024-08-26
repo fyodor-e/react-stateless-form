@@ -40,6 +40,7 @@ function Layout() {
           gridRow: 2,
           display: "flex",
           flexDirection: "column",
+          padding: "10px",
         }}
       >
         <Outlet />
