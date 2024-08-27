@@ -1,11 +1,11 @@
-import { OnSubmit, useForm } from "@react-stateless-form/use-form";
-import { Field } from "@react-stateless-form/field";
-import { useCallback } from "react";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getInErrors } from "@react-stateless-form/utils";
+import { Field } from "@react-stateless-form/field";
+import { useForm, useSubform } from "@react-stateless-form/use-form";
+import * as Yup from "yup";
+import SimpleInput from "./simpleInput";
+import { FC } from "react";
 
-type Values = {
+export type Address = {
   country: string;
   state: string;
   city: string;
@@ -25,54 +25,66 @@ const resolver = yupResolver(
   }),
 );
 
-const AddressForm = () => {
-  const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
-      alert(`Form values: \n ${JSON.stringify(values)}`);
-    },
-    [],
-  );
+type Props = ReturnType<typeof useSubform>;
 
-  const formControl = useForm({
-    values: {
-      country: "",
-      state: "",
-      city: "",
-      zipCode: "",
-      street1: "",
-      street2: undefined,
-    },
-    onSubmit,
+const AddressForm: FC<Props> = (formProps) => {
+  const formControl = useForm<Address>({
+    ...formProps,
     resolver,
   });
 
   return (
     <div
-      style={{
-        gap: "7px",
-        margin: "15px",
-        display: "flex",
-        flexDirection: "column",
+      css={{
+        width: "100%",
+        display: "grid",
+        gridTemplateRows: "repeat(4, auto)",
+        gridTemplateColumns: "auto auto",
+        gap: "10px",
       }}
     >
-      <label>Country</label>
-      <Field formControl={formControl} rsfName="country" rsfComponent="select">
-        <option value="USA">USA</option>
-        <option value="Canada">Canada</option>
-        <option value="Mexico">Mexico</option>
-      </Field>
-      {getInErrors({ errors: formControl.errors, name: "country" })}
-      <label>State</label>
-      <Field formControl={formControl} rsfName="state" rsfComponent="input" />
-      <label>City</label>
-      <Field formControl={formControl} rsfName="city" rsfComponent="input" />
-      {!formControl.isValid && (
-        <>
-          <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
-        </>
-      )}
-      <button onClick={formControl.handleSubmit}>Submit</button>
+      <Field
+        formControl={formControl}
+        rsfName="country"
+        rsfComponent={SimpleInput}
+        label="Country"
+        css={{ gridColumn: 1, gridRow: 1 }}
+      />
+      <Field
+        formControl={formControl}
+        rsfName="state"
+        rsfComponent={SimpleInput}
+        label="State"
+        css={{ gridColumn: 1, gridRow: 2 }}
+      />
+      <Field
+        formControl={formControl}
+        rsfName="city"
+        rsfComponent={SimpleInput}
+        label="City"
+        css={{ gridColumn: 1, gridRow: 3 }}
+      />
+      <Field
+        formControl={formControl}
+        rsfName="zipCode"
+        rsfComponent={SimpleInput}
+        label="Zip Code"
+        css={{ gridColumn: 2, gridRow: 1 }}
+      />
+      <Field
+        formControl={formControl}
+        rsfName="street1"
+        rsfComponent={SimpleInput}
+        label="Street Address 1"
+        css={{ gridColumn: 2, gridRow: 2 }}
+      />
+      <Field
+        formControl={formControl}
+        rsfName="street2"
+        rsfComponent={SimpleInput}
+        label="Street Address 2"
+        css={{ gridColumn: 2, gridRow: 3 }}
+      />
     </div>
   );
 };

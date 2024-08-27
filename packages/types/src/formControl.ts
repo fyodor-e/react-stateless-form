@@ -43,10 +43,11 @@ export type FormControl<Values extends object, SubmitProps = undefined> = {
   }) => void;
   setFieldTouched: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
     name: Name;
+    touched: DeepPick<FormTouched<Values>, Name>;
   }) => void;
   setFieldDirty: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
     name: Name;
-    isDirty: boolean;
+    dirty: DeepPick<FormTouched<Values>, Name>;
   }) => void;
 
   submitCount: number;

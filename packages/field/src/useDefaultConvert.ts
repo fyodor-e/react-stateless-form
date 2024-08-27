@@ -16,7 +16,7 @@ export const useDefaultConvert: DefaultConvertHook = ({
       value,
       error: fieldError,
       touched: fieldTouched,
-      onBlur: () => setFieldTouched({ name }),
+      onBlur: () => setFieldTouched({ name, touched: true }),
       onChange: ({ target: { value } }) => setFieldValue({ name, value }),
     };
   }, [name, value, fieldError, fieldTouched, setFieldTouched, setFieldValue]);
