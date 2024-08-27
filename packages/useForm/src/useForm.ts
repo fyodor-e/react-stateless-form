@@ -107,18 +107,18 @@ export const useForm = <
     [setErrors],
   );
   const setFieldTouchedLocal: any = useCallback(
-    ({ name }: { name: any }) => {
+    ({ name, touched }: { name: any; touched: any }) => {
       (setTouched as any)((prev: FormTouched<Values>) =>
-        setIn({ values: prev as any, name, value: true }),
+        setIn({ values: prev as any, name, value: touched }),
       );
     },
     [setTouched],
   );
 
   const setFieldDirtyLocal: any = useCallback(
-    ({ name, isDirty }: { name: any; isDirty: boolean }) => {
+    ({ name, dirty }: { name: any; dirty: any }) => {
       (setDirty as any)((prev: FormTouched<Values>) =>
-        setIn({ values: prev as any, name, value: isDirty }),
+        setIn({ values: prev as any, name, value: dirty }),
       );
     },
     [setDirty],

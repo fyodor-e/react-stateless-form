@@ -8,6 +8,7 @@ import {
 
 type Values = {
   prop1: "prop1";
+  stringProp: string;
   embeddedObj: {
     prop2: "prop2";
   };
@@ -16,6 +17,7 @@ type Values = {
 const formControl: FormControl<Values> = {
   values: {
     prop1: "prop1",
+    stringProp: "123",
     embeddedObj: {
       prop2: "prop2",
     },
@@ -46,13 +48,55 @@ type SimpleComponentProps = {
 
 const SimpleComponent: FC<SimpleComponentProps> = () => null;
 
-const useConvert: ConvertHook<Values> = () => ({
+const SimpleComponentNoUseConvert = () => {
+  return (
+    <>
+      <Field
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        requiredProp="2"
+        formControl={formControl}
+      />
+      <Field
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        // @ts-expect-error
+        requiredProp={2} // should be a string
+        formControl={formControl}
+      />
+      {/* @ts-expect-error */}
+      <Field
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        formControl={formControl}
+        // requiredProp="2" - missing
+      />
+      <Field
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        requiredProp="2"
+        formControl={formControl}
+        optionalProp={123}
+      />
+      <Field
+        rsfComponent={SimpleComponent}
+        rsfName="prop1"
+        requiredProp="2"
+        formControl={formControl}
+        // @ts-expect-error
+        optionalProp="123" // should be a number
+      />
+    </>
+  );
+};
+
+const useConvert: ConvertHook<Values, SimpleComponentProps> = () => ({
   requiredProp: "123",
   optionalProp: 1,
   value: "prop1",
 });
 
-const Success = () => {
+const SimpleComponentWithUseConvert = () => {
   return (
     <>
       <Field
@@ -71,13 +115,12 @@ const Success = () => {
         requiredProp="2"
         formControl={formControl}
       />
-      {/* @ts-expect-error */}
       <Field
         useConvert={useConvert}
         formControl={formControl}
         rsfComponent={SimpleComponent}
         rsfName="prop1"
-        /* requiredProp="2" */
+        // requiredProp="2" - no need requiredProp here as useConvert provide it
       />
     </>
   );
@@ -158,6 +201,27 @@ const OverrideValue = () => {
         rsfComponent={SimpleComponent}
         // @ts-expect-error
         value={2} // Incorrect value type
+      />
+    </>
+  );
+};
+
+type ComponentWithValueStringUndefinedProps = {
+  label: string;
+  value: string | undefined;
+};
+
+const ComponentWithValueStringUndefined: FC<
+  ComponentWithValueStringUndefinedProps
+> = () => null;
+
+const FieldComponentWithValueStringUndefined = () => {
+  return (
+    <>
+      <Field
+        formControl={formControl}
+        rsfComponent={ComponentWithValueStringUndefined}
+        rsfName="stringProp"
       />
     </>
   );
@@ -363,6 +427,12 @@ const DefaultHookCompPropsWithRequiredField = () => {
       />
     </>
   );
+};
+
+// Default base props
+type ComponentWithRequiredAdditionalProp = {
+  label: string;
+  value: string;
 };
 
 // HTML <input /> component tests

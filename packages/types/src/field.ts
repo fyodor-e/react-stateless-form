@@ -5,17 +5,6 @@ import { FormControl } from "./formControl";
 import { DisplayLoading } from ".";
 import { ConvertHook } from "./convertHook";
 
-// type NameAndComponentProps<
-//   Values extends object,
-//   ComponentProps extends BasePropsCreator<Values, Name, ValueName, BaseProps>,
-//   ValueName extends string = "value",
-//   BaseProps extends { [key in ValueName]: any } = DefaultBaseProps<ValueName>,
-//   Name extends KeyPaths<Values> = KeyPaths<Values>,
-// > = {
-//   rsfName: Name;
-//   rsfComponent: FC<ComponentProps>;
-// };
-
 export type BasePropsCreator<
   Values extends object,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
@@ -29,7 +18,6 @@ export type DefaultBaseProps = {
   onChange?: (arg: { target: { value: string | number } }) => void;
   error?: string;
   touched?: boolean;
-} & {
   value: any;
 };
 
