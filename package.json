@@ -29,14 +29,13 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsup": "^6.5.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@hookform/resolvers": "^3.9.0",
+    "yup": "^1.4.0"
   },
   "dependencies": {
     "react": "^18.2.0",
     "turbo": "^2.0.7"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "packageManager": "npm@10.2.3"
 }
