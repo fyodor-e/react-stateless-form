@@ -1,5 +1,5 @@
-import { DefaultDisplayLoading } from "@react-stateless-form/types";
-import { getIn } from "@react-stateless-form/utils";
+import { DefaultDisplayLoading } from "./displayLoading";
+import { getIn } from "../utils";
 
 export const defaultDisplayLoading: DefaultDisplayLoading = ({
   formControl: { values },

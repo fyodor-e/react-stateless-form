@@ -1,5 +1,5 @@
 import { FormTouched } from "../formTouched";
-import { expectType } from "../isTypeEquals";
+import { expectType } from "../isTypeEquals.d";
 
 type TestObject = {
   p1: "p1";

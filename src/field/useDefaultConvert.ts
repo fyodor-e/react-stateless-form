@@ -1,5 +1,5 @@
-import { DefaultConvertHook } from "@react-stateless-form/types";
-import { getIn, getInErrors } from "@react-stateless-form/utils";
+import { DefaultConvertHook } from "./convertHook";
+import { getIn, getInErrors } from "../utils";
 import { useMemo } from "react";
 
 export const useDefaultConvert: DefaultConvertHook = ({

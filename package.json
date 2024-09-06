@@ -2,12 +2,11 @@
   "name": "react-stateless-form",
   "version": "0.0.1",
   "description": "React Stateless Form",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest",
-    "typecheck": "tsc --project tsconfig.types.test.json",
-    "build": "turbo run build --filter=!./docs/*",
-    "build:fast": "turbo run build:fast --filter=!./docs/*"
+    "type:test": "tsc --project tsconfig.types.test.json",
+    "build": "tsup src --dts"
   },
   "author": "Fyodor Yemelyanenko",
   "license": "MIT",

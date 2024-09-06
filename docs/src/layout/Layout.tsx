@@ -41,6 +41,7 @@ function Layout() {
           display: "flex",
           flexDirection: "column",
           padding: "10px",
+          overflow: "auto",
         }}
       >
         <Outlet />

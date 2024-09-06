@@ -1,4 +1,4 @@
-import { FormControl } from "./formControl";
+import { FormControl } from "../types";
 
 export type DisplayLoading = (props: {
   rsfName: string;

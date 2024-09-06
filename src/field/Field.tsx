@@ -1,28 +1,30 @@
 import { useMemo } from "react";
-import {
-  DefaultBaseProps,
-  DeepPick,
-  KeyPaths,
-  FieldProps,
-} from "@react-stateless-form/types";
+import { DefaultBaseProps, DeepPick, KeyPaths, FieldProps } from "../types";
 import Renderer from "./Renderer";
 import { defaultDisplayLoading } from "./defaultLoadingFunction";
 import { useDefaultConvert } from "./useDefaultConvert";
 
 export const Field = <
   Values extends object,
-  ComponentProps extends object,
-  BaseProps extends object,
+  ComponentProps extends { [K in keyof BaseProps]?: any },
+  BaseProps extends { value: any } = DefaultBaseProps,
+  LoadingComponentProps extends { [K in keyof BaseProps]?: any } = BaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
-  useConvert = useDefaultConvert,
+  useConvert = useDefaultConvert as any,
   displayLoading = defaultDisplayLoading,
   LoadingComponent,
   formControl,
   rsfName,
   rsfComponent: Component,
   ...restProps
-}: FieldProps<Values, ComponentProps, BaseProps, Name>) => {
+}: FieldProps<
+  Values,
+  ComponentProps,
+  BaseProps,
+  LoadingComponentProps,
+  Name
+>) => {
   const generatedProps = useConvert({
     rsfName,
     formControl,
@@ -38,8 +40,10 @@ export const Field = <
     [displayLoading, rsfName, formControl],
   );
 
-  if (isLoading && LoadingComponent)
-    return <LoadingComponent {...generatedProps} {...(restProps as any)} />;
+  if (isLoading && LoadingComponent) {
+    const L: any = LoadingComponent;
+    return <L {...generatedProps} />;
+  }
 
   // restProps as any is not ideal solution.
   //   - typeof generatedProps === BaseProps

@@ -1,5 +1,4 @@
 import { expect, test, jest, describe, beforeEach } from "@jest/globals";
-import "@testing-library/jest-dom";
 import { deepEqual } from "../deepEqual";
 
 describe("Array comparison", () => {

@@ -1,5 +1,4 @@
-import { OnSubmit, useForm } from "@react-stateless-form/use-form";
-import { Field } from "@react-stateless-form/field";
+import { OnSubmit, useForm, Field } from "react-stateless-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";

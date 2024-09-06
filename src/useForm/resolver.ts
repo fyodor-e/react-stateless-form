@@ -1,4 +1,4 @@
-import { FormErrors } from "@react-stateless-form/types";
+import { FormErrors } from "../types";
 
 type ResolverSuccess<Values extends object> = {
   values: Values;

@@ -1,4 +1,4 @@
-import { FormTouched } from "@react-stateless-form/types";
+import { FormTouched } from "../types";
 
 export const deepEqual = <Values extends object = object>(
   a: Values,
