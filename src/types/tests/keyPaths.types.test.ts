@@ -1,4 +1,4 @@
-import { expectType } from "../isTypeEquals";
+import { expectType } from "../isTypeEquals.d";
 import { KeyPaths } from "../keyPaths";
 
 type TestObject = {

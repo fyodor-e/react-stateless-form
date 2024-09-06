@@ -59,10 +59,7 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
 } & (
   | {
       errors?: FormErrors<Values>;
-      setFieldError?: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-        name: Name;
-        error: DeepPick<FormErrors<Values>, Name>;
-      }) => void;
+      setFieldError?: undefined;
     }
   | {
       errors: FormErrors<Values>;
@@ -75,12 +72,7 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
   (
     | {
         touched?: FormTouched<Values>;
-        setFieldTouched?: <
-          Name extends KeyPaths<Values> = KeyPaths<Values>,
-        >(arg: {
-          name: Name;
-          touched: DeepPick<FormTouched<Values>, Name>;
-        }) => void;
+        setFieldTouched?: undefined;
       }
     | {
         touched: FormTouched<Values>;
@@ -95,12 +87,7 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
   (
     | {
         dirty?: FormTouched<Values>;
-        setFieldDirty?: <
-          Name extends KeyPaths<Values> = KeyPaths<Values>,
-        >(arg: {
-          name: Name;
-          dirty: DeepPick<FormTouched<Values>, Name>;
-        }) => void;
+        setFieldDirty?: undefined;
       }
     | {
         dirty: FormTouched<Values>;

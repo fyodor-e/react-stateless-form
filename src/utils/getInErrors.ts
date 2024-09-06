@@ -1,4 +1,4 @@
-import { KeyPaths, FormErrors } from "@react-stateless-form/types";
+import { KeyPaths, FormErrors } from "../types";
 import { getIn } from "./getIn";
 
 export const getInErrors = <

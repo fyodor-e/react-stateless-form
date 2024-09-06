@@ -1,8 +1,7 @@
-import { FormControl } from "@react-stateless-form/types";
+import { FormControl } from "../../types";
 import { expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { useDefaultConvert } from "../src/useDefaultConvert";
+import { useDefaultConvert } from "../useDefaultConvert";
 
 jest.mock("@react-stateless-form/utils", () => ({
   // Simplified implementation of getIn for testing
@@ -11,22 +10,20 @@ jest.mock("@react-stateless-form/utils", () => ({
 
 const formControl: FormControl<{ prop1: string; prop2: number }> = {
   values: { prop1: "prop1", prop2: 1 },
-  errors: { prop1: "prop1Error" },
+  errors: { prop1: { message: "prop1Error", type: "required" } },
   touched: { prop1: true },
   dirty: {},
 
-  setErrors: jest.fn() as any,
   setFieldError: jest.fn() as any,
-  setTouched: jest.fn() as any,
   setFieldTouched: jest.fn() as any,
-  setValues: jest.fn() as any,
   setFieldValue: jest.fn() as any,
-  setDirty: jest.fn() as any,
   setFieldDirty: jest.fn() as any,
 
   submitCount: 0,
   isSubmitting: false,
   handleSubmit: () => Promise.resolve(),
+
+  isValid: true,
 };
 
 test("should return value, error and touched using passed rsfName", () => {
@@ -77,7 +74,7 @@ test("should memoize values event if other props of the formControl has been cha
       },
       errors: {
         ...formControl.errors,
-        prop2: "another error",
+        prop2: { message: "another error", type: "required" },
       },
       touched: {
         ...formControl.touched,
@@ -123,7 +120,7 @@ test("should update result when formControl is changed", () => {
       },
       errors: {
         ...initialProps.formControl.errors,
-        prop1: "another error",
+        prop1: { message: "another error", type: "required" },
       },
       touched: {
         ...initialProps.formControl.touched,

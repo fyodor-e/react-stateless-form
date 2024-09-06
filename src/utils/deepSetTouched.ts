@@ -1,4 +1,4 @@
-import { FormTouched } from "@react-stateless-form/types";
+import { FormTouched } from "../types";
 
 export const deepSetTouched = <O>(obj: O): FormTouched<O> => {
   if (Array.isArray(obj)) {

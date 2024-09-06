@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Field } from "@react-stateless-form/field";
-import { useForm, useSubform } from "@react-stateless-form/use-form";
+import { Field, SubFormType, useForm } from "react-stateless-form";
 import * as Yup from "yup";
 import SimpleInput from "./simpleInput";
 import { FC } from "react";
@@ -25,7 +24,7 @@ const resolver = yupResolver(
   }),
 );
 
-type Props = ReturnType<typeof useSubform>;
+type Props = SubFormType<Address>;
 
 const AddressForm: FC<Props> = (formProps) => {
   const formControl = useForm<Address>({

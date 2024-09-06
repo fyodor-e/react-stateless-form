@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "@jest/globals";
-import { FormErrors } from "@react-stateless-form/types";
+import { FormErrors } from "../../types";
 import { getInErrors } from "../getInErrors";
 
 type Values = {

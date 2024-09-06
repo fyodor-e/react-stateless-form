@@ -1,9 +1,9 @@
-import { ConvertHook, FormControl } from "@react-stateless-form/types";
+import { FormControl } from "../../types";
 import { FC, useCallback, useEffect, useMemo } from "react";
-import { Field } from "../src/Field";
+import { Field } from "../Field";
 import { beforeEach, expect, test } from "@jest/globals";
 import { render } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { ConvertHook } from "../convertHook";
 
 type Values = {
   prop1: string;
@@ -15,10 +15,6 @@ const formControl: FormControl<Values> = {
   touched: {},
   errors: {},
   dirty: {},
-  setValues: () => {},
-  setTouched: () => {},
-  setErrors: () => {},
-  setDirty: () => {},
   setFieldValue: () => {},
   setFieldTouched: () => {},
   setFieldError: () => {},
@@ -32,7 +28,7 @@ const formControl: FormControl<Values> = {
 type SimpleComponentProps = {
   requiredProp: string;
   optionalProp?: number;
-  value: "prop1";
+  value: string;
   onBlur: () => void;
 };
 
@@ -65,7 +61,7 @@ const useConvert: ConvertHook<Values> = ({ formControl }) => {
 
 const TestComponent: FC<
   Partial<SimpleComponentProps> & { formControl: FormControl<Values> }
-> = ({ formControl, ...props }) => {
+> = ({ formControl, value, ...props }) => {
   return (
     <Field
       useConvert={useConvert}

@@ -1,5 +1,4 @@
 import { expect, test, jest, describe, beforeEach } from "@jest/globals";
-import "@testing-library/jest-dom";
 import { deepSetTouched } from "../deepSetTouched";
 
 test("should set a value of the object", () => {

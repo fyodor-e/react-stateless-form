@@ -1,6 +1,5 @@
 import { getIn } from "../getIn";
 import { beforeEach, describe, expect, test } from "@jest/globals";
-import "@testing-library/jest-dom";
 
 type TestObject = {
   p1: "p1";

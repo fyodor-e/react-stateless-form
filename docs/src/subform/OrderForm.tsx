@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Field } from "@react-stateless-form/field";
-import { OnSubmit, useForm, useSubform } from "@react-stateless-form/use-form";
+import { Field, OnSubmit, useForm, useSubform } from "react-stateless-form";
 import * as Yup from "yup";
 import SimpleInput from "./simpleInput";
 import AddressForm, { Address } from "./AddressForm";

@@ -1,4 +1,4 @@
-import { KeyPaths, DeepPick } from "@react-stateless-form/types";
+import { KeyPaths, DeepPick } from "../types";
 import { prepareName } from "./prepareName";
 
 export const getIn = <

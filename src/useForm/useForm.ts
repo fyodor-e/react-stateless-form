@@ -1,14 +1,10 @@
-import {
-  FormControl,
-  FormErrors,
-  FormTouched,
-} from "@react-stateless-form/types";
+import { FormControl, FormErrors, FormTouched } from "../types";
 import {
   FormProps,
   FunctionValueFunction,
   ValueFunction,
 } from "../types/formProps";
-import { deepEqual, setIn } from "@react-stateless-form/utils";
+import { deepEqual, setIn } from "../utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { defaultFormSubmitter } from "./defaultFormSubmitter";
 import defaultUseValidate from "./defaultUseValidate";
@@ -48,7 +44,7 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     initialValuesFromProps ?? valuesFromProps,
   );
   const [internalErrors, setErrorsInternal] = useState<FormErrors<Values>>(
-    errorsFromProps ?? {},
+    errorsFromProps ?? ({} as any),
   );
   const [internalTouched, setTouchedInternal] = useState<FormTouched<Values>>(
     touchedFromProps ?? {},

@@ -95,14 +95,22 @@ type SingleDeepPick<
               >
             : unknown;
 
+// type C<T, P> = SingleDeepPick<T, P, false, false>
+// type O = {
+//   p: {
+//     o: string
+//   }
+// }
+
+// type A = C<O, 'p.o'>
+
 export type DeepPick<T, P> =
   // First step is check for any. Any cannot be processed correctly
-  0 extends 1 & T
-    ? any
-    : (
-          P extends unknown
-            ? (k: SingleDeepPick<T, P, false, false>) => void
-            : never
-        ) extends (k: infer I) => void
-      ? I
-      : never;
+  0 extends 1 & T ? any : SingleDeepPick<T, P, false, false>;
+// : (
+//       P extends unknown
+//         ? (k: SingleDeepPick<T, P, false, false>) => void
+//         : never
+//     ) extends (k: infer I) => void
+//   ? I
+//   : never;

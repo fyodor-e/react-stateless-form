@@ -1,5 +1,4 @@
 import { expect, test, jest, describe, beforeEach } from "@jest/globals";
-import "@testing-library/jest-dom";
 import { getIn } from "../getIn";
 import { prepareName } from "../prepareName";
 
@@ -62,7 +61,7 @@ test("should get nested values of the array of objects", () => {
 
 test("should get nested values of the array of objects", () => {
   const values = { b: "other", nestedArr: [{ a: "14" }, { b: "12" }] };
-  const name = "nestedArr.0.a";
+  const name = "nestedArr.0.a" as any;
   (prepareName as any).mockReturnValueOnce(name);
   const value = getIn({
     values,

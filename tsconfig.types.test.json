@@ -3,5 +3,5 @@
   "compilerOptions": {
     "noEmit": true,
   },
-  "include": ["packages/**/*.types.test.tsx", "packages/**/*.types.test.ts"],
+  "include": ["src/**/*.types.test.tsx", "src/**/*.types.test.ts"],
 }
