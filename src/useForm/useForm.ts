@@ -4,10 +4,11 @@ import {
   FunctionValueFunction,
   ValueFunction,
 } from "../types/formProps";
-import { deepEqual, setIn } from "../utils";
+import { deepEqual, isChanged, setIn } from "../utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { defaultFormSubmitter } from "./defaultFormSubmitter";
 import defaultUseValidate from "./defaultUseValidate";
+import { defaultUseDirty } from "./defaultUseDirty";
 
 export const useForm = <Values extends object, SubmitProps = undefined>({
   onSubmit,
@@ -28,6 +29,8 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   context,
   criteriaMode,
   resolver,
+
+  useDirty = defaultUseDirty,
 
   submitCount: submitCountFromProps,
   setSubmitCount: setSubmitCountFromProps,
@@ -119,15 +122,6 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   const isSubmitting = isSubmittingFromProps ?? internalIsSubmitting;
   const setIsSubmitting = setIsSubmittingFromProps ?? setInternalIsSubmitting;
 
-  useEffect(() => {
-    if (initialValues && values) {
-      setFieldDirty({
-        name: "" as any,
-        dirty: deepEqual(initialValues, values) as any,
-      });
-    }
-  }, [values, setFieldDirty, initialValues]);
-
   const isValid = useMemo(() => Object.keys(errors).length === 0, [errors]);
 
   const formControlWoSubmit = useMemo<
@@ -170,6 +164,11 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     criteriaMode,
     context,
     resolver,
+  });
+
+  useDirty({
+    formControl: formControlWoSubmit,
+    initialValues,
   });
 
   const handleSubmit = useMemo(

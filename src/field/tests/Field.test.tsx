@@ -1,9 +1,49 @@
-import { FormControl } from "../../types";
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { DefaultBaseProps, FormControl } from "../../types";
+import { ElementType, FC, useCallback, useEffect, useMemo } from "react";
 import { Field } from "../Field";
 import { beforeEach, expect, test } from "@jest/globals";
 import { render } from "@testing-library/react";
 import { ConvertHook } from "../convertHook";
+import { useDefaultConvert } from "../useDefaultConvert";
+
+// const TC: FC<{
+//   value: string | undefined;
+//   someProp: string;
+//   error: string;
+// }> = () => null;
+
+// const FF = <
+//   ComponentProps extends {
+//     [K in Exclude<keyof BaseProps, "cmp"> | "value"]: any;
+//   },
+//   BaseProps extends Pick<
+//     ComponentProps,
+//     Exclude<keyof BaseProps, "cmp"> | "value"
+//   >,
+// >({
+//   cmp,
+//   useConvert,
+// }: FProps<ComponentProps, BaseProps>) => null;
+
+// type FProps<
+//   ComponentProps extends {
+//     [K in Exclude<keyof BaseProps, "cmp">]: any;
+//   } & { value: number },
+//   BaseProps extends Pick<
+//     ComponentProps,
+//     Exclude<keyof BaseProps, "cmp"> | "value"
+//   >,
+// > = {
+//   cmp: ElementType<ComponentProps>;
+//   useConvert?: ConvertHook<Values, BaseProps>;
+// };
+
+// const useConvert123: ConvertHook<
+//   {},
+//   { error: "error1"; value: "123" }
+// > = () => ({ error: "error1", value: "123" });
+
+// const TTT = () => <FF cmp={TC} useConvert={useConvert123} />;
 
 type Values = {
   prop1: string;

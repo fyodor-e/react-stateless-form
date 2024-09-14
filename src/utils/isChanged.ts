@@ -1,20 +1,18 @@
-import { FormTouched } from "../types";
-
-export const deepEqual = <Values>(
+export const isChanged = <Values extends object = object>(
   a: Values,
   b: Values,
-): FormTouched<Values> => {
+): boolean => {
   if (Array.isArray(a) && Array.isArray(b)) {
     const arr1 = a.length > b.length ? a : b;
     const arr2 = a.length <= b.length ? a : b;
 
-    return arr1.map((elemA, index) => deepEqual(elemA, arr2[index])) as any;
+    return arr1.some((elemA, index) => isChanged(elemA, arr2[index]));
   }
 
   if (Array.isArray(a) || Array.isArray(b)) {
     const arr = (Array.isArray(a) ? a : b) as any[];
 
-    return arr.map((elem) => deepEqual(elem, undefined)) as any;
+    return arr.some((elem) => isChanged(elem, undefined));
   }
 
   const aKeys = typeof a === "object" && a != null ? Object.keys(a) : [];
@@ -22,23 +20,23 @@ export const deepEqual = <Values>(
 
   if (aKeys.length || bKeys.length) {
     // Combine keys of both objects
-    const keysObj = [...aKeys, ...bKeys].reduce<{
-      [key: string]: 1;
-    }>((res, key) => {
-      res[key] = 1;
-      return res;
-    }, {});
+    const keysSet = [...aKeys, ...bKeys].reduce<{ [key: string]: 1 }>(
+      (res, key) => {
+        res[key] = 1;
+        return res;
+      },
+      {},
+    );
 
-    return Object.keys(keysObj).reduce<any>((res, key) => {
+    return Object.keys(keysSet).some((key: string) => {
       const aValue =
         typeof a === "object" && a != null ? (a as any)[key] : undefined;
       const bValue =
         typeof b === "object" && b != null ? (b as any)[key] : undefined;
 
-      res[key] = deepEqual(aValue, bValue);
-      return res;
-    }, {});
+      return isChanged(aValue, bValue);
+    });
   }
 
-  return (a === b) as any;
+  return (a !== b) as any;
 };

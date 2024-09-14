@@ -6,6 +6,7 @@ import { ConvertHook } from "../convertHook";
 type Values = {
   prop1: "prop1";
   stringProp: string;
+  numberProp: number;
   embeddedObj: {
     prop2: "prop2";
   };
@@ -15,6 +16,7 @@ const formControl: FormControl<Values> = {
   values: {
     prop1: "prop1",
     stringProp: "123",
+    numberProp: 90,
     embeddedObj: {
       prop2: "prop2",
     },
@@ -34,7 +36,7 @@ const formControl: FormControl<Values> = {
 };
 
 // 1. Value assignability
-//    (i.e. value: string should be assugnable to value: string | undefined)
+//    (i.e. value: string should be assugnable to ComponentProps' value: string | undefined)
 
 type ValueStringUndefined = {
   value: string | undefined;
@@ -50,11 +52,11 @@ const ValueStringUndefinedField = () => {
         rsfComponent={ValueStringUndefinedComponent}
         rsfName="stringProp"
       />
+      {/* @ts-expect-error */}
       <Field
         formControl={formControl}
         rsfComponent={ValueStringUndefinedComponent}
-        // @ts-expect-error
-        rsfName="errorProp"
+        rsfName="numberProp"
       />
     </>
   );
@@ -69,12 +71,16 @@ const ValueNumberComponent: FC<ValueNumber> = () => null;
 const ValueNumberField = () => {
   return (
     <>
+      <Field
+        formControl={formControl}
+        rsfComponent={ValueNumberComponent}
+        rsfName="numberProp"
+      />
       {/* @ts-expect-error */}
       <Field
         formControl={formControl}
         rsfComponent={ValueNumberComponent}
         rsfName="stringProp"
-        // value is required as in ValueNumberComponent value: number
       />
     </>
   );
@@ -291,7 +297,7 @@ const AdditionalPropIsPresentInFieldProps = () => {
 type BasePropsWithSelected = {
   additionlProp: string;
   selected: "prop1";
-  value?: any;
+  value: any;
 };
 const ComponentWithSelectedProp: FC<BasePropsWithSelected> = () => null;
 
@@ -301,38 +307,38 @@ const useConvertSelected: ConvertHook<Values, BasePropsWithSelected> = () => ({
   additionlProp: "",
 });
 
-// const BasePropsWithSelectedField = () => {
-//   return (
-//     <>
-//       <Field
-//         useConvert={useConvertSelected}
-//         formControl={formControl}
-//         rsfComponent={ComponentWithSelectedProp}
-//         additionlProp=""
-//         rsfName="prop1"
-//       />
-//       {/* Override selected prop */}
-//       <Field
-//         useConvert={useConvertSelected}
-//         formControl={formControl}
-//         rsfComponent={ComponentWithSelectedProp}
-//         rsfName="prop1"
-//         additionlProp=""
-//         selected="prop1"
-//       />
-//       {/* Incorrect selected prop value */}
-//       <Field
-//         useConvert={useConvertSelected}
-//         formControl={formControl}
-//         rsfComponent={ComponentWithSelectedProp}
-//         rsfName="prop1"
-//         additionlProp=""
-//         // @ts-expect-error
-//         selected="incorrect value" // should be selected='prop1'
-//       />
-//     </>
-//   );
-// };
+const BasePropsWithSelectedField = () => {
+  return (
+    <>
+      <Field
+        useConvert={useConvertSelected}
+        formControl={formControl}
+        rsfComponent={ComponentWithSelectedProp}
+        additionlProp=""
+        rsfName="prop1"
+      />
+      {/* Override selected prop */}
+      <Field
+        useConvert={useConvertSelected}
+        formControl={formControl}
+        rsfComponent={ComponentWithSelectedProp}
+        rsfName="prop1"
+        additionlProp=""
+        selected="prop1"
+      />
+      {/* Incorrect selected prop value */}
+      <Field
+        useConvert={useConvertSelected}
+        formControl={formControl}
+        rsfComponent={ComponentWithSelectedProp}
+        rsfName="prop1"
+        additionlProp=""
+        // @ts-expect-error
+        selected="incorrect value" // should be selected='prop1'
+      />
+    </>
+  );
+};
 
 const useConvertSelectedIncorrect: ConvertHook<
   Values,
@@ -356,23 +362,23 @@ const DefaultConvertHookCompatibleComponent: FC<
   DefaultConvertHookCompatibleProps
 > = () => null;
 
-// const DefaultConvertHookField = () => {
-//   return (
-//     <>
-//       <Field
-//         formControl={formControl}
-//         rsfComponent={DefaultConvertHookCompatibleComponent}
-//         rsfName="prop1"
-//       />
-//       <Field
-//         formControl={formControl}
-//         // @ts-expect-error
-//         rsfComponent={DefaultConvertHookCompatibleComponent}
-//         rsfName="embeddedObj"
-//       />
-//     </>
-//   );
-// };
+const DefaultConvertHookField = () => {
+  return (
+    <>
+      <Field
+        formControl={formControl}
+        rsfComponent={DefaultConvertHookCompatibleComponent}
+        rsfName="prop1"
+      />
+      {/* @ts-expect-error */}
+      <Field
+        formControl={formControl}
+        rsfComponent={DefaultConvertHookCompatibleComponent}
+        rsfName="embeddedObj"
+      />
+    </>
+  );
+};
 
 const DefaultHookCompPropsWithRequired: FC<
   DefaultConvertHookCompatibleProps & { reqProp: "reqProp" }
@@ -411,7 +417,12 @@ const HTMLInputComponent = () => {
 const HTMLDivComponent = () => {
   return (
     <>
-      <Field formControl={formControl} rsfComponent="div" rsfName="prop1" />
+      <Field
+        formControl={formControl}
+        // @ts-expect-error
+        rsfComponent="div"
+        rsfName="prop1"
+      />
     </>
   );
 };

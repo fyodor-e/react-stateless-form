@@ -8,10 +8,18 @@ type Values = {
   prop2: number;
 };
 
-describe("1. Default props", () => {
+const errors = Promise.resolve({});
+const validator = () => errors;
+const useValidate = () => validator;
+
+const useDirty = () => {};
+
+void describe("1. Default props", () => {
   test("Should return FormContext", async () => {
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
+      useValidate,
+      useDirty,
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -37,6 +45,8 @@ describe("1. Default props", () => {
   test("Should be able to change values, errors, touched and dirty useng set... functions", async () => {
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
+      useValidate,
+      useDirty,
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -67,6 +77,8 @@ describe("1. Default props", () => {
   test("Should be able to change values, errors, touched and dirty useng setField... functions", async () => {
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
+      useValidate,
+      useDirty,
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -91,5 +103,26 @@ describe("1. Default props", () => {
     expect(result.current.errors).toEqual({ prop1: newError });
     expect(result.current.touched).toEqual({ prop1: true });
     expect(result.current.dirty).toEqual({ prop1: newDirty });
+  });
+
+  test("Should call defaultUseDirty on each value change", async () => {
+    const formProps: FormProps<Values> = {
+      values: { prop1: "prop1", prop2: 12 },
+      useValidate,
+    };
+
+    const { result, rerender } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
+
+    const newValue = "another prop";
+
+    act(() => {
+      result.current.setFieldValue({ name: "prop1", value: newValue });
+    });
+
+    rerender(formProps);
+
+    expect(result.current.dirty).toEqual({ prop1: false, prop2: false });
   });
 });

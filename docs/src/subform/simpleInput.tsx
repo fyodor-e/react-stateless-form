@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Interpolation, Theme } from "@emotion/react";
 import { ComponentProps, FC } from "react";
 
 type Props = {
-  error: string | undefined;
+  error?: string | undefined;
   touched: boolean;
   label: string;
   css?: Interpolation<Theme>;
@@ -12,7 +13,12 @@ const SimpleInput: FC<Props> = ({ touched, error, label, css, ...rest }) => {
   const isInvalid = !!(error && touched);
   return (
     <div
-      css={{ display: "flex", flexDirection: "column", gap: "10px", ...css }}
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        ...(css as object),
+      }}
     >
       <label>{label}</label>
       <input {...rest} />

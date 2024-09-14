@@ -15,8 +15,8 @@ export type DefaultBaseProps = {
 
 export type FieldProps<
   Values extends object,
-  ComponentProps extends { [K in keyof BaseProps]: any },
-  BaseProps extends { value: any } = DefaultBaseProps,
+  ComponentProps extends { value?: any },
+  BaseProps extends { value?: any } = DefaultBaseProps,
   LoadingComponentProps extends object = {},
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   Value = DeepPick<Values, Name>,
@@ -31,6 +31,6 @@ export type FieldProps<
   useConvert?: ConvertHook<Values, BaseProps>;
 } & Omit<ComponentProps, keyof BaseProps> &
   Partial<Omit<BaseProps, "value">> &
-  ({ value: Value } extends { value: ComponentProps["value"] }
+  (Value extends ComponentProps["value"]
     ? { value?: Value }
     : { value: ComponentProps["value"] });

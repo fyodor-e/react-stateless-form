@@ -1,6 +1,6 @@
 export * from "./arrayKeyPaths";
 export * from "./deepPick";
-export * from "./field";
+export * from "./fieldProps";
 export * from "./formControl";
 export * from "./formProps";
 export * from "./formTouched";
