@@ -53,6 +53,11 @@ describe("Object comparison", () => {
     const res = deepEqual({ p1: 1, p2: 2, p3: "3" }, { p1: 1, p2: 2, p3: "3" });
     expect(res).toEqual({ p1: true, p2: true, p3: true });
   });
+
+  test("Compare object with undefined", () => {
+    const res = deepEqual({ p1: 1, p2: 2, p3: "3" }, undefined);
+    expect(res).toEqual({ p1: false, p2: false, p3: false });
+  });
 });
 
 describe("Primitive comparison", () => {

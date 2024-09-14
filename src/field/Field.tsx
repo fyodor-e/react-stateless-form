@@ -6,8 +6,8 @@ import { useDefaultConvert } from "./useDefaultConvert";
 
 export const Field = <
   Values extends object,
-  ComponentProps extends { [K in keyof BaseProps]?: any },
-  BaseProps extends { value: any } = DefaultBaseProps,
+  ComponentProps extends { value?: any },
+  BaseProps extends { value?: any } = DefaultBaseProps,
   LoadingComponentProps extends { [K in keyof BaseProps]?: any } = BaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({

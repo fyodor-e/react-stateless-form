@@ -44,6 +44,11 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
   criteriaMode?: "all" | "firstError";
   resolver?: Resolver<Values>;
 
+  useDirty?: (arg: {
+    formControl: Omit<FormControl<Values>, "handleSubmit">;
+    initialValues: Values | undefined;
+  }) => void;
+
   submitCount?: number;
   setSubmitCount?: (submitCount: number) => void;
 

@@ -1,9 +1,10 @@
 import { FormControl, FormErrors } from "../types";
 import { useCallback, useEffect } from "react";
 import { Resolver, ResolverResult } from "./resolver";
+import { isChanged } from "../utils";
 
 const defaultUseValidate = ({
-  formControl: { values, setFieldError },
+  formControl: { values, setFieldError, errors },
   resolver,
   context,
   criteriaMode,
@@ -26,8 +27,9 @@ const defaultUseValidate = ({
 
   useEffect(() => {
     (async () => {
-      const error = await validator();
-      setFieldError({ name: "", error });
+      const newErrors = await validator();
+      if (isChanged(newErrors, errors))
+        setFieldError({ name: "", error: newErrors });
     })();
   }, [validator, setFieldError]);
 

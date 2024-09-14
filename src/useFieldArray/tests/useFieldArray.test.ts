@@ -4,7 +4,7 @@ import { renderHook } from "@testing-library/react";
 import { getIn } from "../../utils";
 import { useFieldArray } from "../";
 
-jest.mock("@react-stateless-form/utils", () => ({
+jest.mock("../../utils", () => ({
   // getIn will have stub
   getIn: jest.fn(),
 }));
