@@ -33,7 +33,6 @@ const SimpleForm = () => {
     <div
       style={{
         gap: "7px",
-        margin: "15px",
         display: "flex",
         flexDirection: "column",
       }}
