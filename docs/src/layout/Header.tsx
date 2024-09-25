@@ -1,4 +1,5 @@
 import { FC } from "react";
+import HeaderLink from "./MenuLink";
 
 const Header: FC = () => {
   return (
@@ -7,12 +8,21 @@ const Header: FC = () => {
         flex: 1,
         display: "flex",
         alignItems: "center",
-        backgroundColor: "#f6f6f7",
+        padding: "16px 27px",
+        gap: "10px",
       }}
     >
-      <span css={{ fontSize: "16px", marginLeft: "10px" }}>
-        React Stateless Form
-      </span>
+      <HeaderLink to="/react-stateless-form/">React Stateless Form</HeaderLink>
+
+      <HeaderLink css={{ marginLeft: "auto" }} to="/react-stateless-form/docs/">
+        Docs
+      </HeaderLink>
+
+      <HeaderLink to="/react-stateless-form/examples/">Examples</HeaderLink>
+
+      <HeaderLink to="https://github.com/fyodore82/react-stateless-form">
+        GitHub
+      </HeaderLink>
     </div>
   );
 };

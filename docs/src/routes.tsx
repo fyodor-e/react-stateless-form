@@ -1,31 +1,47 @@
 import { RouteObject } from "react-router-dom";
+import Overview from "./docs/Overview.mdx";
 import SimpleForm from "./simpleForm/SimpleForm.mdx";
 import ChakraUIForm from "./chakra/ChakraUIForm.mdx";
 import Subform from "./subform/Subform.mdx";
 
-const routes: ({
+export type Route = {
   menuName: string;
-  path: NonNullable<RouteObject>;
-} & RouteObject)[] = [
+  path: NonNullable<RouteObject["path"]>;
+  children?: Route[];
+} & RouteObject;
+
+const routes: Route[] = [
   {
-    path: "get-started",
-    menuName: "Get Started",
-    element: <SimpleForm />,
+    path: "getting-started",
+    menuName: "Getting Started",
+    children: [
+      {
+        path: "overview",
+        menuName: "Overview",
+        element: <Overview />,
+      },
+    ],
   },
   {
-    path: "simple-form",
-    menuName: "Simple Form",
-    element: <SimpleForm />,
-  },
-  {
-    path: "chakra-ui-form",
-    menuName: "Chakra UI Form",
-    element: <ChakraUIForm />,
-  },
-  {
-    path: "subform",
-    menuName: "Subform",
-    element: <Subform />,
+    path: "examples",
+    menuName: "Examples",
+    children: [
+      {
+        path: "simple-form",
+        menuName: "Simple Form",
+        element: <SimpleForm />,
+      },
+      {
+        path: "chakra-ui-form",
+        menuName: "Chakra UI Form",
+        element: <ChakraUIForm />,
+      },
+      {
+        path: "subform",
+        menuName: "Subform",
+        element: <Subform />,
+      },
+    ],
   },
 ];
 

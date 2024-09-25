@@ -7,7 +7,7 @@ function Layout() {
     <div
       css={{
         display: "grid",
-        gridTemplateRows: "40px auto",
+        gridTemplateRows: "80px auto",
         gridTemplateColumns: "30% 70%",
         flex: 1,
         height: "100%",
@@ -18,7 +18,7 @@ function Layout() {
           gridColumn: "1 / span 2",
           gridRow: 1,
           display: "flex",
-          borderBottom: "1px gray solid",
+          borderBottom: "2px solid rgba(0, 116, 217, 0.1)",
         }}
       >
         <Header />
@@ -29,7 +29,7 @@ function Layout() {
           gridRow: 2,
           display: "flex",
           flexDirection: "column",
-          borderRight: "1px gray solid",
+          borderRight: "2px solid rgba(0, 116, 217, 0.1)",
         }}
       >
         <Menu />
@@ -40,7 +40,7 @@ function Layout() {
           gridRow: 2,
           display: "flex",
           flexDirection: "column",
-          padding: "10px",
+          padding: "20px 27px 20px 10px",
           overflow: "auto",
         }}
       >

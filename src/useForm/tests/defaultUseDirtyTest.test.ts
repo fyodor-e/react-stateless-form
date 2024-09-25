@@ -43,7 +43,10 @@ test("Should setFieldDirty on each value change", async () => {
 
 test("Should not call setFieldDirty if durty value was not changed", async () => {
   renderHook(defaultUseDirty, {
-    initialProps: { formControl, initialValues: formControl.values },
+    initialProps: {
+      formControl: { ...formControl, dirty: { prop1: true, prop2: true } },
+      initialValues: formControl.values,
+    },
   });
 
   expect(formControl.setFieldDirty).toBeCalledTimes(0);
