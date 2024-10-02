@@ -1,6 +1,6 @@
 import { FormTouched } from "../types";
 
-export const deepEqual = <Values>(
+export const deepDirty = <Values>(
   a: Values,
   b: Values,
 ): FormTouched<Values> => {
@@ -8,13 +8,13 @@ export const deepEqual = <Values>(
     const arr1 = a.length > b.length ? a : b;
     const arr2 = a.length <= b.length ? a : b;
 
-    return arr1.map((elemA, index) => deepEqual(elemA, arr2[index])) as any;
+    return arr1.map((elemA, index) => deepDirty(elemA, arr2[index])) as any;
   }
 
   if (Array.isArray(a) || Array.isArray(b)) {
     const arr = (Array.isArray(a) ? a : b) as any[];
 
-    return arr.map((elem) => deepEqual(elem, undefined)) as any;
+    return arr.map((elem) => deepDirty(elem, undefined)) as any;
   }
 
   const aKeys = typeof a === "object" && a != null ? Object.keys(a) : [];
@@ -35,10 +35,10 @@ export const deepEqual = <Values>(
       const bValue =
         typeof b === "object" && b != null ? (b as any)[key] : undefined;
 
-      res[key] = deepEqual(aValue, bValue);
+      res[key] = deepDirty(aValue, bValue);
       return res;
     }, {});
   }
 
-  return (a === b) as any;
+  return (a !== b) as any;
 };

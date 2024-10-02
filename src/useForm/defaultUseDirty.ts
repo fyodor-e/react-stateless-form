@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { FormControl } from "../types";
-import { deepEqual, isChanged } from "../utils";
+import { deepDirty, isChanged } from "../utils";
 
 export const defaultUseDirty = ({
   formControl: { setFieldDirty, values, dirty },
@@ -10,7 +10,7 @@ export const defaultUseDirty = ({
   initialValues: any;
 }) => {
   useEffect(() => {
-    const newDirty = deepEqual(initialValues, values);
+    const newDirty = deepDirty(initialValues, values);
     if (isChanged(dirty, newDirty))
       setFieldDirty({
         name: "" as any,

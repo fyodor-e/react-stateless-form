@@ -1,13 +1,7 @@
 import { FormControl } from "../../types";
 import { beforeEach, expect, test, jest, describe } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-// import { getIn } from "../../utils";
 import { useSubform } from "../useSubform";
-
-// jest.mock("@react-stateless-form/utils", () => ({
-//   // getIn will have stub
-//   getIn: jest.fn(),
-// }));
 
 type Values = {
   nestedObj: {
