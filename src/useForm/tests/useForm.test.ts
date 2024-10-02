@@ -1,25 +1,42 @@
 import { FormErrors, FormTouched, FormProps } from "../../types";
-import { describe, expect, test } from "@jest/globals";
+import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useForm } from "../useForm";
+
+import { defaultUseFormSubmitCreator } from "../defaultUseFormSubmitCreator";
+import { defaultUseValidate } from "../defaultUseValidate";
+import { defaultUseDirty } from "../defaultUseDirty";
+import { defaultUseInitialValues } from "../defaultUseInitialValues";
+
+jest.mock("../defaultUseFormSubmitCreator", () => ({
+  defaultUseFormSubmitCreator: jest.fn(),
+}));
+jest.mock("../defaultUseValidate", () => ({
+  defaultUseValidate: jest.fn(),
+}));
+jest.mock("../defaultUseDirty", () => ({
+  defaultUseDirty: jest.fn(),
+}));
+jest.mock("../defaultUseInitialValues", () => ({
+  defaultUseInitialValues: jest.fn(),
+}));
 
 type Values = {
   prop1: string;
   prop2: number;
 };
 
-const errors = Promise.resolve({});
-const validator = () => errors;
-const useValidate = () => validator;
-
-const useDirty = () => {};
+beforeEach(() => {
+  (defaultUseFormSubmitCreator as any).mockReset();
+  (defaultUseValidate as any).mockReset();
+  (defaultUseDirty as any).mockReset();
+  (defaultUseInitialValues as any).mockReset();
+});
 
 void describe("1. Default props", () => {
   test("Should return FormContext", async () => {
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
-      useValidate,
-      useDirty,
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -45,8 +62,6 @@ void describe("1. Default props", () => {
   test("Should be able to change values, errors, touched and dirty useng set... functions", async () => {
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
-      useValidate,
-      useDirty,
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -77,8 +92,6 @@ void describe("1. Default props", () => {
   test("Should be able to change values, errors, touched and dirty useng setField... functions", async () => {
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
-      useValidate,
-      useDirty,
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -105,24 +118,59 @@ void describe("1. Default props", () => {
     expect(result.current.dirty).toEqual({ prop1: newDirty });
   });
 
-  test("Should call defaultUseDirty on each value change", async () => {
+  test("Should call use... hooks on each render", async () => {
+    const criteriaMode = "all";
+    const context = { prop1: "context" };
+    const resolver: any = jest.fn();
+    const initialValues = { prop1: "initial prop1", prop2: 1 };
+    const validator: any = jest.fn();
+    const onSubmit: any = jest.fn();
+    const setSubmitCount: any = jest.fn();
+    const setIsSubmitting: any = jest.fn();
+
     const formProps: FormProps<Values> = {
       values: { prop1: "prop1", prop2: 12 },
-      useValidate,
+      criteriaMode,
+      context,
+      resolver,
+      initialValues,
+      setSubmitCount,
+      setIsSubmitting,
+      onSubmit,
     };
+
+    (defaultUseValidate as any).mockReturnValueOnce(validator);
+    (defaultUseInitialValues as any).mockReturnValueOnce(initialValues);
 
     const { result, rerender } = renderHook(useForm<Values>, {
       initialProps: formProps,
     });
 
-    const newValue = "another prop";
+    const { handleSubmit, ...formControlWoSubmit } = result.current;
 
-    act(() => {
-      result.current.setFieldValue({ name: "prop1", value: newValue });
+    expect((defaultUseValidate as any).mock.calls[0][0]).toEqual({
+      formControl: formControlWoSubmit,
+      criteriaMode,
+      context,
+      resolver,
     });
 
-    rerender(formProps);
+    expect((defaultUseInitialValues as any).mock.calls[0][0]).toEqual({
+      formControl: formControlWoSubmit,
+      initialValues,
+    });
 
-    expect(result.current.dirty).toEqual({ prop1: false, prop2: false });
+    expect((defaultUseDirty as any).mock.calls[0][0]).toEqual({
+      formControl: formControlWoSubmit,
+      initialValues,
+    });
+
+    expect((defaultUseFormSubmitCreator as any).mock.calls[0][0]).toEqual({
+      formControl: formControlWoSubmit,
+      validator,
+      onSubmit,
+      setSubmitCount,
+      setIsSubmitting,
+    });
   });
 });

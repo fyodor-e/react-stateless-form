@@ -1,4 +1,4 @@
-export * from "./deepEqual";
+export * from "./deepDirty";
 export * from "./deepSetTouched";
 export * from "./getIn";
 export * from "./getInErrors";

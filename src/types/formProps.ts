@@ -12,7 +12,7 @@ export type OnSubmit<Values extends object, SubmitProps = undefined> = (arg: {
   submitProps: SubmitProps;
 }) => Promise<void> | void;
 
-export type FormSubmitCreatorArg<
+export type UseFormSubmitCreatorArg<
   Values extends object,
   SubmitProps = undefined,
 > = {
@@ -28,8 +28,8 @@ export type FormSubmitCreatorArg<
 export type FormProps<Values extends object, SubmitProps = undefined> = {
   onSubmit?: OnSubmit<Values, SubmitProps>;
 
-  formSubmitCreator?: (
-    arg: FormSubmitCreatorArg<Values, SubmitProps>,
+  useFormSubmitCreator?: (
+    arg: UseFormSubmitCreatorArg<Values, SubmitProps>,
   ) => undefined extends SubmitProps & undefined
     ? () => Promise<void>
     : (submitProps: SubmitProps) => Promise<void>;
@@ -48,6 +48,11 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
     formControl: Omit<FormControl<Values>, "handleSubmit">;
     initialValues: Values | undefined;
   }) => void;
+
+  useInitialValues?: (arg: {
+    formControl: Omit<FormControl<Values>, "handleSubmit">;
+    initialValues: Values | undefined;
+  }) => Values | undefined;
 
   submitCount?: number;
   setSubmitCount?: (submitCount: number) => void;

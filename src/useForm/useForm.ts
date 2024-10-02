@@ -1,14 +1,11 @@
 import { FormControl, FormErrors, FormTouched } from "../types";
-import {
-  FormProps,
-  FunctionValueFunction,
-  ValueFunction,
-} from "../types/formProps";
-import { deepEqual, isChanged, setIn } from "../utils";
+import { FormProps } from "../types/formProps";
+import { setIn } from "../utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { defaultFormSubmitter } from "./defaultFormSubmitter";
-import defaultUseValidate from "./defaultUseValidate";
+import { defaultUseFormSubmitCreator } from "./defaultUseFormSubmitCreator";
+import { defaultUseValidate } from "./defaultUseValidate";
 import { defaultUseDirty } from "./defaultUseDirty";
+import { defaultUseInitialValues } from "./defaultUseInitialValues";
 
 export const useForm = <Values extends object, SubmitProps = undefined>({
   onSubmit,
@@ -23,7 +20,7 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   dirty: dirtyFromProps,
   setFieldDirty: setFieldDirtyFromProps,
 
-  formSubmitCreator = defaultFormSubmitter as any,
+  useFormSubmitCreator = defaultUseFormSubmitCreator as any,
 
   useValidate = defaultUseValidate as any,
   context,
@@ -31,6 +28,7 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   resolver,
 
   useDirty = defaultUseDirty,
+  useInitialValues = defaultUseInitialValues,
 
   submitCount: submitCountFromProps,
   setSubmitCount: setSubmitCountFromProps,
@@ -43,9 +41,7 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   //    set... functions accept function as argument.
   //    Otherwise setField... functions should be provided as arguments
   //    and setField...Local variants will never be called.
-  const [internalValues, setValuesInternal] = useState<Values>(
-    initialValuesFromProps ?? valuesFromProps,
-  );
+  const [internalValues, setValuesInternal] = useState<Values>(valuesFromProps);
   const [internalErrors, setErrorsInternal] = useState<FormErrors<Values>>(
     errorsFromProps ?? ({} as any),
   );
@@ -90,17 +86,6 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     },
     [],
   );
-
-  const [initialValues, setInitialValues] = useState<Values | undefined>(
-    undefined,
-  );
-
-  useEffect(() => {
-    // initialValues are set only once using provided initialValuesFromProps
-    if (initialValuesFromProps && !initialValues) {
-      setInitialValues(initialValuesFromProps);
-    }
-  }, [initialValuesFromProps]);
 
   const values = (setFieldValueFromProps && valuesFromProps) || internalValues;
   // If setErrors is provided errors will not be undefined
@@ -161,9 +146,14 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
 
   const validator = useValidate({
     formControl: formControlWoSubmit,
-    criteriaMode,
+    criteriaMode: criteriaMode,
     context,
     resolver,
+  });
+
+  const initialValues = useInitialValues({
+    formControl: formControlWoSubmit,
+    initialValues: initialValuesFromProps,
   });
 
   useDirty({
@@ -171,25 +161,13 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     initialValues,
   });
 
-  const handleSubmit = useMemo(
-    () =>
-      formSubmitCreator({
-        formControl: formControlWoSubmit,
-        validator,
-        onSubmit,
-        setSubmitCount,
-        setIsSubmitting,
-      }),
-    [
-      formControlWoSubmit,
-      formSubmitCreator,
-
-      validator,
-      onSubmit,
-      setSubmitCount,
-      setIsSubmitting,
-    ],
-  );
+  const handleSubmit = useFormSubmitCreator({
+    formControl: formControlWoSubmit,
+    validator,
+    onSubmit,
+    setSubmitCount,
+    setIsSubmitting,
+  });
 
   const formControl = useMemo<FormControl<Values, SubmitProps>>(
     () => ({

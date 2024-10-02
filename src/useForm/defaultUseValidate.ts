@@ -1,10 +1,9 @@
 import { FormControl, FormErrors } from "../types";
 import { useCallback, useEffect } from "react";
-import { Resolver, ResolverResult } from "./resolver";
-import { isChanged } from "../utils";
+import { Resolver } from "./resolver";
 
-const defaultUseValidate = ({
-  formControl: { values, setFieldError, errors },
+export const defaultUseValidate = ({
+  formControl: { values, setFieldError },
   resolver,
   context,
   criteriaMode,
@@ -21,19 +20,16 @@ const defaultUseValidate = ({
           shouldUseNativeValidation: false,
           fields: {},
         })
-      : ({} as ResolverResult<any>);
+      : { errors: {} };
     return errors;
   }, [resolver, context, values]);
 
   useEffect(() => {
     (async () => {
       const newErrors = await validator();
-      if (isChanged(newErrors, errors))
-        setFieldError({ name: "", error: newErrors });
+      setFieldError({ name: "", error: newErrors });
     })();
   }, [validator, setFieldError]);
 
   return validator;
 };
-
-export default defaultUseValidate;
