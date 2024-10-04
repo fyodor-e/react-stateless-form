@@ -173,4 +173,94 @@ void describe("1. Default props", () => {
       setIsSubmitting,
     });
   });
+
+  test("Should call setField... functions only when value, touched, error or dirty was changed", async () => {
+    const formProps: FormProps<Values> = {
+      values: { prop1: "prop1", prop2: 12 },
+      errors: { prop1: { message: "Error" } },
+      touched: { prop2: true },
+      dirty: { prop1: true },
+    };
+
+    const { result, rerender } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
+
+    act(() => {
+      result.current.setFieldValue({
+        name: "",
+        value: { prop1: "prop1", prop2: 12 },
+      });
+      result.current.setFieldError({
+        name: "",
+        error: { prop1: { message: "Error" } },
+      });
+      result.current.setFieldTouched({ name: "", touched: { prop2: true } });
+      result.current.setFieldDirty({ name: "", dirty: { prop1: true } });
+    });
+
+    // Values, errors, touched and dirty should not be changed
+    // Use toBe as references should not be changed (should be same objects)
+    // This is important for useEffect not fire
+    expect(result.current.values).toBe(formProps.values);
+    expect(result.current.errors).toBe(formProps.errors);
+    expect(result.current.touched).toBe(formProps.touched);
+    expect(result.current.dirty).toBe(formProps.dirty);
+  });
+});
+
+describe("2. Custom setField... functions", () => {
+  test("Should be able to change values, errors, touched and dirty useng set... functions", async () => {
+    const setFieldValue: any = jest.fn();
+    const setFieldError: any = jest.fn();
+    const setFieldTouched: any = jest.fn();
+    const setFieldDirty: any = jest.fn();
+
+    const formProps: FormProps<Values> = {
+      values: { prop1: "prop1", prop2: 12 },
+      setFieldValue,
+      errors: {},
+      setFieldError,
+      touched: {},
+      setFieldTouched,
+      dirty: {},
+      setFieldDirty,
+    };
+
+    const { result } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
+
+    const newValues: Values = { prop1: "another prop", prop2: 23 };
+    const newErrors: FormErrors<Values> = {
+      prop1: { message: "prop1 error", type: "required" },
+      prop2: { message: "prop2 error", type: "required" },
+    };
+    const newTouched: FormTouched<Values> = { prop1: true, prop2: false };
+    const newDirty: FormTouched<Values> = { prop1: false, prop2: true };
+
+    act(() => {
+      result.current.setFieldValue({ name: "", value: newValues });
+      result.current.setFieldError({ name: "", error: newErrors });
+      result.current.setFieldTouched({ name: "", touched: newTouched });
+      result.current.setFieldDirty({ name: "", dirty: newDirty });
+    });
+
+    expect(setFieldValue.mock.calls[0][0]).toEqual({
+      name: "",
+      value: newValues,
+    });
+    expect(setFieldError.mock.calls[0][0]).toEqual({
+      name: "",
+      error: newErrors,
+    });
+    expect(setFieldTouched.mock.calls[0][0]).toEqual({
+      name: "",
+      touched: newTouched,
+    });
+    expect(setFieldDirty.mock.calls[0][0]).toEqual({
+      name: "",
+      dirty: newDirty,
+    });
+  });
 });

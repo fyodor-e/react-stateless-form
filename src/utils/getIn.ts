@@ -11,6 +11,7 @@ export const getIn = <
   values: Values;
   name: Name;
 }): DeepPick<Values, Name> => {
+  if (name === "") return values as any;
   const path = prepareName(name).split(".");
 
   // TS cannot follow all the logic below to check return type validity

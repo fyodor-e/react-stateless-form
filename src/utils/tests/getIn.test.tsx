@@ -2,7 +2,7 @@ import { expect, test, jest, describe, beforeEach } from "@jest/globals";
 import { getIn } from "../getIn";
 import { prepareName } from "../prepareName";
 
-jest.mock("../src/prepareName", () => ({
+jest.mock("../prepareName", () => ({
   // prepareName will have stub
   prepareName: jest.fn(),
 }));
@@ -81,7 +81,7 @@ describe("Edge Cases", () => {
       name,
     });
 
-    expect(value).toBe(value);
+    expect(value).toBe(values);
   });
 
   test("should return undefined for non existing path", () => {
