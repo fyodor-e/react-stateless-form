@@ -111,6 +111,18 @@ expectType<
   TestObject["nestedObj"]["nestedArray"][number]["aProp1"]
 >(0);
 
+// 1.1 Name = '' - root object
+expectType<DeepPick<TestObject, "">, TestObject>({
+  p1: "p1",
+  p2: "p2",
+  nestedObj: {
+    2: "2",
+    nestedProp1: "aaa",
+    nestedArray: [],
+  },
+  nestedArray: [],
+});
+
 // 2. Array
 type RootArray = {
   prop1: "prop1";

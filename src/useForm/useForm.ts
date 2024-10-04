@@ -1,6 +1,6 @@
 import { FormControl, FormErrors, FormTouched } from "../types";
 import { FormProps } from "../types/formProps";
-import { setIn } from "../utils";
+import { getIn, isChanged, setIn } from "../utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { defaultUseFormSubmitCreator } from "./defaultUseFormSubmitCreator";
 import { defaultUseValidate } from "./defaultUseValidate";
@@ -56,33 +56,45 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     useState<boolean>(false);
 
   const setFieldValueInternal = useCallback(
-    (arg: { name: any; value: any }) => {
-      setValuesInternal((prev) => setIn({ values: prev, ...arg }));
+    ({ name, value }: { name: any; value: any }) => {
+      setValuesInternal((prev) => {
+        if (isChanged(getIn({ values: prev, name }), value))
+          return setIn({ values: prev, name, value });
+        else return prev;
+      });
     },
     [],
   );
 
   const setFieldErrorInternal = useCallback(
     ({ name, error }: { name: any; error: any }) => {
-      setErrorsInternal((prev) => setIn({ values: prev, name, value: error }));
+      setErrorsInternal((prev) => {
+        if (isChanged(getIn({ values: prev, name }), error))
+          return setIn({ values: prev, name, value: error });
+        else return prev;
+      });
     },
     [],
   );
 
   const setFieldTouchedInternal = useCallback(
     ({ name, touched }: { name: any; touched: any }) => {
-      setTouchedInternal((prev) =>
-        setIn({ values: prev as any, name, value: touched }),
-      );
+      setTouchedInternal((prev) => {
+        if (isChanged(getIn({ values: prev, name }), touched))
+          return setIn({ values: prev, name, value: touched });
+        else return prev;
+      });
     },
     [],
   );
 
   const setFieldDirtyInternal = useCallback(
     ({ name, dirty }: { name: any; dirty: any }) => {
-      setDirtyInternal((prev) =>
-        setIn({ values: prev as any, name, value: dirty }),
-      );
+      setDirtyInternal((prev) => {
+        if (isChanged(getIn({ values: prev, name }), dirty))
+          return setIn({ values: prev, name, value: dirty });
+        else return prev;
+      });
     },
     [],
   );
