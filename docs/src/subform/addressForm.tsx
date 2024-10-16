@@ -1,8 +1,7 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Field, SubFormType, useForm } from "react-stateless-form";
+import { Field, FormControl } from "react-stateless-form";
 import * as Yup from "yup";
-import SimpleInput from "./simpleInput";
 import { FC } from "react";
+import SimpleInput from "./simpleInput";
 
 export type Address = {
   country: string;
@@ -13,25 +12,20 @@ export type Address = {
   street2?: string | undefined;
 };
 
-const resolver = yupResolver(
-  Yup.object({
-    country: Yup.string().required("Required"),
-    state: Yup.string().required("Required"),
-    city: Yup.string().required("Required"),
-    zipCode: Yup.string().required("Required"),
-    street1: Yup.string().required("Required"),
-    street2: Yup.string(),
-  }),
-);
+export const addressValidator = Yup.object({
+  country: Yup.string().required("Required"),
+  state: Yup.string().required("Required"),
+  city: Yup.string().required("Required"),
+  zipCode: Yup.string().required("Required"),
+  street1: Yup.string().required("Required"),
+  street2: Yup.string(),
+});
 
-type Props = SubFormType<Address>;
+type Props = {
+  subformControl: Omit<FormControl<Address>, "handleSubmit">;
+};
 
-const AddressForm: FC<Props> = (formProps) => {
-  const formControl = useForm<Address>({
-    ...formProps,
-    resolver,
-  });
-
+const AddressForm: FC<Props> = ({ subformControl }) => {
   return (
     <div
       css={{
@@ -43,42 +37,42 @@ const AddressForm: FC<Props> = (formProps) => {
       }}
     >
       <Field
-        formControl={formControl}
+        formControl={subformControl}
         rsfName="country"
         rsfComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        formControl={formControl}
+        formControl={subformControl}
         rsfName="state"
         rsfComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        formControl={formControl}
+        formControl={subformControl}
         rsfName="city"
         rsfComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        formControl={formControl}
+        formControl={subformControl}
         rsfName="zipCode"
         rsfComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        formControl={formControl}
+        formControl={subformControl}
         rsfName="street1"
         rsfComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        formControl={formControl}
+        formControl={subformControl}
         rsfName="street2"
         rsfComponent={SimpleInput}
         label="Street Address 2"
