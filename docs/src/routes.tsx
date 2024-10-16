@@ -3,6 +3,7 @@ import Overview from "./docs/Overview.mdx";
 import SimpleForm from "./simpleForm/SimpleForm.mdx";
 import ChakraUIForm from "./chakra/ChakraUIForm.mdx";
 import Subform from "./subform/Subform.mdx";
+import FormWithArray from "./formWithArray/FormWithArray.mdx";
 
 export type Route = {
   menuName: string;
@@ -35,6 +36,11 @@ const routes: Route[] = [
         path: "chakra-ui-form",
         menuName: "Chakra UI Form",
         element: <ChakraUIForm />,
+      },
+      {
+        path: "form-with-array",
+        menuName: "Form with Array",
+        element: <FormWithArray />,
       },
       {
         path: "subform",

@@ -11,7 +11,7 @@ type Props = {
   error: string | undefined;
   touched: boolean;
   label: string;
-  value: string | undefined;
+  value: string | number | undefined;
   onChange: (arg: { target: { value: string | number } }) => void;
   onBlur: () => void;
 } & Omit<InputProps, "value" | "onChange" | "onBlur">;
