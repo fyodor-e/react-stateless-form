@@ -1,23 +1,6 @@
 import { DeepPick, FormControl, KeyPaths } from "../types";
 import { useCallback } from "react";
-import { FormProps } from "../types/formProps";
 import { getIn } from "../utils";
-
-export type SubFormType<Values extends object> = Required<
-  Pick<
-    FormProps<Values>,
-    | "values"
-    | "errors"
-    | "dirty"
-    | "touched"
-    | "setFieldValue"
-    | "setFieldError"
-    | "setFieldTouched"
-    | "setFieldDirty"
-    | "submitCount"
-    | "isSubmitting"
-  >
->;
 
 export const useSubform = <
   Values extends object,
@@ -39,19 +22,9 @@ export const useSubform = <
   ...rest
 }: {
   name: Name;
-} & Pick<
-  FormControl<Values>,
-  | "values"
-  | "errors"
-  | "touched"
-  | "dirty"
-  | "setFieldValue"
-  | "setFieldError"
-  | "setFieldTouched"
-  | "setFieldDirty"
-  | "submitCount"
-  | "isSubmitting"
->): Value extends object ? SubFormType<Value> : never =>
+} & Omit<FormControl<Values>, "handleSubmit">): Value extends object
+  ? Omit<FormControl<Value>, "handleSubmit">
+  : never =>
   ({
     // No need to wrap in useMemo, as getIn always return same object if it was not changed
     values: getIn<any, any>({ name, values }),

@@ -21,7 +21,7 @@ export type FieldProps<
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   Value = DeepPick<Values, Name>,
 > = {
-  formControl: FormControl<Values>;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
 
   rsfName: Name;
   rsfComponent: ElementType<ComponentProps>;

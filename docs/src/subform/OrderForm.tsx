@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Field, OnSubmit, useForm, useSubform } from "react-stateless-form";
 import * as Yup from "yup";
 import SimpleInput from "./simpleInput";
-import AddressForm, { Address } from "./AddressForm";
+import AddressForm, { Address, addressValidator } from "./AddressForm";
 import { useCallback } from "react";
 
 type Order = {
@@ -15,13 +15,14 @@ const resolver = yupResolver(
   Yup.object({
     orderNo: Yup.number().required("Required"),
     carrier: Yup.string().required("Required"),
+    deliveryAddress: addressValidator,
   }),
 );
 
 const OrderForm = () => {
   const onSubmit = useCallback<OnSubmit<Order>>(
     ({ formControl: { values } }) => {
-      alert(`Form values: \n ${JSON.stringify(values)}`);
+      alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
@@ -43,7 +44,7 @@ const OrderForm = () => {
     onSubmit,
   });
 
-  const addressFormProps = useSubform({
+  const addressFormControl = useSubform({
     ...formControl,
     name: "deliveryAddress",
   });
@@ -68,7 +69,7 @@ const OrderForm = () => {
         rsfComponent={SimpleInput}
         label="Carrier"
       />
-      <AddressForm {...addressFormProps} />
+      <AddressForm subformControl={addressFormControl} />
       <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );
