@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import SimpleInput from "./simpleInput";
 import AddressForm, { Address, addressValidator } from "./AddressForm";
 import { useCallback } from "react";
+import { Button } from "@chakra-ui/react";
 
 type Order = {
   orderNo: number;
@@ -70,7 +71,7 @@ const OrderForm = () => {
         label="Carrier"
       />
       <AddressForm subformControl={addressFormControl} />
-      <button onClick={formControl.handleSubmit}>Submit</button>
+      <Button onClick={formControl.handleSubmit}>Submit</Button>
     </div>
   );
 };
