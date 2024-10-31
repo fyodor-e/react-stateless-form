@@ -1,5 +1,5 @@
 import { DeepPick } from "../deepPick";
-import { expectType } from "../isTypeEquals.d";
+import { expectType } from "../isTypeEquals";
 
 // 1. Object
 type TestObject = {

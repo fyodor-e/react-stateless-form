@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { Route } from "../routes";
 import MenuLink from "./MenuLink";
 import MenuSection from "./MenuSection";
@@ -25,12 +25,10 @@ const MenuRoutes: FC<Props> = ({ routes, basePath }) => {
     <>
       {routes.map(({ menuName, path, children }) =>
         children ? (
-          <>
-            <MenuSection key={combinePath({ path, basePath })}>
-              {menuName}
-            </MenuSection>
+          <Fragment key={combinePath({ path, basePath })}>
+            <MenuSection>{menuName}</MenuSection>
             <MenuRoutes basePath={path} routes={children} />
-          </>
+          </Fragment>
         ) : (
           <MenuLink to={combinePath({ path, basePath })} key={path}>
             {menuName}

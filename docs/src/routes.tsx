@@ -4,6 +4,8 @@ import SimpleForm from "./simpleForm/SimpleForm.mdx";
 import ChakraUIForm from "./chakra/ChakraUIForm.mdx";
 import Subform from "./subform/Subform.mdx";
 import FormWithArray from "./formWithArray/FormWithArray.mdx";
+import CustomUseConvert from "./customUseConvert/CustomUseConvert.mdx";
+import FormStateInRedux from "./formStateInRedux/FormStateInRedux.mdx";
 
 export type Route = {
   menuName: string;
@@ -46,6 +48,16 @@ const routes: Route[] = [
         path: "subform",
         menuName: "Subform",
         element: <Subform />,
+      },
+      {
+        path: "custom-use-convert",
+        menuName: "Custom useConvert",
+        element: <CustomUseConvert />,
+      },
+      {
+        path: "form-state-in-redux",
+        menuName: "Form State in Redux",
+        element: <FormStateInRedux />,
       },
     ],
   },

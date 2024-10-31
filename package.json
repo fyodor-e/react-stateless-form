@@ -1,16 +1,17 @@
 {
   "name": "react-stateless-form",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "React Stateless Form",
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
     "type:test": "tsc --project tsconfig.types.test.json",
-    "build": "tsup src --dts"
+    "build": "tsup src !src/**/*.test.* --dts"
   },
   "author": "Fyodor Yemelyanenko",
   "license": "MIT",
   "devDependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@jest/globals": "^29.7.0",
     "@testing-library/react": "^14.2.1",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
@@ -29,12 +30,10 @@
     "ts-node": "^10.9.2",
     "tsup": "^6.5.0",
     "typescript": "^5.3.3",
-    "@hookform/resolvers": "^3.9.0",
     "yup": "^1.4.0"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "turbo": "^2.0.7"
+    "react": "^18.2.0"
   },
   "packageManager": "npm@10.2.3"
 }

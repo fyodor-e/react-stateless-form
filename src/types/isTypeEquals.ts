@@ -15,4 +15,4 @@ type IfEquals<T, U, Y = unknown, N = never> =
  */
 export function expectType<Expected, Actual>(
   actual: IfEquals<Actual, Expected, Actual>,
-): void;
+): void {}

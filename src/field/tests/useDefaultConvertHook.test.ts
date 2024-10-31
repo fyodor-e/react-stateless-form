@@ -3,11 +3,6 @@ import { expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { useDefaultConvert } from "../useDefaultConvert";
 
-jest.mock("@react-stateless-form/utils", () => ({
-  // Simplified implementation of getIn for testing
-  getIn: ({ values, name }: { values: any; name: string }) => values[name],
-}));
-
 const formControl: FormControl<{ prop1: string; prop2: number }> = {
   values: { prop1: "prop1", prop2: 1 },
   errors: { prop1: { message: "prop1Error", type: "required" } },
@@ -37,7 +32,7 @@ test("should return value, error and touched using passed rsfName", () => {
   });
 
   expect(result.current.value).toBe(formControl.values.prop1);
-  expect(result.current.error).toBe(formControl.errors.prop1);
+  expect(result.current.error).toBe(formControl.errors.prop1?.message);
   expect(result.current.touched).toBe(formControl.touched.prop1);
 
   expect(result.current.onBlur).toEqual(expect.any(Function));
@@ -152,6 +147,7 @@ test("onBlur should call setFieldTouched", () => {
   expect((formControl.setFieldTouched as any).mock.calls).toHaveLength(1);
   expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual({
     name: initialProps.rsfName,
+    touched: true,
   });
 });
 

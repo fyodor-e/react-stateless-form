@@ -44,7 +44,7 @@ test("Should setFieldDirty on each value change", async () => {
 test("Should not call setFieldDirty if durty value was not changed", async () => {
   renderHook(defaultUseDirty, {
     initialProps: {
-      formControl: { ...formControl, dirty: { prop1: true, prop2: true } },
+      formControl: { ...formControl, dirty: { prop1: false, prop2: false } },
       initialValues: formControl.values,
     },
   });
