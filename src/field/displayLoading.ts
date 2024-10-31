@@ -2,7 +2,7 @@ import { FormControl } from "../types";
 
 export type DisplayLoading = (props: {
   rsfName: string;
-  formControl: FormControl<any>;
+  formControl: Omit<FormControl<any>, "handleSubmit">;
 }) => boolean;
 
 export type DefaultDisplayLoading = (props: {

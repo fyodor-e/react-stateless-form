@@ -3,12 +3,12 @@ import { setIn } from "../setIn";
 import { getIn } from "../getIn";
 import { prepareName } from "../prepareName";
 
-jest.mock("../src/getIn", () => ({
+jest.mock("../getIn", () => ({
   // getIn to always return value that will not be equal to passed
   getIn: jest.fn(),
 }));
 
-jest.mock("../src/prepareName", () => ({
+jest.mock("../prepareName", () => ({
   // prepareName will have stub
   prepareName: jest.fn(),
 }));

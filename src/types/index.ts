@@ -5,6 +5,6 @@ export * from "./formControl";
 export * from "./formProps";
 export * from "./formTouched";
 export * from "./increment";
-export * from "./isTypeEquals.d";
+export * from "./isTypeEquals";
 export * from "./keyPaths";
 export * from "./unionToIntersection";

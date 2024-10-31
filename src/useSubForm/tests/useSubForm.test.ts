@@ -156,11 +156,11 @@ test("setFieldDirty test", () => {
 
   result.current.setFieldDirty({
     name: "prop1",
-    touched: true,
+    dirty: true,
   });
   expect(formControl.setFieldDirty).toBeCalledTimes(1);
   expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual({
     name: `${name}.prop1`,
-    touched: true,
+    dirty: true,
   });
 });
