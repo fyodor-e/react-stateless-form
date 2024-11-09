@@ -6,6 +6,8 @@ import Subform from "./subform/Subform.mdx";
 import FormWithArray from "./formWithArray/FormWithArray.mdx";
 import CustomUseConvert from "./customUseConvert/CustomUseConvert.mdx";
 import FormStateInRedux from "./formStateInRedux/FormStateInRedux.mdx";
+import FormWithLoader from "./loader/FormWithLoader.mdx";
+import MaterialUiForm from "./materialUi/MaterialUiForm.mdx";
 
 export type Route = {
   menuName: string;
@@ -58,6 +60,16 @@ const routes: Route[] = [
         path: "form-state-in-redux",
         menuName: "Form State in Redux",
         element: <FormStateInRedux />,
+      },
+      {
+        path: "form-with-loader",
+        menuName: "Form with Loader",
+        element: <FormWithLoader />,
+      },
+      {
+        path: "material-ui-form",
+        menuName: "Form based on Material UI",
+        element: <MaterialUiForm />,
       },
     ],
   },

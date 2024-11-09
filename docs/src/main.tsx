@@ -6,6 +6,7 @@ import ErrorPage from "./layout/ErrorPage";
 import Layout from "./layout/Layout";
 import routes from "./routes";
 import { ChakraProvider } from "@chakra-ui/react";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const router = createBrowserRouter([
   {
@@ -16,10 +17,14 @@ const router = createBrowserRouter([
   },
 ]);
 
+const theme = createTheme({});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </ChakraProvider>
   </React.StrictMode>,
 );
