@@ -1,6 +1,8 @@
 import { DeepPick } from "./deepPick";
+import { SetField } from "./formProps";
 import { FormTouched } from "./formTouched";
 import { KeyPaths } from "./keyPaths";
+import { SetterOrValue } from "./setterOrValue";
 
 export type ValidateResult = string | string[] | boolean | undefined;
 
@@ -29,22 +31,10 @@ export type FormControl<Values extends object, SubmitProps = undefined> = {
   errors: FormErrors<Values>;
   touched: FormTouched<Values>;
   dirty: FormTouched<Values>;
-  setFieldValue: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-    name: Name;
-    value: DeepPick<Values, Name>;
-  }) => void;
-  setFieldError: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-    name: Name;
-    error: DeepPick<FormErrors<Values>, Name>;
-  }) => void;
-  setFieldTouched: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-    name: Name;
-    touched: DeepPick<FormTouched<Values>, Name>;
-  }) => void;
-  setFieldDirty: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-    name: Name;
-    dirty: DeepPick<FormTouched<Values>, Name>;
-  }) => void;
+  setFieldValue: SetField<Values>;
+  setFieldError: SetField<FormErrors<Values>>;
+  setFieldTouched: SetField<FormTouched<Values>>;
+  setFieldDirty: SetField<FormTouched<Values>>;
 
   submitCount: number;
   isSubmitting: boolean;

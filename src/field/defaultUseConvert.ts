@@ -2,7 +2,7 @@ import { DefaultConvertHook } from "./convertHook";
 import { getIn, getInErrors } from "../utils";
 import { useMemo } from "react";
 
-export const useDefaultConvert: DefaultConvertHook = ({
+export const defaultUseConvert: DefaultConvertHook = ({
   rsfName: name,
   formControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {
@@ -16,8 +16,8 @@ export const useDefaultConvert: DefaultConvertHook = ({
       value,
       error: fieldError,
       touched: fieldTouched,
-      onBlur: () => setFieldTouched({ name, touched: true }),
-      onChange: ({ target: { value } }) => setFieldValue({ name, value }),
+      onBlur: () => setFieldTouched(name, true),
+      onChange: ({ target: { value } }) => setFieldValue(name, value),
     };
   }, [name, value, fieldError, fieldTouched, setFieldTouched, setFieldValue]);
 };

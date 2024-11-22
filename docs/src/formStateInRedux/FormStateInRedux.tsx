@@ -48,6 +48,8 @@ const store = configureStore({
   },
 });
 
+const setFieldValue = ({}: {value: SetterOrValue<any>)
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

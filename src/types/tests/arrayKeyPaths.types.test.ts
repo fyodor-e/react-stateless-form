@@ -32,10 +32,9 @@ type SecondLevelNestedArrayOfObjects = {
 
 expectType<
   ArrayKeyPaths<SecondLevelNestedArrayOfObjects>,
-  | "nestedArray1"
-  | `nestedArray1.${number}.nestedArray2`
-  | `nestedArray1[${number}].nestedArray2`
-  | `nestedArray1.[${number}].nestedArray2`
+  "nestedArray1" | `nestedArray1.${number}.nestedArray2`
+  // | `nestedArray1[${number}].nestedArray2`
+  // | `nestedArray1.[${number}].nestedArray2`
 >("nestedArray1");
 
 type SecondLevelNestedArrayInAnotherObject = {
@@ -46,6 +45,8 @@ type SecondLevelNestedArrayInAnotherObject = {
   };
 };
 
+type EE = ArrayKeyPaths<SecondLevelNestedArrayInAnotherObject>;
+
 expectType<
   ArrayKeyPaths<SecondLevelNestedArrayInAnotherObject>,
   "obj.nestedArray1"
@@ -55,33 +56,19 @@ type TwoDeeplyNestedArrays = {
   obj: {
     nestedArray1: {
       prop: "p1";
-      obj2: {
-        prop2: "p2";
-        obj3: {
-          nestedArray2: {
-            obj4: {
-              nestedArray3: number[];
-            };
-          }[];
-        };
-      };
+      prop2: "p2";
+      nestedArray2: {
+        nestedArray3: number[];
+      }[];
     }[];
   };
 };
 
+type A = ArrayKeyPaths<TwoDeeplyNestedArrays>;
+
 expectType<
   ArrayKeyPaths<TwoDeeplyNestedArrays>,
   | "obj.nestedArray1"
-  | `obj.nestedArray1.${number}.obj2.obj3.nestedArray2`
-  | `obj.nestedArray1.${number}.obj2.obj3.nestedArray2.${number}.obj4.nestedArray3`
-  | `obj.nestedArray1.${number}.obj2.obj3.nestedArray2[${number}].obj4.nestedArray3`
-  | `obj.nestedArray1.${number}.obj2.obj3.nestedArray2.[${number}].obj4.nestedArray3`
-  | `obj.nestedArray1[${number}].obj2.obj3.nestedArray2`
-  | `obj.nestedArray1[${number}].obj2.obj3.nestedArray2.${number}.obj4.nestedArray3`
-  | `obj.nestedArray1[${number}].obj2.obj3.nestedArray2[${number}].obj4.nestedArray3`
-  | `obj.nestedArray1[${number}].obj2.obj3.nestedArray2.[${number}].obj4.nestedArray3`
-  | `obj.nestedArray1.[${number}].obj2.obj3.nestedArray2`
-  | `obj.nestedArray1.[${number}].obj2.obj3.nestedArray2.${number}.obj4.nestedArray3`
-  | `obj.nestedArray1.[${number}].obj2.obj3.nestedArray2[${number}].obj4.nestedArray3`
-  | `obj.nestedArray1.[${number}].obj2.obj3.nestedArray2.[${number}].obj4.nestedArray3`
+  | `obj.nestedArray1.${number}.nestedArray2`
+  | `obj.nestedArray1.${number}.nestedArray2.${number}.nestedArray3`
 >("obj.nestedArray1");

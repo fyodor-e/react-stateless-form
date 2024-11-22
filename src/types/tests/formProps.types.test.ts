@@ -1,5 +1,4 @@
 import { FormProps } from "../formProps";
-import { FormErrors, FormTouched } from "../";
 
 type Values = {
   p: "p";

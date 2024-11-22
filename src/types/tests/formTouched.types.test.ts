@@ -40,6 +40,9 @@ expectType<
   ],
 });
 
+// Array
+expectType<FormTouched<TestObject["nestedArr"]>, { pArr?: boolean }[]>([]);
+
 // Object with undefined
 
 type ObjectWithUndefined = {

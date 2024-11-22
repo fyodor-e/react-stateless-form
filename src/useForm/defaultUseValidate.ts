@@ -27,7 +27,7 @@ export const defaultUseValidate = ({
   useEffect(() => {
     (async () => {
       const newErrors = await validator();
-      setFieldError({ name: "", error: newErrors });
+      setFieldError("", newErrors);
     })();
   }, [validator, setFieldError]);
 

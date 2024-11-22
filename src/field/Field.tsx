@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { DefaultBaseProps, DeepPick, KeyPaths, FieldProps } from "../types";
 import Renderer from "./Renderer";
 import { defaultDisplayLoading } from "./defaultLoadingFunction";
-import { useDefaultConvert } from "./useDefaultConvert";
+import { defaultUseConvert } from "./defaultUseConvert";
 
 export const Field = <
   Values extends object,
@@ -11,7 +11,7 @@ export const Field = <
   LoadingComponentProps extends { [K in keyof BaseProps]?: any } = BaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
-  useConvert = useDefaultConvert as any,
+  useConvert = defaultUseConvert as any,
   displayLoading = defaultDisplayLoading,
   LoadingComponent,
   formControl,
@@ -64,9 +64,4 @@ export const Field = <
       {...(restProps as any)}
     />
   );
-
-  // return useMemo(
-  //   () => <Component {...generatedProps} {...(restProps as any)} />,
-  //   [...Object.values(generatedProps), ...Object.values(restProps)],
-  // );
 };

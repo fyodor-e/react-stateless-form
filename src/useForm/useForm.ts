@@ -1,4 +1,4 @@
-import { FormControl, FormErrors, FormTouched } from "../types";
+import { FormControl, FormErrors, FormTouched, SetterOrValue } from "../types";
 import { FormProps } from "../types/formProps";
 import { getIn, isChanged, setIn } from "../utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -56,10 +56,12 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     useState<boolean>(false);
 
   const setFieldValueInternal = useCallback(
-    ({ name, value }: { name: any; value: any }) => {
+    (name: any, value: SetterOrValue<any>) => {
       setValuesInternal((prev) => {
-        if (isChanged(getIn({ values: prev, name }), value))
-          return setIn({ values: prev, name, value });
+        const prevValue = getIn({ values: prev, name });
+        const newValue = typeof value === "function" ? value(prevValue) : value;
+        if (isChanged(prevValue, newValue))
+          return setIn({ values: prev, name, value: newValue });
         else return prev;
       });
     },
@@ -67,10 +69,12 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   );
 
   const setFieldErrorInternal = useCallback(
-    ({ name, error }: { name: any; error: any }) => {
+    (name: any, error: SetterOrValue<any>) => {
       setErrorsInternal((prev) => {
-        if (isChanged(getIn({ values: prev, name }), error))
-          return setIn({ values: prev, name, value: error });
+        const prevError = getIn({ values: prev, name });
+        const newError = typeof error === "function" ? error(prevError) : error;
+        if (isChanged(newError, prevError))
+          return setIn({ values: prev, name, value: newError });
         else return prev;
       });
     },
@@ -78,10 +82,13 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   );
 
   const setFieldTouchedInternal = useCallback(
-    ({ name, touched }: { name: any; touched: any }) => {
+    (name: any, touched: SetterOrValue<any>) => {
       setTouchedInternal((prev) => {
-        if (isChanged(getIn({ values: prev, name }), touched))
-          return setIn({ values: prev, name, value: touched });
+        const prevTouched = getIn({ values: prev, name });
+        const newTouched =
+          typeof touched === "function" ? touched(prevTouched) : touched;
+        if (isChanged(newTouched, prevTouched))
+          return setIn({ values: prev, name, value: newTouched });
         else return prev;
       });
     },
@@ -89,10 +96,12 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   );
 
   const setFieldDirtyInternal = useCallback(
-    ({ name, dirty }: { name: any; dirty: any }) => {
+    (name: any, dirty: SetterOrValue<any>) => {
       setDirtyInternal((prev) => {
-        if (isChanged(getIn({ values: prev, name }), dirty))
-          return setIn({ values: prev, name, value: dirty });
+        const prevDirty = getIn({ values: prev, name });
+        const newDirty = typeof dirty === "function" ? dirty(prevDirty) : dirty;
+        if (isChanged(newDirty, prevDirty))
+          return setIn({ values: prev, name, value: newDirty });
         else return prev;
       });
     },

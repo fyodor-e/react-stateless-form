@@ -1,5 +1,4 @@
 import { FormControl, ArrayKeyPaths, DeepPick } from "../types";
-import { getIn } from "../utils";
 import { useCallback } from "react";
 
 export const useFieldArray = <
@@ -23,119 +22,117 @@ export const useFieldArray = <
   replace: (elemets: ArrType[]) => void;
   remove: (...index: number[]) => void;
 } => {
-  const arr = getIn<any, string>({ values, name });
-
   const append = useCallback(
     (element: any) => {
-      if (!Array.isArray(arr)) return;
-      (setFieldValue as any)({ name, value: [...arr, element] });
+      setFieldValue(name as any, (arr: any[]) =>
+        Array.isArray(arr) ? [...arr, element] : arr,
+      );
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const prepend = useCallback(
     (element: any) => {
-      if (!Array.isArray(arr)) return;
-      (setFieldValue as any)({ name, value: [element, ...arr] });
+      setFieldValue(name as any, (arr: any[]) =>
+        Array.isArray(arr) ? [element, ...arr] : arr,
+      );
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const insert = useCallback(
     (index: number, element: ArrType) => {
-      if (!Array.isArray(arr) || index < 0) return;
-      const newArr = [...arr];
+      setFieldValue(name as any, (arr: any[]) => {
+        if (!Array.isArray(arr) || index < 0) return arr;
+        const newArr = [...arr];
 
-      if (index > newArr.length) {
-        newArr.push(...new Array(index - newArr.length).fill(undefined));
-      }
+        if (index > newArr.length) {
+          newArr.push(...new Array(index - newArr.length).fill(undefined));
+        }
 
-      (setFieldValue as any)({
-        name,
-        value: [...newArr.slice(0, index), element, ...newArr.slice(index)],
+        return [...newArr.slice(0, index), element, ...newArr.slice(index)];
       });
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const swap = useCallback(
     (from: number, to: number) => {
-      if (
-        !Array.isArray(arr) ||
-        from < 0 ||
-        to < 0 ||
-        from >= arr.length ||
-        to >= arr.length
-      )
-        return;
+      setFieldValue(name as any, (arr: any[]) => {
+        if (
+          !Array.isArray(arr) ||
+          from < 0 ||
+          to < 0 ||
+          from >= arr.length ||
+          to >= arr.length
+        )
+          return arr;
 
-      const idx1 = Math.min(from, to);
-      const idx2 = Math.max(from, to);
+        const idx1 = Math.min(from, to);
+        const idx2 = Math.max(from, to);
 
-      (setFieldValue as any)({
-        name,
-        value: [
+        return [
           ...arr.slice(0, idx1),
           arr[idx2],
           ...arr.slice(idx1 + 1, idx2),
           arr[idx1],
           ...arr.slice(idx2 + 1),
-        ],
+        ];
       });
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const move = useCallback(
     (from: number, to: number) => {
-      if (
-        !Array.isArray(arr) ||
-        from < 0 ||
-        to < 0 ||
-        from >= arr.length ||
-        to >= arr.length
-      )
-        return;
+      setFieldValue(name as any, (arr: any[]) => {
+        if (
+          !Array.isArray(arr) ||
+          from < 0 ||
+          to < 0 ||
+          from >= arr.length ||
+          to >= arr.length
+        )
+          return arr;
 
-      const newArr = [...arr.slice(0, from), ...arr.slice(from + 1)];
+        const newArr = [...arr.slice(0, from), ...arr.slice(from + 1)];
 
-      (setFieldValue as any)({
-        name,
-        value: [...newArr.slice(0, to), arr[from], ...newArr.slice(to)],
+        return [...newArr.slice(0, to), arr[from], ...newArr.slice(to)];
       });
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const update = useCallback(
     (index: number, element: ArrType) => {
-      if (!Array.isArray(arr) || index < 0 || index >= arr.length) return;
-      (setFieldValue as any)({
-        name,
-        value: [...arr.slice(0, index), element, ...arr.slice(index + 1)],
+      setFieldValue(name as any, (arr: any[]) => {
+        if (!Array.isArray(arr) || index < 0 || index >= arr.length) return arr;
+        return [...arr.slice(0, index), element, ...arr.slice(index + 1)];
       });
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const replace = useCallback(
     (elements: ArrType[]) => {
-      if (!Array.isArray(arr)) return;
-      (setFieldValue as any)({ name, value: elements });
+      setFieldValue(name as any, elements);
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   const remove = useCallback(
     (...indexes: number[]) => {
-      if (!Array.isArray(arr)) return;
-      const newArr = arr.reduce((res, element, index) => {
-        if (!indexes.includes(index)) res.push(element);
-        return res;
-      }, []);
-      (setFieldValue as any)({ name, value: newArr });
+      setFieldValue(name as any, (arr: any[]) => {
+        if (!Array.isArray(arr)) return arr;
+        const newArr = arr.reduce((res, element, index) => {
+          if (!indexes.includes(index)) res.push(element);
+          return res;
+        }, []);
+
+        return newArr;
+      });
     },
-    [arr, setFieldValue],
+    [setFieldValue],
   );
 
   return {

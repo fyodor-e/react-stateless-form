@@ -1,4 +1,11 @@
-import { DeepPick, FormControl, KeyPaths } from "../types";
+import {
+  DeepPick,
+  FormControl,
+  FormErrors,
+  FormTouched,
+  KeyPaths,
+  SetField,
+} from "../types";
 import { useCallback } from "react";
 import { getIn } from "../utils";
 
@@ -32,39 +39,27 @@ export const useSubform = <
     dirty: getIn<any, any>({ name, values: dirty }) ?? {},
     touched: getIn<any, any>({ name, values: touched }) ?? {},
 
-    setFieldValue: useCallback(
-      ({ name: subName, value }: { name: any; value: any }) => {
-        setFieldValue<any>({
-          name: name + (subName ? `.${subName}` : ""),
-          value,
-        });
+    setFieldValue: useCallback<SetField<Value>>(
+      (subName: any, value: any) => {
+        setFieldValue<any>(name + (subName ? `.${subName}` : ""), value);
       },
       [setFieldValue, name],
     ),
-    setFieldError: useCallback(
-      ({ name: subName, error }: { name: any; error: any }) => {
-        setFieldError<any>({
-          name: name + (subName ? `.${subName}` : ""),
-          error,
-        });
+    setFieldError: useCallback<SetField<FormErrors<Value>>>(
+      (subName: any, error: any) => {
+        setFieldError<any>(name + (subName ? `.${subName}` : ""), error);
       },
       [setFieldError, name],
     ),
-    setFieldTouched: useCallback(
-      ({ name: subName, touched }: { name: any; touched: any }) => {
-        setFieldTouched<any>({
-          name: name + (subName ? `.${subName}` : ""),
-          touched,
-        });
+    setFieldTouched: useCallback<SetField<FormTouched<Value>>>(
+      (subName: any, touched: any) => {
+        setFieldTouched<any>(name + (subName ? `.${subName}` : ""), touched);
       },
       [setFieldTouched, name],
     ),
-    setFieldDirty: useCallback(
-      ({ name: subName, dirty }: { name: any; dirty: any }) => {
-        setFieldDirty<any>({
-          name: name + (subName ? `.${subName}` : ""),
-          dirty,
-        });
+    setFieldDirty: useCallback<SetField<FormTouched<Value>>>(
+      (subName: any, dirty: any) => {
+        setFieldDirty<any>(name + (subName ? `.${subName}` : ""), dirty);
       },
       [setFieldDirty, name],
     ),
