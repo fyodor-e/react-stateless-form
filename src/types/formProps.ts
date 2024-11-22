@@ -1,4 +1,11 @@
-import { FormErrors, FormControl, FormTouched, DeepPick, KeyPaths } from "./";
+import {
+  FormErrors,
+  FormControl,
+  FormTouched,
+  DeepPick,
+  KeyPaths,
+  SetterOrValue,
+} from "./";
 import { SetStateAction } from "react";
 import { Resolver } from "../useForm/resolver";
 
@@ -24,6 +31,13 @@ export type UseFormSubmitCreatorArg<
   setSubmitCount: (submitCount: number) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
 };
+
+export type SetField<Values> = <
+  Name extends KeyPaths<Values> = KeyPaths<Values>,
+>(
+  name: Name,
+  value: SetterOrValue<DeepPick<Values, Name>>,
+) => void;
 
 export type FormProps<Values extends object, SubmitProps = undefined> = {
   onSubmit?: OnSubmit<Values, SubmitProps>;
@@ -62,10 +76,7 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
 
   initialValues?: Values;
   values: Values;
-  setFieldValue?: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-    name: Name;
-    value: DeepPick<Values, Name>;
-  }) => void;
+  setFieldValue?: SetField<Values>;
 } & (
   | {
       errors?: FormErrors<Values>;
@@ -73,10 +84,7 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
     }
   | {
       errors: FormErrors<Values>;
-      setFieldError: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-        name: Name;
-        error: DeepPick<FormErrors<Values>, Name>;
-      }) => void;
+      setFieldError: SetField<FormErrors<Values>>;
     }
 ) &
   (
@@ -86,12 +94,7 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
       }
     | {
         touched: FormTouched<Values>;
-        setFieldTouched: <
-          Name extends KeyPaths<Values> = KeyPaths<Values>,
-        >(arg: {
-          name: Name;
-          touched: DeepPick<FormTouched<Values>, Name>;
-        }) => void;
+        setFieldTouched: SetField<FormTouched<Values>>;
       }
   ) &
   (
@@ -101,9 +104,6 @@ export type FormProps<Values extends object, SubmitProps = undefined> = {
       }
     | {
         dirty: FormTouched<Values>;
-        setFieldDirty: <Name extends KeyPaths<Values> = KeyPaths<Values>>(arg: {
-          name: Name;
-          dirty: DeepPick<FormTouched<Values>, Name>;
-        }) => void;
+        setFieldDirty: SetField<FormTouched<Values>>;
       }
   );

@@ -8,3 +8,4 @@ export * from "./increment";
 export * from "./isTypeEquals";
 export * from "./keyPaths";
 export * from "./unionToIntersection";
+export * from "./setterOrValue";

@@ -1,6 +1,6 @@
-import { FormErrors, FormTouched, FormProps, FormControl } from "../../types";
+import { FormControl } from "../../types";
 import { beforeEach, expect, jest, test } from "@jest/globals";
-import { act, renderHook } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { defaultUseDirty } from "../defaultUseDirty";
 
 type Values = {
@@ -35,19 +35,21 @@ test("Should setFieldDirty on each value change", async () => {
   });
 
   expect(formControl.setFieldDirty).toBeCalledTimes(1);
-  expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual({
-    name: "",
-    dirty: { prop1: true, prop2: true },
+  expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual("");
+  expect((formControl.setFieldDirty as any).mock.calls[0][1]).toEqual({
+    prop1: true,
+    prop2: true,
   });
 });
 
-test("Should not call setFieldDirty if durty value was not changed", async () => {
-  renderHook(defaultUseDirty, {
-    initialProps: {
-      formControl: { ...formControl, dirty: { prop1: false, prop2: false } },
-      initialValues: formControl.values,
-    },
-  });
+// This test should be in formControl
+// test("Should not call setFieldDirty if durty value was not changed", async () => {
+//   renderHook(defaultUseDirty, {
+//     initialProps: {
+//       formControl: { ...formControl, dirty: { prop1: false, prop2: false } },
+//       initialValues: formControl.values,
+//     },
+//   });
 
-  expect(formControl.setFieldDirty).toBeCalledTimes(0);
-});
+//   expect(formControl.setFieldDirty).toBeCalledTimes(0);
+// });

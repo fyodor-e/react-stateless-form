@@ -36,10 +36,8 @@ test("No validate is provided - should set errors to empty object", async () => 
   });
 
   waitFor(() => {
-    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual({
-      name: "",
-      error: {},
-    });
+    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+    expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual({});
   });
 });
 
@@ -63,10 +61,8 @@ test("When validate is provided it should be called on every values change", asy
       fields: {},
     });
 
-    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual({
-      name: "",
-      error,
-    });
+    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+    expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
   });
 
   const anotherError = { prop2: { message: "error prop2" } };
@@ -80,9 +76,9 @@ test("When validate is provided it should be called on every values change", asy
   });
 
   waitFor(() => {
-    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual({
-      name: "",
-      error: anotherError,
-    });
+    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+    expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(
+      anotherError,
+    );
   });
 });

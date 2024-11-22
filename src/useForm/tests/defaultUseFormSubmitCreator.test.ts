@@ -108,14 +108,12 @@ test("Should execute submission sequence", async () => {
   expect(setSubmitCount.mock.calls[0][0]).toBe(formControl.submitCount + 1);
   expect(setIsSubmitting.mock.calls[0][0]).toBe(true);
   expect((deepSetTouched as any).mock.calls[0][0]).toEqual(formControl.values);
-  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual({
-    name: "",
+  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual("");
+  expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(
     touched,
-  });
-  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual({
-    name: "",
-    error,
-  });
+  );
+  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+  expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
   expect(onSubmit.mock.calls[0][0]).toEqual({ formControl, submitProps });
   expect(setIsSubmitting.mock.calls[1][0]).toBe(false);
 });
@@ -136,10 +134,8 @@ test("Should NOT submit form if any error is found by validator", async () => {
 
   await result.current();
 
-  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual({
-    name: "",
-    error,
-  });
+  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+  expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
   expect(onSubmit).toBeCalledTimes(0);
 });
 

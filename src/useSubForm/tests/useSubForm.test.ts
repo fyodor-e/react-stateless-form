@@ -109,12 +109,12 @@ test("setFieldValue test", () => {
     initialProps: { ...formControl, name },
   });
 
-  result.current.setFieldValue({ name: "prop1", value: "345" });
+  result.current.setFieldValue("prop1", "345");
   expect(formControl.setFieldValue).toBeCalledTimes(1);
-  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual({
-    name: `${name}.prop1`,
-    value: "345",
-  });
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(
+    `${name}.prop1`,
+  );
+  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual("345");
 });
 
 test("setFieldError test", () => {
@@ -122,14 +122,17 @@ test("setFieldError test", () => {
     initialProps: { ...formControl, name },
   });
 
-  result.current.setFieldError({
-    name: "prop1",
-    error: { type: "required", message: "message1" },
+  result.current.setFieldError("prop1", {
+    type: "required",
+    message: "message1",
   });
   expect(formControl.setFieldError).toBeCalledTimes(1);
-  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual({
-    name: `${name}.prop1`,
-    error: { type: "required", message: "message1" },
+  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual(
+    `${name}.prop1`,
+  );
+  expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual({
+    type: "required",
+    message: "message1",
   });
 });
 
@@ -138,15 +141,13 @@ test("setFieldTouched test", () => {
     initialProps: { ...formControl, name },
   });
 
-  result.current.setFieldTouched({
-    name: "prop1",
-    touched: true,
-  });
+  result.current.setFieldTouched("prop1", true);
+
   expect(formControl.setFieldTouched).toBeCalledTimes(1);
-  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual({
-    name: `${name}.prop1`,
-    touched: true,
-  });
+  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
+    `${name}.prop1`,
+  );
+  expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(true);
 });
 
 test("setFieldDirty test", () => {
@@ -154,13 +155,10 @@ test("setFieldDirty test", () => {
     initialProps: { ...formControl, name },
   });
 
-  result.current.setFieldDirty({
-    name: "prop1",
-    dirty: true,
-  });
+  result.current.setFieldDirty("prop1", true);
   expect(formControl.setFieldDirty).toBeCalledTimes(1);
-  expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual({
-    name: `${name}.prop1`,
-    dirty: true,
-  });
+  expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual(
+    `${name}.prop1`,
+  );
+  expect((formControl.setFieldDirty as any).mock.calls[0][1]).toEqual(true);
 });

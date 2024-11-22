@@ -1,7 +1,7 @@
 import { FormControl } from "../../types";
 import { expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import { useDefaultConvert } from "../useDefaultConvert";
+import { defaultUseConvert } from "../defaultUseConvert";
 
 const formControl: FormControl<{ prop1: string; prop2: number }> = {
   values: { prop1: "prop1", prop2: 1 },
@@ -27,7 +27,7 @@ test("should return value, error and touched using passed rsfName", () => {
     formControl,
   };
 
-  const { result } = renderHook((props) => useDefaultConvert(props), {
+  const { result } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 
@@ -45,7 +45,7 @@ test("should memoize values event if other props of the formControl has been cha
     formControl,
   };
 
-  const { result, rerender } = renderHook((props) => useDefaultConvert(props), {
+  const { result, rerender } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 
@@ -94,7 +94,7 @@ test("should update result when formControl is changed", () => {
     formControl,
   };
 
-  const { result, rerender } = renderHook((props) => useDefaultConvert(props), {
+  const { result, rerender } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 
@@ -138,17 +138,17 @@ test("onBlur should call setFieldTouched", () => {
     formControl,
   };
 
-  const { result } = renderHook((props) => useDefaultConvert(props), {
+  const { result } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 
   result.current.onBlur && result.current.onBlur();
 
   expect((formControl.setFieldTouched as any).mock.calls).toHaveLength(1);
-  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual({
-    name: initialProps.rsfName,
-    touched: true,
-  });
+  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
+    initialProps.rsfName,
+  );
+  expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(true);
 });
 
 test("onChange should call setFieldValue", () => {
@@ -157,7 +157,7 @@ test("onChange should call setFieldValue", () => {
     formControl,
   };
 
-  const { result } = renderHook((props) => useDefaultConvert(props), {
+  const { result } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 
@@ -165,10 +165,12 @@ test("onChange should call setFieldValue", () => {
     result.current.onChange({ target: { value: "some value" } });
 
   expect((formControl.setFieldValue as any).mock.calls).toHaveLength(1);
-  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual({
-    name: initialProps.rsfName,
-    value: "some value",
-  });
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(
+    initialProps.rsfName,
+  );
+  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual(
+    "some value",
+  );
 });
 
 test("should return undefined if error is not a string", () => {
@@ -182,7 +184,7 @@ test("should return undefined if error is not a string", () => {
     },
   };
 
-  const { result } = renderHook((props) => useDefaultConvert(props), {
+  const { result } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 

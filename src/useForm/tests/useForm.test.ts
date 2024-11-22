@@ -77,10 +77,10 @@ void describe("1. Default props", () => {
     const newDirty: FormTouched<Values> = { prop1: false, prop2: true };
 
     act(() => {
-      result.current.setFieldValue({ name: "", value: newValues });
-      result.current.setFieldError({ name: "", error: newErrors });
-      result.current.setFieldTouched({ name: "", touched: newTouched });
-      result.current.setFieldDirty({ name: "", dirty: newDirty });
+      result.current.setFieldValue("", newValues);
+      result.current.setFieldError("", newErrors);
+      result.current.setFieldTouched("", newTouched);
+      result.current.setFieldDirty("", newDirty);
     });
 
     expect(result.current.values).toEqual(newValues);
@@ -103,10 +103,10 @@ void describe("1. Default props", () => {
     const newDirty = false;
 
     act(() => {
-      result.current.setFieldValue({ name: "prop1", value: newValue });
-      result.current.setFieldError({ name: "prop1", error: newError });
-      result.current.setFieldTouched({ name: "prop1", touched: true });
-      result.current.setFieldDirty({ name: "prop1", dirty: newDirty });
+      result.current.setFieldValue("prop1", newValue);
+      result.current.setFieldError("prop1", newError);
+      result.current.setFieldTouched("prop1", true);
+      result.current.setFieldDirty("prop1", newDirty);
     });
 
     expect(result.current.values).toEqual({
@@ -187,16 +187,10 @@ void describe("1. Default props", () => {
     });
 
     act(() => {
-      result.current.setFieldValue({
-        name: "",
-        value: { prop1: "prop1", prop2: 12 },
-      });
-      result.current.setFieldError({
-        name: "",
-        error: { prop1: { message: "Error" } },
-      });
-      result.current.setFieldTouched({ name: "", touched: { prop2: true } });
-      result.current.setFieldDirty({ name: "", dirty: { prop1: true } });
+      result.current.setFieldValue("", { prop1: "prop1", prop2: 12 });
+      result.current.setFieldError("", { prop1: { message: "Error" } });
+      result.current.setFieldTouched("", { prop2: true });
+      result.current.setFieldDirty("", { prop1: true });
     });
 
     // Values, errors, touched and dirty should not be changed
@@ -240,27 +234,22 @@ describe("2. Custom setField... functions", () => {
     const newDirty: FormTouched<Values> = { prop1: false, prop2: true };
 
     act(() => {
-      result.current.setFieldValue({ name: "", value: newValues });
-      result.current.setFieldError({ name: "", error: newErrors });
-      result.current.setFieldTouched({ name: "", touched: newTouched });
-      result.current.setFieldDirty({ name: "", dirty: newDirty });
+      result.current.setFieldValue("", newValues);
+      result.current.setFieldError("", newErrors);
+      result.current.setFieldTouched("", newTouched);
+      result.current.setFieldDirty("", newDirty);
     });
 
-    expect(setFieldValue.mock.calls[0][0]).toEqual({
-      name: "",
-      value: newValues,
-    });
-    expect(setFieldError.mock.calls[0][0]).toEqual({
-      name: "",
-      error: newErrors,
-    });
-    expect(setFieldTouched.mock.calls[0][0]).toEqual({
-      name: "",
-      touched: newTouched,
-    });
-    expect(setFieldDirty.mock.calls[0][0]).toEqual({
-      name: "",
-      dirty: newDirty,
-    });
+    expect(setFieldValue.mock.calls[0][0]).toEqual("");
+    expect(setFieldValue.mock.calls[0][1]).toEqual(newValues);
+
+    expect(setFieldError.mock.calls[0][0]).toEqual("");
+    expect(setFieldError.mock.calls[0][1]).toEqual(newErrors);
+
+    expect(setFieldTouched.mock.calls[0][0]).toEqual("");
+    expect(setFieldTouched.mock.calls[0][1]).toEqual(newTouched);
+
+    expect(setFieldDirty.mock.calls[0][0]).toEqual("");
+    expect(setFieldDirty.mock.calls[0][1]).toEqual(newDirty);
   });
 });
