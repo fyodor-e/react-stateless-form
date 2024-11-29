@@ -1,4 +1,5 @@
 import { FormProps } from "../formProps";
+import { expectType } from "../isTypeEquals";
 
 type Values = {
   p: "p";
@@ -52,4 +53,44 @@ const formPropsWithDirty: FormProps<Values> = {
   values: { p: "p" },
   // dirty is required
   setFieldDirty: () => {},
+};
+
+// SubmitProps
+type SubmitProps = {
+  prop1: "prop1";
+};
+
+const formPropsSubmitProps: FormProps<Values, SubmitProps> = {
+  values: { p: "p" },
+  errors: {},
+  touched: {},
+  dirty: {},
+
+  setFieldValue: () => {},
+  setFieldError: () => {},
+  setFieldTouched: () => {},
+  setFieldDirty: () => {},
+
+  onSubmit: ({ submitProps }) => {
+    expectType<SubmitProps, typeof submitProps>({ prop1: "prop1" });
+  },
+};
+
+// SubmitReturn
+type SubmitReturn = {
+  ret: "ret1";
+};
+
+const formPropsSubmitReturn: FormProps<Values, undefined, SubmitReturn> = {
+  values: { p: "p" },
+  errors: {},
+  touched: {},
+  dirty: {},
+
+  setFieldValue: () => {},
+  setFieldError: () => {},
+  setFieldTouched: () => {},
+  setFieldDirty: () => {},
+
+  onSubmit: () => ({ ret: "ret1" }),
 };

@@ -1,17 +1,11 @@
-import { FormControl, FormErrors } from "../types";
+import { FormErrors, UseValidate } from "../types";
 import { useCallback, useEffect } from "react";
-import { Resolver } from "./resolver";
 
-export const defaultUseValidate = ({
+export const defaultUseValidate: UseValidate<any> = ({
   formControl: { values, setFieldError },
   resolver,
   context,
   criteriaMode,
-}: {
-  formControl: Omit<FormControl<any>, "handleSubmit">;
-  resolver?: Resolver<any>;
-  context?: any;
-  criteriaMode: "all" | "firstError";
 }): (() => Promise<FormErrors<any>>) => {
   const validator = useCallback(async () => {
     const { errors } = resolver
@@ -22,7 +16,7 @@ export const defaultUseValidate = ({
         })
       : { errors: {} };
     return errors;
-  }, [resolver, context, values]);
+  }, [resolver, context, values, criteriaMode]);
 
   useEffect(() => {
     (async () => {

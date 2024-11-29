@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from "@hookform/resolvers/yup";
-import { OnSubmit, useForm, Field, setIn } from "react-stateless-form";
+import {
+  OnSubmit,
+  useForm,
+  Field,
+  setIn,
+  getIn,
+  SetField,
+} from "react-stateless-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
@@ -48,7 +55,14 @@ const store = configureStore({
   },
 });
 
-const setFieldValue = ({}: {value: SetterOrValue<any>)
+const setFieldValue: SetField<Values> = (name, valueOrFunction) => {
+  let value = valueOrFunction;
+  if (typeof valueOrFunction === "function") {
+    const prev = getIn({ name, values: store.getState().ordersReducer });
+    value = valueOrFunction(prev);
+  }
+  store.dispatch(setFieldValueAction({ name, value }));
+};
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -82,13 +96,6 @@ const FormStateInRedux = () => {
 
   const values = useSelector(valuesSelector);
   const dispatch = useDispatch<AppDispatch>();
-
-  const setFieldValue = useCallback(
-    (arg: { value: any; name: any }) => {
-      dispatch(setFieldValueAction(arg));
-    },
-    [dispatch],
-  );
 
   const handleCalcTotol = useCallback(() => {
     dispatch(calcTotal());

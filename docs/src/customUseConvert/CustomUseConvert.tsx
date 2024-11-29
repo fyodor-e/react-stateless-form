@@ -38,7 +38,7 @@ const useReactSelectConvert: ConvertHook<
     >
   >(
     (value) => {
-      setFieldValue<any>({ name: rsfName, value });
+      setFieldValue<any>(rsfName, value);
     },
     [rsfName, setFieldValue],
   );
@@ -60,7 +60,7 @@ const useDatePickerConvert: ConvertHook<
   const selected = getIn<any>({ name: rsfName, values });
   const onChange = useCallback<NonNullable<DatePickerProps["onChange"]>>(
     (value: any) => {
-      setFieldValue<any>({ name: rsfName, value });
+      setFieldValue<any>(rsfName, value);
     },
     [rsfName, setFieldValue],
   );

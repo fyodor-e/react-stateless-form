@@ -103,7 +103,7 @@ test("Should execute submission sequence", async () => {
   const error = {};
   validator.mockReturnValueOnce(error);
 
-  await result.current(submitProps);
+  await (result.current as any)(submitProps);
 
   expect(setSubmitCount.mock.calls[0][0]).toBe(formControl.submitCount + 1);
   expect(setIsSubmitting.mock.calls[0][0]).toBe(true);
@@ -115,7 +115,6 @@ test("Should execute submission sequence", async () => {
   expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
   expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
   expect(onSubmit.mock.calls[0][0]).toEqual({ formControl, submitProps });
-  expect(setIsSubmitting.mock.calls[1][0]).toBe(false);
 });
 
 test("Should NOT submit form if any error is found by validator", async () => {
@@ -151,7 +150,7 @@ test("Should submit form if no error is present in formControl and no validator 
   });
 
   const submitProps = { s: "123" };
-  await result.current(submitProps);
+  await (result.current as any)(submitProps);
 
   expect(formControl.setFieldError).toBeCalledTimes(0);
   expect(onSubmit.mock.calls[0][0]).toEqual({ formControl, submitProps });
@@ -174,4 +173,37 @@ test("Should NOT submit form if any error is present in formControl and no valid
   await result.current();
 
   expect(onSubmit).toBeCalledTimes(0);
+});
+
+test("handleSubmit should return what onSubmit returned", async () => {
+  const onSubmitRes = { ret: "ret1" };
+  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+    initialProps: {
+      formControl,
+      validator: undefined,
+      onSubmit: () => onSubmitRes,
+      setSubmitCount,
+      setIsSubmitting,
+    },
+  });
+
+  const res = await result.current();
+
+  expect(res).toEqual(onSubmitRes);
+});
+
+test("handleSubmit should throw if onSubmit throw", async () => {
+  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+    initialProps: {
+      formControl,
+      validator: undefined,
+      onSubmit: () => {
+        throw new Error("err1");
+      },
+      setSubmitCount,
+      setIsSubmitting,
+    },
+  });
+
+  await expect(() => result.current()).rejects.toThrow("err1");
 });

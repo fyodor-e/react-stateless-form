@@ -8,6 +8,7 @@ import CustomUseConvert from "./customUseConvert/CustomUseConvert.mdx";
 import FormStateInRedux from "./formStateInRedux/FormStateInRedux.mdx";
 import FormWithLoader from "./loader/FormWithLoader.mdx";
 import MaterialUiForm from "./materialUi/MaterialUiForm.mdx";
+import ThrottledValidation from "./throttledValidation/ThrottledValidation.mdx";
 
 export type Route = {
   menuName: string;
@@ -70,6 +71,11 @@ const routes: Route[] = [
         path: "material-ui-form",
         menuName: "Form based on Material UI",
         element: <MaterialUiForm />,
+      },
+      {
+        path: "throttled-validation",
+        menuName: "Throttled error validation",
+        element: <ThrottledValidation />,
       },
     ],
   },

@@ -14,23 +14,55 @@ export type FunctionValueFunction<V extends {}> = (
   v: SetStateAction<V>,
 ) => void;
 
-export type OnSubmit<Values extends object, SubmitProps = undefined> = (arg: {
+export type OnSubmit<
+  Values extends object,
+  SubmitProps = undefined,
+  SubmitReturn = void,
+> = (arg: {
   formControl: Omit<FormControl<Values>, "handleSubmit">;
   submitProps: SubmitProps;
-}) => Promise<void> | void;
+}) => Promise<SubmitReturn> | SubmitReturn;
 
 export type UseFormSubmitCreatorArg<
   Values extends object,
   SubmitProps = undefined,
+  SubmitReturn = void,
 > = {
   formControl: Omit<FormControl<Values>, "handleSubmit">;
   validator?: (
     formControl: Omit<FormControl<Values>, "handleSubmit">,
   ) => Promise<FormErrors<Values>>;
-  onSubmit?: OnSubmit<Values, SubmitProps>;
+  onSubmit?: OnSubmit<Values, SubmitProps, SubmitReturn>;
   setSubmitCount: (submitCount: number) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
 };
+
+export type UseFormSubmitCreator<
+  Values extends object,
+  SubmitProps,
+  SubmitReturn,
+> = (
+  arg: UseFormSubmitCreatorArg<Values, SubmitProps, SubmitReturn>,
+) => undefined extends SubmitProps & undefined
+  ? () => Promise<SubmitReturn>
+  : (submitProps: SubmitProps) => Promise<SubmitReturn>;
+
+export type UseValidate<Values extends object> = (arg: {
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  resolver?: Resolver<Values>;
+  context?: any;
+  criteriaMode?: "all" | "firstError";
+}) => () => Promise<FormErrors<Values>>;
+
+export type UseDirty<Values extends object> = (arg: {
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  initialValues: Values | undefined;
+}) => void;
+
+export type UseInitialValues<Values extends object> = (arg: {
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  initialValues: Values | undefined;
+}) => Values | undefined;
 
 export type SetField<Values> = <
   Name extends KeyPaths<Values> = KeyPaths<Values>,
@@ -39,34 +71,27 @@ export type SetField<Values> = <
   value: SetterOrValue<DeepPick<Values, Name>>,
 ) => void;
 
-export type FormProps<Values extends object, SubmitProps = undefined> = {
-  onSubmit?: OnSubmit<Values, SubmitProps>;
+export type FormProps<
+  Values extends object,
+  SubmitProps = undefined,
+  SubmitReturn = void,
+> = {
+  onSubmit?: OnSubmit<Values, SubmitProps, SubmitReturn>;
 
-  useFormSubmitCreator?: (
-    arg: UseFormSubmitCreatorArg<Values, SubmitProps>,
-  ) => undefined extends SubmitProps & undefined
-    ? () => Promise<void>
-    : (submitProps: SubmitProps) => Promise<void>;
+  useFormSubmitCreator?: UseFormSubmitCreator<
+    Values,
+    SubmitProps,
+    SubmitReturn
+  >;
 
-  useValidate?: (arg: {
-    formControl: Omit<FormControl<Values>, "handleSubmit">;
-    resolver?: Resolver<Values>;
-    context?: any;
-    criteriaMode?: "all" | "firstError";
-  }) => () => Promise<FormErrors<Values>>;
+  useValidate?: UseValidate<Values>;
   context?: any;
   criteriaMode?: "all" | "firstError";
   resolver?: Resolver<Values>;
 
-  useDirty?: (arg: {
-    formControl: Omit<FormControl<Values>, "handleSubmit">;
-    initialValues: Values | undefined;
-  }) => void;
+  useDirty?: UseDirty<Values>;
 
-  useInitialValues?: (arg: {
-    formControl: Omit<FormControl<Values>, "handleSubmit">;
-    initialValues: Values | undefined;
-  }) => Values | undefined;
+  useInitialValues?: UseInitialValues<Values>;
 
   submitCount?: number;
   setSubmitCount?: (submitCount: number) => void;

@@ -26,7 +26,11 @@ export type FormErrors<V> =
         }
       : FieldError;
 
-export type FormControl<Values extends object, SubmitProps = undefined> = {
+export type FormControl<
+  Values extends object,
+  SubmitProps = undefined,
+  SubmitReturn = void,
+> = {
   values: Values;
   errors: FormErrors<Values>;
   touched: FormTouched<Values>;
@@ -42,6 +46,6 @@ export type FormControl<Values extends object, SubmitProps = undefined> = {
   isValid: boolean;
 
   handleSubmit: undefined extends SubmitProps & undefined
-    ? () => Promise<void>
-    : (submitProps: SubmitProps) => Promise<void>;
+    ? () => Promise<SubmitReturn>
+    : (submitProps: SubmitProps) => Promise<SubmitReturn>;
 };
