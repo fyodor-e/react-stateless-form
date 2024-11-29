@@ -22,7 +22,7 @@ const FormWithLoader = () => {
     [],
   );
 
-  const formControl = useForm({
+  const formControl = useForm<Values>({
     values: {
       country: "",
       state: "",
@@ -38,28 +38,22 @@ const FormWithLoader = () => {
 
   const handleReload = useCallback(() => {
     setIsLoading(true);
-    formControl.setFieldValue({
-      name: "",
-      value: {
-        country: undefined,
-        state: undefined,
-        city: undefined,
-        zipCode: undefined,
-        street1: undefined,
-        street2: undefined,
-      },
+    formControl.setFieldValue("", {
+      country: undefined,
+      state: undefined,
+      city: undefined,
+      zipCode: undefined,
+      street1: undefined,
+      street2: undefined,
     });
     setTimeout(() => {
-      formControl.setFieldValue({
-        name: "",
-        value: {
-          country: "US",
-          state: "LA",
-          city: "Los Angeles",
-          zipCode: "90000",
-          street1: "Street 1",
-          street2: "",
-        },
+      formControl.setFieldValue("", {
+        country: "US",
+        state: "LA",
+        city: "Los Angeles",
+        zipCode: "90000",
+        street1: "Street 1",
+        street2: "",
       });
       setIsLoading(false);
     }, 3000);

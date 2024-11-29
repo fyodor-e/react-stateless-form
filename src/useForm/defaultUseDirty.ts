@@ -1,13 +1,10 @@
 import { useEffect } from "react";
-import { FormControl } from "../types";
+import { UseDirty } from "../types";
 import { deepDirty } from "../utils";
 
-export const defaultUseDirty = ({
+export const defaultUseDirty: UseDirty<any> = ({
   formControl: { setFieldDirty, values },
   initialValues,
-}: {
-  formControl: Omit<FormControl<any>, "handleSubmit">;
-  initialValues: any;
 }) => {
   useEffect(() => {
     const newDirty = deepDirty(initialValues, values);

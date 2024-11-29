@@ -7,7 +7,11 @@ import { defaultUseValidate } from "./defaultUseValidate";
 import { defaultUseDirty } from "./defaultUseDirty";
 import { defaultUseInitialValues } from "./defaultUseInitialValues";
 
-export const useForm = <Values extends object, SubmitProps = undefined>({
+export const useForm = <
+  Values extends object,
+  SubmitProps = undefined,
+  SubmitReturn = void,
+>({
   onSubmit,
 
   initialValues: initialValuesFromProps,
@@ -20,9 +24,9 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
   dirty: dirtyFromProps,
   setFieldDirty: setFieldDirtyFromProps,
 
-  useFormSubmitCreator = defaultUseFormSubmitCreator as any,
+  useFormSubmitCreator = defaultUseFormSubmitCreator,
 
-  useValidate = defaultUseValidate as any,
+  useValidate = defaultUseValidate,
   context,
   criteriaMode,
   resolver,
@@ -35,7 +39,11 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
 
   isSubmitting: isSubmittingFromProps,
   setIsSubmitting: setIsSubmittingFromProps,
-}: FormProps<Values, SubmitProps>): FormControl<Values, SubmitProps> => {
+}: FormProps<Values, SubmitProps, SubmitReturn>): FormControl<
+  Values,
+  SubmitProps,
+  SubmitReturn
+> => {
   // 1. Types are replaced with any for compilation performance
   // 2. setField...Local variants may be used only if
   //    set... functions accept function as argument.
@@ -46,10 +54,10 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     errorsFromProps ?? ({} as any),
   );
   const [internalTouched, setTouchedInternal] = useState<FormTouched<Values>>(
-    touchedFromProps ?? {},
+    touchedFromProps ?? ({} as any),
   );
   const [internalDirty, setDirtyInternal] = useState<FormTouched<Values>>(
-    dirtyFromProps ?? {},
+    dirtyFromProps ?? ({} as any),
   );
   const [internalSubmitCount, setInternalSubmitCount] = useState<number>(0);
   const [internalIsSubmitting, setInternalIsSubmitting] =
@@ -190,7 +198,7 @@ export const useForm = <Values extends object, SubmitProps = undefined>({
     setIsSubmitting,
   });
 
-  const formControl = useMemo<FormControl<Values, SubmitProps>>(
+  const formControl = useMemo<FormControl<Values, SubmitProps, SubmitReturn>>(
     () => ({
       ...formControlWoSubmit,
       handleSubmit,

@@ -1,11 +1,8 @@
-import { FormControl } from "../types";
+import { UseInitialValues } from "../types";
 import { useEffect, useState } from "react";
 
-export const defaultUseInitialValues = ({
+export const defaultUseInitialValues: UseInitialValues<any> = ({
   initialValues: initialValuesFromProps,
-}: {
-  formControl: Omit<FormControl<any>, "handleSubmit">;
-  initialValues: any | undefined;
 }) => {
   const [initialValues, setInitialValues] = useState<any | undefined>(
     undefined,

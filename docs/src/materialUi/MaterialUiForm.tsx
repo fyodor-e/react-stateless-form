@@ -48,9 +48,8 @@ const useConvert: ConvertHook<Values, TextFieldProps> = ({
       value,
       error: fieldTouched && !!fieldError,
       helperText: (fieldTouched && fieldError) || " ",
-      onBlur: () => setFieldTouched({ name: name as any, touched: true }),
-      onChange: ({ target: { value } }) =>
-        setFieldValue({ name: name as any, value }),
+      onBlur: () => setFieldTouched(name as any, true),
+      onChange: ({ target: { value } }) => setFieldValue(name as any, value),
     };
   }, [name, value, fieldError, fieldTouched, setFieldTouched, setFieldValue]);
 };
