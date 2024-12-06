@@ -8,7 +8,7 @@ type Values = {
   prop2: number;
 };
 
-const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
+const rsfFormControl: Omit<FormControl<Values>, "handleSubmit"> = {
   values: { prop1: "prop1", prop2: 12 },
   errors: {},
   touched: {},
@@ -26,18 +26,18 @@ const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
 };
 
 beforeEach(() => {
-  (formControl.setFieldError as any).mockReset();
-  (formControl.setFieldTouched as any).mockReset();
+  (rsfFormControl.setFieldError as any).mockReset();
+  (rsfFormControl.setFieldTouched as any).mockReset();
 });
 
 test("No validate is provided - should set errors to empty object", async () => {
   renderHook(defaultUseValidate, {
-    initialProps: { formControl, criteriaMode: "all" },
+    initialProps: { rsfFormControl, criteriaMode: "all" },
   });
 
   waitFor(() => {
-    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
-    expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual({});
+    expect((rsfFormControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+    expect((rsfFormControl.setFieldError as any).mock.calls[0][1]).toEqual({});
   });
 });
 
@@ -49,11 +49,11 @@ test("When validate is provided it should be called on every values change", asy
   const context = { prop: "context" };
 
   const { result, rerender } = renderHook(defaultUseValidate, {
-    initialProps: { formControl, resolver, context, criteriaMode },
+    initialProps: { rsfFormControl, resolver, context, criteriaMode },
   });
 
   waitFor(() => {
-    expect(resolver.mock.calls[0][0]).toEqual(formControl.values);
+    expect(resolver.mock.calls[0][0]).toEqual(rsfFormControl.values);
     expect(resolver.mock.calls[0][1]).toEqual(context);
     expect(resolver.mock.calls[0][2]).toEqual({
       criteriaMode,
@@ -61,23 +61,28 @@ test("When validate is provided it should be called on every values change", asy
       fields: {},
     });
 
-    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
-    expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
+    expect((rsfFormControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+    expect((rsfFormControl.setFieldError as any).mock.calls[0][1]).toEqual(
+      error,
+    );
   });
 
   const anotherError = { prop2: { message: "error prop2" } };
   resolver.mockReturnValueOnce(error);
 
   rerender({
-    formControl: { ...formControl, values: { prop1: "prop1", prop2: 22 } },
+    rsfFormControl: {
+      ...rsfFormControl,
+      values: { prop1: "prop1", prop2: 22 },
+    },
     resolver,
     context,
     criteriaMode,
   });
 
   waitFor(() => {
-    expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
-    expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(
+    expect((rsfFormControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+    expect((rsfFormControl.setFieldError as any).mock.calls[0][1]).toEqual(
       anotherError,
     );
   });

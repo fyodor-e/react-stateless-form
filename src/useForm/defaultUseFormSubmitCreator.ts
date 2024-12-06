@@ -6,26 +6,32 @@ export const defaultUseFormSubmitCreator: UseFormSubmitCreator<
   any,
   any,
   any
-> = ({ formControl, validator, onSubmit, setSubmitCount, setIsSubmitting }) =>
+> = ({
+  rsfFormControl,
+  validator,
+  onSubmit,
+  setSubmitCount,
+  setIsSubmitting,
+}) =>
   useCallback(
     async (submitProps?: any) => {
-      setSubmitCount(formControl.submitCount + 1);
+      setSubmitCount(rsfFormControl.submitCount + 1);
       setIsSubmitting(true);
 
       // Set all fields to touched
-      formControl.setFieldTouched("", deepSetTouched(formControl.values));
+      rsfFormControl.setFieldTouched("", deepSetTouched(rsfFormControl.values));
 
-      let errors = formControl.errors;
+      let errors = rsfFormControl.errors;
       // If validator is passed - use it to validate form and set errors
       if (validator) {
-        errors = await validator(formControl);
-        formControl.setFieldError("", errors);
+        errors = await validator(rsfFormControl);
+        rsfFormControl.setFieldError("", errors);
       }
 
       // Submit form only if there are no errors after validation
       if (Object.keys(errors).length === 0 && onSubmit) {
-        return await onSubmit({ formControl, submitProps });
+        return await onSubmit({ rsfFormControl, submitProps });
       }
     },
-    [formControl, validator, onSubmit, setSubmitCount, setIsSubmitting],
+    [rsfFormControl, validator, onSubmit, setSubmitCount, setIsSubmitting],
   );

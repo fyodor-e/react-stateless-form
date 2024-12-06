@@ -146,27 +146,27 @@ void describe("1. Default props", () => {
       initialProps: formProps,
     });
 
-    const { handleSubmit, ...formControlWoSubmit } = result.current;
+    const { handleSubmit, ...rsfFormControlWoSubmit } = result.current;
 
     expect((defaultUseValidate as any).mock.calls[0][0]).toEqual({
-      formControl: formControlWoSubmit,
+      rsfFormControl: rsfFormControlWoSubmit,
       criteriaMode,
       context,
       resolver,
     });
 
     expect((defaultUseInitialValues as any).mock.calls[0][0]).toEqual({
-      formControl: formControlWoSubmit,
+      rsfFormControl: rsfFormControlWoSubmit,
       initialValues,
     });
 
     expect((defaultUseDirty as any).mock.calls[0][0]).toEqual({
-      formControl: formControlWoSubmit,
+      rsfFormControl: rsfFormControlWoSubmit,
       initialValues,
     });
 
     expect((defaultUseFormSubmitCreator as any).mock.calls[0][0]).toEqual({
-      formControl: formControlWoSubmit,
+      rsfFormControl: rsfFormControlWoSubmit,
       validator,
       onSubmit,
       setSubmitCount,

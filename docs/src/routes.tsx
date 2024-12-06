@@ -9,6 +9,7 @@ import FormStateInRedux from "./formStateInRedux/FormStateInRedux.mdx";
 import FormWithLoader from "./loader/FormWithLoader.mdx";
 import MaterialUiForm from "./materialUi/MaterialUiForm.mdx";
 import ThrottledValidation from "./throttledValidation/ThrottledValidation.mdx";
+import UseForm from "./docs/UseForm.mdx";
 
 export type Route = {
   menuName: string;
@@ -25,6 +26,17 @@ const routes: Route[] = [
         path: "overview",
         menuName: "Overview",
         element: <Overview />,
+      },
+    ],
+  },
+  {
+    path: "api",
+    menuName: "API",
+    children: [
+      {
+        path: "useForm",
+        menuName: "useForm",
+        element: <UseForm />,
       },
     ],
   },

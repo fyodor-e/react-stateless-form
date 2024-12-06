@@ -1,17 +1,22 @@
-import { FC } from "react";
-// import "prismjs/components/prism-clike";
-import "./prism.js";
-import "./prism.css"; //Example style, you can use another
+import { FC, PropsWithChildren, useEffect } from "react";
+import Prism from "prismjs";
 
-type Props = {
-  code: string;
-};
+const RawCode: FC<PropsWithChildren> = ({ children }) => {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
 
-const RawCode: FC<Props> = ({ code }) => {
   return (
-    <pre css={{ maxHeight: "200px", display: "flex", padding: 0 }}>
-      <code css={{ overflow: "auto" }} className="language-javascript">
-        {code}
+    <pre
+      css={{
+        margin: "0 !important",
+        maxHeight: "500px",
+        display: "flex",
+        padding: 0,
+      }}
+    >
+      <code css={{ overflow: "auto", flex: 1 }} className="language-javascript">
+        {children}
       </code>
     </pre>
   );

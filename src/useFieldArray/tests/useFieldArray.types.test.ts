@@ -10,7 +10,7 @@ type Values = {
   array2: { e2: number }[];
 };
 
-const formControl: FormControl<Values> = {
+const rsfFormControl: FormControl<Values> = {
   values: {
     prop1: "prop1",
     embeddedObj: {
@@ -35,7 +35,7 @@ const formControl: FormControl<Values> = {
 
 const Success = () => {
   const { append } = useFieldArray({
-    formControl,
+    rsfFormControl,
     name: "array",
   });
 
@@ -44,7 +44,7 @@ const Success = () => {
 
 const NameIsNotArray = () => {
   const { append } = useFieldArray({
-    formControl,
+    rsfFormControl,
     // @ts-expect-error
     name: "embeddedObj",
   });
@@ -55,7 +55,7 @@ const NameIsNotArray = () => {
 
 const NameIsArrayIndex = () => {
   const { append } = useFieldArray({
-    formControl,
+    rsfFormControl,
     // @ts-expect-error
     name: "array.0",
   });

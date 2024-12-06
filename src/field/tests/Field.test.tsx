@@ -1,9 +1,8 @@
-import { FormControl } from "../../types";
+import { ConvertHook, FormControl } from "../../types";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { Field } from "../Field";
 import { beforeEach, expect, test } from "@jest/globals";
 import { render } from "@testing-library/react";
-import { ConvertHook } from "../convertHook";
 
 // const TC: FC<{
 //   value: string | undefined;
@@ -49,7 +48,7 @@ type Values = {
   prop2: number;
 };
 
-const formControl: FormControl<Values> = {
+const rsfFormControl: FormControl<Values> = {
   values: { prop1: "prop1", prop2: 12 },
   touched: {},
   errors: {},
@@ -86,28 +85,28 @@ const ComponentWithRenderCounter: FC<SimpleComponentProps> = () => {
   );
 };
 
-const useConvert: ConvertHook<Values> = ({ formControl }) => {
+const useConvert: ConvertHook<Values> = ({ rsfFormControl }) => {
   const onBlur = useCallback(() => {}, []);
 
   return useMemo(
     () => ({
-      value: formControl.values["prop1"],
+      value: rsfFormControl.values["prop1"],
       onBlur,
     }),
-    [formControl.values["prop1"]],
+    [rsfFormControl.values["prop1"]],
   );
 };
 
 const TestComponent: FC<
-  Partial<SimpleComponentProps> & { formControl: FormControl<Values> }
-> = ({ formControl, value, ...props }) => {
+  Partial<SimpleComponentProps> & { rsfFormControl: FormControl<Values> }
+> = ({ rsfFormControl, value, ...props }) => {
   return (
     <Field
       useConvert={useConvert}
       rsfComponent={ComponentWithRenderCounter}
       rsfName="prop1"
       requiredProp="2"
-      formControl={formControl}
+      rsfFormControl={rsfFormControl}
       {...props}
     />
   );
@@ -119,17 +118,19 @@ beforeEach(() => {
 });
 
 test("should use memoized version of the component when rendering with same props", async () => {
-  const { rerender } = render(<TestComponent formControl={formControl} />);
-  rerender(<TestComponent formControl={formControl} />);
+  const { rerender } = render(
+    <TestComponent rsfFormControl={rsfFormControl} />,
+  );
+  rerender(<TestComponent rsfFormControl={rsfFormControl} />);
   expect(mountCounter).toBe(1);
   expect(renderCounter).toBe(1);
 });
 
 test("should rerender component when prop was changed", async () => {
   const { rerender } = render(
-    <TestComponent formControl={formControl} requiredProp="2" />,
+    <TestComponent rsfFormControl={rsfFormControl} requiredProp="2" />,
   );
-  rerender(<TestComponent formControl={formControl} requiredProp="3" />);
+  rerender(<TestComponent rsfFormControl={rsfFormControl} requiredProp="3" />);
   expect(mountCounter).toBe(1);
   expect(renderCounter).toBe(2);
 });
@@ -138,14 +139,14 @@ test("should rerender on form State change", async () => {
   const requiredProp = "2";
   const { rerender } = render(
     <TestComponent
-      formControl={{ ...formControl }}
+      rsfFormControl={{ ...rsfFormControl }}
       requiredProp={requiredProp}
     />,
   );
   rerender(
     <TestComponent
-      formControl={{
-        ...formControl,
+      rsfFormControl={{
+        ...rsfFormControl,
         values: { prop1: "another value", prop2: 12 },
       }}
       requiredProp={requiredProp}
@@ -159,15 +160,18 @@ test("should NOT rerender on another prop change in form State", async () => {
   const requiredProp = "2";
   const { rerender } = render(
     <TestComponent
-      formControl={{ ...formControl }}
+      rsfFormControl={{ ...rsfFormControl }}
       requiredProp={requiredProp}
     />,
   );
   rerender(
     <TestComponent
-      formControl={{
-        ...formControl,
-        values: { ...formControl.values, prop2: formControl.values.prop2 + 1 },
+      rsfFormControl={{
+        ...rsfFormControl,
+        values: {
+          ...rsfFormControl.values,
+          prop2: rsfFormControl.values.prop2 + 1,
+        },
       }}
       requiredProp={requiredProp}
     />,

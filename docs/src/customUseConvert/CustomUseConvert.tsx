@@ -30,7 +30,7 @@ const useReactSelectConvert: ConvertHook<
     ReactSelectProps<unknown, false, GroupBase<unknown>>,
     "value" | "onChange"
   >
-> = ({ formControl: { values, setFieldValue }, rsfName }) => {
+> = ({ rsfFormControl: { values, setFieldValue }, rsfName }) => {
   const value = getIn<any>({ name: rsfName, values });
   const onChange = useCallback<
     NonNullable<
@@ -56,7 +56,7 @@ const useDatePickerConvert: ConvertHook<
     onChange: NonNullable<DatePickerProps["onChange"]>;
     value?: undefined;
   }
-> = ({ formControl: { values, setFieldValue }, rsfName }) => {
+> = ({ rsfFormControl: { values, setFieldValue }, rsfName }) => {
   const selected = getIn<any>({ name: rsfName, values });
   const onChange = useCallback<NonNullable<DatePickerProps["onChange"]>>(
     (value: any) => {
@@ -73,13 +73,13 @@ const useDatePickerConvert: ConvertHook<
 
 const CustomUseConvert = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm({
+  const rsfFormControl = useForm({
     values: { date: new Date(), color: colors[0] },
     onSubmit,
   });
@@ -90,32 +90,32 @@ const CustomUseConvert = () => {
         gap: "7px",
         display: "flex",
         flexDirection: "column",
-        marginTop: "20px",
-        backgroundColor: "lightgreen",
       }}
     >
       <label>Date</label>
       <Field
         useConvert={useDatePickerConvert}
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="date"
         rsfComponent={DatePicker}
       />
       <label>Color</label>
       <Field
         useConvert={useReactSelectConvert}
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="color"
         rsfComponent={Select<Color>}
         options={colors}
       />
-      {!formControl.isValid && (
+      {!rsfFormControl.isValid && (
         <>
           <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
+          <div css={{ color: "red" }}>
+            {JSON.stringify(rsfFormControl.errors)}
+          </div>
         </>
       )}
-      <button onClick={formControl.handleSubmit}>Submit</button>
+      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
     </div>
   );
 };

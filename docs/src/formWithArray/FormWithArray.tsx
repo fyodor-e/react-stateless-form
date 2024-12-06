@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 import * as Yup from "yup";
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import ChakraFormInput from "../chakra/ChakraFormInput";
+import { ChakraProvider } from "@chakra-ui/react";
 
 type Values = {
   warehouse: string;
@@ -32,13 +33,13 @@ const resolver = yupResolver(
 
 const FormWithArray = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm<Values>({
+  const rsfFormControl = useForm<Values>({
     values: {
       warehouse: "",
       inventory: useMemo(
@@ -55,49 +56,51 @@ const FormWithArray = () => {
     resolver,
   });
 
-  const { remove } = useFieldArray({ formControl, name: "inventory" });
+  const { remove } = useFieldArray({ rsfFormControl, name: "inventory" });
 
   return (
-    <VStack w="full" alignItems="flex-start">
-      <Field
-        formControl={formControl}
-        rsfName="warehouse"
-        rsfComponent={ChakraFormInput}
-        label="Warehouse"
-      />
-      {formControl.values.inventory.map((_, i) => (
-        <HStack key={i}>
-          <Field
-            formControl={formControl}
-            rsfName={`inventory.${i}.name`}
-            rsfComponent={ChakraFormInput}
-            label="Name"
-          />
-          <Field
-            formControl={formControl}
-            rsfName={`inventory.${i}.code`}
-            rsfComponent={ChakraFormInput}
-            label="Code"
-          />
-          <Field
-            formControl={formControl}
-            rsfName={`inventory.${i}.quantity`}
-            rsfComponent={ChakraFormInput}
-            label="Quantity"
-          />
-          <Button
-            size="md"
-            minWidth="auto"
-            variant="outline"
-            colorScheme="red"
-            onClick={() => remove(i)}
-          >
-            Delete
-          </Button>
-        </HStack>
-      ))}
-      <Button onClick={formControl.handleSubmit}>Submit</Button>
-    </VStack>
+    <ChakraProvider>
+      <VStack w="full" alignItems="flex-start">
+        <Field
+          rsfFormControl={rsfFormControl}
+          rsfName="warehouse"
+          rsfComponent={ChakraFormInput}
+          label="Warehouse"
+        />
+        {rsfFormControl.values.inventory.map((_, i) => (
+          <HStack key={i}>
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName={`inventory.${i}.name`}
+              rsfComponent={ChakraFormInput}
+              label="Name"
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName={`inventory.${i}.code`}
+              rsfComponent={ChakraFormInput}
+              label="Code"
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName={`inventory.${i}.quantity`}
+              rsfComponent={ChakraFormInput}
+              label="Quantity"
+            />
+            <Button
+              size="md"
+              minWidth="auto"
+              variant="outline"
+              colorScheme="red"
+              onClick={() => remove(i)}
+            >
+              Delete
+            </Button>
+          </HStack>
+        ))}
+        <Button onClick={rsfFormControl.handleSubmit}>Submit</Button>
+      </VStack>
+    </ChakraProvider>
   );
 };
 

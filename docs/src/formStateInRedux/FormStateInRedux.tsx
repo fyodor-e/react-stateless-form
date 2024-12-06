@@ -88,7 +88,7 @@ const valuesSelector = (state: RootState) => state.ordersReducer;
 
 const FormStateInRedux = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
@@ -101,7 +101,7 @@ const FormStateInRedux = () => {
     dispatch(calcTotal());
   }, [dispatch]);
 
-  const formControl = useForm<Values>({
+  const rsfFormControl = useForm<Values>({
     values,
     setFieldValue,
     onSubmit,
@@ -117,28 +117,38 @@ const FormStateInRedux = () => {
       }}
     >
       <label>Order #</label>
-      <Field formControl={formControl} rsfName="orderNo" rsfComponent="input" />
+      <Field
+        rsfFormControl={rsfFormControl}
+        rsfName="orderNo"
+        rsfComponent="input"
+      />
       <label>Ordered Item</label>
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="orderedItem"
         rsfComponent="input"
       />
       <label>Quantity</label>
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="quantity"
         rsfComponent="input"
       />
       <label>Price</label>
-      <Field formControl={formControl} rsfName="price" rsfComponent="input" />
-      {!formControl.isValid && (
+      <Field
+        rsfFormControl={rsfFormControl}
+        rsfName="price"
+        rsfComponent="input"
+      />
+      {!rsfFormControl.isValid && (
         <>
           <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
+          <div css={{ color: "red" }}>
+            {JSON.stringify(rsfFormControl.errors)}
+          </div>
         </>
       )}
-      <button onClick={formControl.handleSubmit}>Submit</button>
+      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
       <div
         style={{
           display: "flex",

@@ -1,6 +1,6 @@
 import { FormControl } from "../../types";
 import { beforeEach, expect, jest, test } from "@jest/globals";
-import { act, renderHook } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { defaultUseFormSubmitCreator } from "../defaultUseFormSubmitCreator";
 import { deepSetTouched } from "../../utils";
 
@@ -13,7 +13,7 @@ jest.mock("../../utils", () => ({
   deepSetTouched: jest.fn(),
 }));
 
-const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
+const rsfFormControl: Omit<FormControl<Values>, "handleSubmit"> = {
   values: { prop1: "prop1", prop2: 12 },
   errors: {},
   touched: {},
@@ -41,8 +41,8 @@ beforeEach(() => {
   setSubmitCount.mockReset();
   setIsSubmitting.mockReset();
 
-  (formControl.setFieldError as any).mockReset();
-  (formControl.setFieldTouched as any).mockReset();
+  (rsfFormControl.setFieldError as any).mockReset();
+  (rsfFormControl.setFieldTouched as any).mockReset();
 
   (deepSetTouched as any).mockReset();
 });
@@ -50,7 +50,7 @@ beforeEach(() => {
 test("Should return memoized handleSubmit function", async () => {
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl,
+      rsfFormControl,
       validator,
       onSubmit,
       setSubmitCount,
@@ -64,7 +64,7 @@ test("Should return memoized handleSubmit function", async () => {
 
   // rerender with the same props
   rerender({
-    formControl,
+    rsfFormControl,
     validator,
     onSubmit,
     setSubmitCount,
@@ -75,7 +75,7 @@ test("Should return memoized handleSubmit function", async () => {
 
   // rerender changing one prop
   rerender({
-    formControl,
+    rsfFormControl,
     validator: jest.fn() as any,
     onSubmit,
     setSubmitCount,
@@ -88,7 +88,7 @@ test("Should return memoized handleSubmit function", async () => {
 test("Should execute submission sequence", async () => {
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl,
+      rsfFormControl,
       validator,
       onSubmit,
       setSubmitCount,
@@ -105,22 +105,24 @@ test("Should execute submission sequence", async () => {
 
   await (result.current as any)(submitProps);
 
-  expect(setSubmitCount.mock.calls[0][0]).toBe(formControl.submitCount + 1);
+  expect(setSubmitCount.mock.calls[0][0]).toBe(rsfFormControl.submitCount + 1);
   expect(setIsSubmitting.mock.calls[0][0]).toBe(true);
-  expect((deepSetTouched as any).mock.calls[0][0]).toEqual(formControl.values);
-  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual("");
-  expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(
+  expect((deepSetTouched as any).mock.calls[0][0]).toEqual(
+    rsfFormControl.values,
+  );
+  expect((rsfFormControl.setFieldTouched as any).mock.calls[0][0]).toEqual("");
+  expect((rsfFormControl.setFieldTouched as any).mock.calls[0][1]).toEqual(
     touched,
   );
-  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
-  expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
-  expect(onSubmit.mock.calls[0][0]).toEqual({ formControl, submitProps });
+  expect((rsfFormControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+  expect((rsfFormControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
+  expect(onSubmit.mock.calls[0][0]).toEqual({ rsfFormControl, submitProps });
 });
 
 test("Should NOT submit form if any error is found by validator", async () => {
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl,
+      rsfFormControl,
       validator,
       onSubmit,
       setSubmitCount,
@@ -133,15 +135,15 @@ test("Should NOT submit form if any error is found by validator", async () => {
 
   await result.current();
 
-  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual("");
-  expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
+  expect((rsfFormControl.setFieldError as any).mock.calls[0][0]).toEqual("");
+  expect((rsfFormControl.setFieldError as any).mock.calls[0][1]).toEqual(error);
   expect(onSubmit).toBeCalledTimes(0);
 });
 
-test("Should submit form if no error is present in formControl and no validator is passed", async () => {
+test("Should submit form if no error is present in rsfFormControl and no validator is passed", async () => {
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl,
+      rsfFormControl,
       validator: undefined,
       onSubmit,
       setSubmitCount,
@@ -152,15 +154,15 @@ test("Should submit form if no error is present in formControl and no validator 
   const submitProps = { s: "123" };
   await (result.current as any)(submitProps);
 
-  expect(formControl.setFieldError).toBeCalledTimes(0);
-  expect(onSubmit.mock.calls[0][0]).toEqual({ formControl, submitProps });
+  expect(rsfFormControl.setFieldError).toBeCalledTimes(0);
+  expect(onSubmit.mock.calls[0][0]).toEqual({ rsfFormControl, submitProps });
 });
 
-test("Should NOT submit form if any error is present in formControl and no validator is passed", async () => {
+test("Should NOT submit form if any error is present in rsfFormControl and no validator is passed", async () => {
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl: {
-        ...formControl,
+      rsfFormControl: {
+        ...rsfFormControl,
         errors: { prop1: { message: "error" } },
       },
       validator: undefined,
@@ -179,7 +181,7 @@ test("handleSubmit should return what onSubmit returned", async () => {
   const onSubmitRes = { ret: "ret1" };
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl,
+      rsfFormControl,
       validator: undefined,
       onSubmit: () => onSubmitRes,
       setSubmitCount,
@@ -195,7 +197,7 @@ test("handleSubmit should return what onSubmit returned", async () => {
 test("handleSubmit should throw if onSubmit throw", async () => {
   const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
-      formControl,
+      rsfFormControl,
       validator: undefined,
       onSubmit: () => {
         throw new Error("err1");

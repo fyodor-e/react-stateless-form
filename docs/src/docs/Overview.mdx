@@ -1,3 +1,49 @@
 # Overview
 
-Overview of React Stateless Form
+The main features of React Stateless Form (RSF for short) are:
+* State of the form can be internal (held by RSF) or external (held, for example, in Redux)
+* Do not depend on context (althrough it can be used)
+* Typesafe as much as possible (it is developed in TypeScript)
+* Customizable
+* Ability to create Subforms
+* Built-in locader components
+
+## Form creation
+
+To create a form [`useForm`](/api/useForm) hook should be called.
+At minimum it should have initial values property.
+Other common props are:
+* `resolver` for validation
+* `onSubmit` for form submission
+Optionally, `useForm` can be customized. For example, `setFieldValues` can be passed to keep state externally, custom internal hooks, like `useValidate`, etc.
+Essentially, `useForm` is a collection of default hooks that implement form functionality.
+First, it is checked where form state should be stored. If `setFieldValues`, `setFieldError`, `setFieldTouched` and `setFieldDirty` are not passed, they are created internally.
+Then it calls several hooks, `useValidate` to validate the form, `useInitialValues` to set initial values, `useDirty` to calculate if form is dirty and `useSubmitCreator` which create `handleSubmit` function.
+At the end, `rsfFormControl` is created be memoizing results of the previous steps.
+`rsfFormControl` includes all functions to manipulate a form.
+
+
+## Field
+
+There is a `Field` component which can be used to wrap any form element, like input or combo.
+`Field` accepts at least `rsfFormControl` (see `useForm` above), `rsfName` which is the path to the property of the form, and `rsfComponent` that will display value of the form field.
+`Field` will render `rsfComponent` and pass to it a value extracted using `rsfName`.
+It also provide default `onChange`, `onBlur` callbacks and `error`.
+The problem is that different components need different props.
+For example html `<input />` has `onChange: (event: ChangeEvent) => void` and input value will be at `event.target.value`.
+But [`ReactSelect`](https://react-select.com/) has such `onChange: (value: SignleValue<T>)`, and `value` is the selected object.
+Same will apply how errors should be displayed and so on.
+To be able to use `Field` with any library, optional prop [`useConvert`](/api/useConvert) can be used.
+It will accept rsfFormControl and rsfName as arguments and should provide momoized `onChange`, `onBlur`, `value` and `error` props. Names of them can be different.
+Then `Field` can wrap any component.
+See example with custom [`useConvert`](/examples/custom-use-convert).
+
+## Subforms
+
+As all apps are built using reusable components, it can be required to reuse part of the form.
+For example, address form can be used in many places: to enter address of the user, address of the building, devivery address and so on.
+It can be a good idea to create address form once and the reuse it in several differen forms.
+This can be done with [`useSubform`](api/useSubform) hook.
+`useSubform` will also generate `rsfFormControl` for use inside subform.
+But itself it will accept `rsfFormControl` from parent form and `rsfName` with the path to a value of the
+

@@ -8,7 +8,7 @@ type Values = {
   prop2: number;
 };
 
-const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
+const rsfFormControl: Omit<FormControl<Values>, "handleSubmit"> = {
   values: { prop1: "prop1", prop2: 12 },
   errors: {},
   touched: {},
@@ -26,30 +26,30 @@ const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
 };
 
 beforeEach(() => {
-  (formControl.setFieldDirty as any).mockReset();
+  (rsfFormControl.setFieldDirty as any).mockReset();
 });
 
 test("Should setFieldDirty on each value change", async () => {
   renderHook(defaultUseDirty, {
-    initialProps: { formControl, initialValues: undefined },
+    initialProps: { rsfFormControl, initialValues: undefined },
   });
 
-  expect(formControl.setFieldDirty).toBeCalledTimes(1);
-  expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual("");
-  expect((formControl.setFieldDirty as any).mock.calls[0][1]).toEqual({
+  expect(rsfFormControl.setFieldDirty).toBeCalledTimes(1);
+  expect((rsfFormControl.setFieldDirty as any).mock.calls[0][0]).toEqual("");
+  expect((rsfFormControl.setFieldDirty as any).mock.calls[0][1]).toEqual({
     prop1: true,
     prop2: true,
   });
 });
 
-// This test should be in formControl
+// This test should be in rsfFormControl
 // test("Should not call setFieldDirty if durty value was not changed", async () => {
 //   renderHook(defaultUseDirty, {
 //     initialProps: {
-//       formControl: { ...formControl, dirty: { prop1: false, prop2: false } },
-//       initialValues: formControl.values,
+//       rsfFormControl: { ...rsfFormControl, dirty: { prop1: false, prop2: false } },
+//       initialValues: rsfFormControl.values,
 //     },
 //   });
 
-//   expect(formControl.setFieldDirty).toBeCalledTimes(0);
+//   expect(rsfFormControl.setFieldDirty).toBeCalledTimes(0);
 // });

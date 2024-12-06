@@ -1,9 +1,9 @@
-import { Component, ElementType, FC } from "react";
+import { ElementType } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { FormControl } from "./formControl";
 import { DisplayLoading } from "../field/displayLoading";
-import { ConvertHook } from "../field/convertHook";
+import { ConvertHook } from "../types";
 
 export type DefaultBaseProps = {
   onBlur?: () => void;
@@ -21,13 +21,13 @@ export type FieldProps<
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   Value = DeepPick<Values, Name>,
 > = {
-  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
 
   rsfName: Name;
   rsfComponent: ElementType<ComponentProps>;
 
-  LoadingComponent?: ElementType<LoadingComponentProps>;
-  displayLoading?: DisplayLoading;
+  rsfLoadingComponent?: ElementType<LoadingComponentProps>;
+  rsfDisplayLoading?: DisplayLoading;
   useConvert?: ConvertHook<Values, BaseProps>;
 } & Omit<ComponentProps, keyof BaseProps> &
   Partial<Omit<BaseProps, "value">> &

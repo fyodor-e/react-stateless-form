@@ -4,6 +4,23 @@ import RawCode from '../RawCode.tsx'
 
 # Form with loader
 
+Forms can be used to modify existing data.
+And data to be modified should be first loaded into the form.
+During data fetching skeleton controls can be displayed in place of real form.
+
+```
+  <Field
+    rsfFormControl={rsfFormControl}
+    rsfName="country"
+    rsfComponent={Input}
+    rsfLoadingComponent={LoadingComonent}
+  />
+```
+
+`rsfLoadingComponent is doing this. This component will be displayed
+when data is loading. `rsfDisplayLoading` can be used to control
+if loader should be displayed or form control.
+
 <RawCode code={FormWithLoaderRaw} />
 
 <FormWithLoader />

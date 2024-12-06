@@ -19,7 +19,7 @@ export type OnSubmit<
   SubmitProps = undefined,
   SubmitReturn = void,
 > = (arg: {
-  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
   submitProps: SubmitProps;
 }) => Promise<SubmitReturn> | SubmitReturn;
 
@@ -28,9 +28,9 @@ export type UseFormSubmitCreatorArg<
   SubmitProps = undefined,
   SubmitReturn = void,
 > = {
-  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
   validator?: (
-    formControl: Omit<FormControl<Values>, "handleSubmit">,
+    rsfFormControl: Omit<FormControl<Values>, "handleSubmit">,
   ) => Promise<FormErrors<Values>>;
   onSubmit?: OnSubmit<Values, SubmitProps, SubmitReturn>;
   setSubmitCount: (submitCount: number) => void;
@@ -48,19 +48,19 @@ export type UseFormSubmitCreator<
   : (submitProps: SubmitProps) => Promise<SubmitReturn>;
 
 export type UseValidate<Values extends object> = (arg: {
-  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
   resolver?: Resolver<Values>;
   context?: any;
   criteriaMode?: "all" | "firstError";
 }) => () => Promise<FormErrors<Values>>;
 
 export type UseDirty<Values extends object> = (arg: {
-  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
   initialValues: Values | undefined;
 }) => void;
 
 export type UseInitialValues<Values extends object> = (arg: {
-  formControl: Omit<FormControl<Values>, "handleSubmit">;
+  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
   initialValues: Values | undefined;
 }) => Values | undefined;
 

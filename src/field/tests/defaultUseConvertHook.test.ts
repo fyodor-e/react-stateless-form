@@ -3,7 +3,7 @@ import { expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { defaultUseConvert } from "../defaultUseConvert";
 
-const formControl: FormControl<{ prop1: string; prop2: number }> = {
+const rsfFormControl: FormControl<{ prop1: string; prop2: number }> = {
   values: { prop1: "prop1", prop2: 1 },
   errors: { prop1: { message: "prop1Error", type: "required" } },
   touched: { prop1: true },
@@ -24,25 +24,25 @@ const formControl: FormControl<{ prop1: string; prop2: number }> = {
 test("should return value, error and touched using passed rsfName", () => {
   const initialProps = {
     rsfName: "prop1",
-    formControl,
+    rsfFormControl,
   };
 
   const { result } = renderHook((props) => defaultUseConvert(props), {
     initialProps,
   });
 
-  expect(result.current.value).toBe(formControl.values.prop1);
-  expect(result.current.error).toBe(formControl.errors.prop1?.message);
-  expect(result.current.touched).toBe(formControl.touched.prop1);
+  expect(result.current.value).toBe(rsfFormControl.values.prop1);
+  expect(result.current.error).toBe(rsfFormControl.errors.prop1?.message);
+  expect(result.current.touched).toBe(rsfFormControl.touched.prop1);
 
   expect(result.current.onBlur).toEqual(expect.any(Function));
   expect(result.current.onChange).toEqual(expect.any(Function));
 });
 
-test("should memoize values event if other props of the formControl has been changed", () => {
+test("should memoize values event if other props of the rsfFormControl has been changed", () => {
   const initialProps = {
     rsfName: "prop1",
-    formControl,
+    rsfFormControl,
   };
 
   const { result, rerender } = renderHook((props) => defaultUseConvert(props), {
@@ -57,23 +57,23 @@ test("should memoize values event if other props of the formControl has been cha
   const initialOnChange = result.current.onChange;
 
   const updatedProps: {
-    formControl: FormControl<{ prop1: string; prop2: number }>;
+    rsfFormControl: FormControl<{ prop1: string; prop2: number }>;
     rsfName: string;
   } = {
     rsfName: initialProps.rsfName,
-    formControl: {
-      ...formControl,
+    rsfFormControl: {
+      ...rsfFormControl,
       values: {
-        ...formControl.values,
-        prop2: formControl.values.prop2 + 10,
+        ...rsfFormControl.values,
+        prop2: rsfFormControl.values.prop2 + 10,
       },
       errors: {
-        ...formControl.errors,
+        ...rsfFormControl.errors,
         prop2: { message: "another error", type: "required" },
       },
       touched: {
-        ...formControl.touched,
-        prop2: !formControl.touched.prop2,
+        ...rsfFormControl.touched,
+        prop2: !rsfFormControl.touched.prop2,
       },
     },
   };
@@ -88,10 +88,10 @@ test("should memoize values event if other props of the formControl has been cha
   expect(result.current.onChange).toBe(initialOnChange);
 });
 
-test("should update result when formControl is changed", () => {
+test("should update result when rsfFormControl is changed", () => {
   const initialProps = {
     rsfName: "prop1",
-    formControl,
+    rsfFormControl,
   };
 
   const { result, rerender } = renderHook((props) => defaultUseConvert(props), {
@@ -107,19 +107,19 @@ test("should update result when formControl is changed", () => {
 
   rerender({
     ...initialProps,
-    formControl: {
-      ...initialProps.formControl,
+    rsfFormControl: {
+      ...initialProps.rsfFormControl,
       values: {
-        ...initialProps.formControl.values,
+        ...initialProps.rsfFormControl.values,
         prop1: "another value",
       },
       errors: {
-        ...initialProps.formControl.errors,
+        ...initialProps.rsfFormControl.errors,
         prop1: { message: "another error", type: "required" },
       },
       touched: {
-        ...initialProps.formControl.touched,
-        prop1: !initialProps.formControl.touched.prop1,
+        ...initialProps.rsfFormControl.touched,
+        prop1: !initialProps.rsfFormControl.touched.prop1,
       },
     },
   });
@@ -135,7 +135,7 @@ test("should update result when formControl is changed", () => {
 test("onBlur should call setFieldTouched", () => {
   const initialProps = {
     rsfName: "prop1",
-    formControl,
+    rsfFormControl,
   };
 
   const { result } = renderHook((props) => defaultUseConvert(props), {
@@ -144,17 +144,19 @@ test("onBlur should call setFieldTouched", () => {
 
   result.current.onBlur && result.current.onBlur();
 
-  expect((formControl.setFieldTouched as any).mock.calls).toHaveLength(1);
-  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
+  expect((rsfFormControl.setFieldTouched as any).mock.calls).toHaveLength(1);
+  expect((rsfFormControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
     initialProps.rsfName,
   );
-  expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(true);
+  expect((rsfFormControl.setFieldTouched as any).mock.calls[0][1]).toEqual(
+    true,
+  );
 });
 
 test("onChange should call setFieldValue", () => {
   const initialProps = {
     rsfName: "prop1",
-    formControl,
+    rsfFormControl,
   };
 
   const { result } = renderHook((props) => defaultUseConvert(props), {
@@ -164,11 +166,11 @@ test("onChange should call setFieldValue", () => {
   result.current.onChange &&
     result.current.onChange({ target: { value: "some value" } });
 
-  expect((formControl.setFieldValue as any).mock.calls).toHaveLength(1);
-  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(
+  expect((rsfFormControl.setFieldValue as any).mock.calls).toHaveLength(1);
+  expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
     initialProps.rsfName,
   );
-  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual(
+  expect((rsfFormControl.setFieldValue as any).mock.calls[0][1]).toEqual(
     "some value",
   );
 });
@@ -176,8 +178,8 @@ test("onChange should call setFieldValue", () => {
 test("should return undefined if error is not a string", () => {
   const initialProps = {
     rsfName: "prop1",
-    formControl: {
-      ...formControl,
+    rsfFormControl: {
+      ...rsfFormControl,
       errors: {
         prop1: { p: "other" },
       },

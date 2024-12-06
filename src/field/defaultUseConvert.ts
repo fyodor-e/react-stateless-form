@@ -1,10 +1,10 @@
-import { DefaultConvertHook } from "./convertHook";
+import { DefaultConvertHook } from "../types";
 import { getIn, getInErrors } from "../utils";
 import { useMemo } from "react";
 
 export const defaultUseConvert: DefaultConvertHook = ({
   rsfName: name,
-  formControl: { values, errors, touched, setFieldTouched, setFieldValue },
+  rsfFormControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {
   const value = getIn({ values, name });
   const error = getInErrors<any, any>({ errors, name });

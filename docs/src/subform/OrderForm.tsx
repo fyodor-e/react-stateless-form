@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import SimpleInput from "./simpleInput";
 import AddressForm, { Address, addressValidator } from "./AddressForm";
 import { useCallback } from "react";
-import { Button } from "@chakra-ui/react";
 
 type Order = {
   orderNo: number;
@@ -22,13 +21,13 @@ const resolver = yupResolver(
 
 const OrderForm = () => {
   const onSubmit = useCallback<OnSubmit<Order>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm<Order>({
+  const rsfFormControl = useForm<Order>({
     values: {
       orderNo: 0,
       carrier: "",
@@ -45,8 +44,8 @@ const OrderForm = () => {
     onSubmit,
   });
 
-  const addressFormControl = useSubform({
-    ...formControl,
+  const addressrsfFormControl = useSubform({
+    ...rsfFormControl,
     name: "deliveryAddress",
   });
 
@@ -59,19 +58,19 @@ const OrderForm = () => {
       }}
     >
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="orderNo"
         rsfComponent={SimpleInput}
         label="Order No"
       />
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="carrier"
         rsfComponent={SimpleInput}
         label="Carrier"
       />
-      <AddressForm subformControl={addressFormControl} />
-      <Button onClick={formControl.handleSubmit}>Submit</Button>
+      <AddressForm subrsfFormControl={addressrsfFormControl} />
+      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
     </div>
   );
 };
