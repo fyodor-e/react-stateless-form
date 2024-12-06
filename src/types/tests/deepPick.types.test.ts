@@ -30,9 +30,17 @@ expectType<DeepPick<TestObject, "nestedObj">, TestObject["nestedObj"]>({
 });
 
 expectType<DeepPick<TestObject, "nestedObj.2">, "2">("2");
+// // @ts-expect-error
+// expectType<DeepPick<TestObject, "nestedObj.[2]">, "2">("2");
+// // @ts-expect-error
+// expectType<DeepPick<TestObject, "nestedObj[2]">, "2">("2");
 
 // @ts-expect-error
 expectType<DeepPick<TestObject, "nestedObj.1">, "2">("2");
+// // @ts-expect-error
+// expectType<DeepPick<TestObject, "nestedObj.[1]">, "2">("2");
+// // @ts-expect-error
+// expectType<DeepPick<TestObject, "nestedObj[1]">, "2">("2");
 
 expectType<DeepPick<TestObject, "nestedObj.nestedProp1">, string>("");
 
@@ -41,11 +49,27 @@ expectType<DeepPick<TestObject, "nestedArray">, TestObject["nestedArray"]>([
   { prop4: "prop4" },
 ]);
 
+// expectType<
+//   DeepPick<TestObject, "nestedArray[0]">,
+//   TestObject["nestedArray"][number]
+// >({ prop4: "prop4" });
+// expectType<
+//   DeepPick<TestObject, "nestedArray.[1]">,
+//   TestObject["nestedArray"][number]
+// >({ prop4: "prop4" });
 expectType<
   DeepPick<TestObject, "nestedArray.2">,
   TestObject["nestedArray"][number]
 >({ prop4: "prop4" });
 
+// expectType<
+//   DeepPick<TestObject, "nestedArray[0].prop4">,
+//   TestObject["nestedArray"][number]["prop4"]
+// >("prop4");
+// expectType<
+//   DeepPick<TestObject, "nestedArray.[1].prop4">,
+//   TestObject["nestedArray"][number]["prop4"]
+// >("prop4");
 expectType<
   DeepPick<TestObject, "nestedArray.2.prop4">,
   TestObject["nestedArray"][number]["prop4"]
@@ -59,6 +83,15 @@ expectType<
   TestObject["nestedObj"]["nestedArray"]
 >([{ aProp1: 0, objNestedInArr: { prop1: "" } }]);
 
+// nested array element
+// expectType<
+//   DeepPick<TestObject, "nestedObj.nestedArray.[0]">,
+//   TestObject["nestedObj"]["nestedArray"][0]
+// >({ aProp1: 0, objNestedInArr: { prop1: "" } });
+// expectType<
+//   DeepPick<TestObject, "nestedObj.nestedArray[1]">,
+//   TestObject["nestedObj"]["nestedArray"][0]
+// >({ aProp1: 0, objNestedInArr: { prop1: "" } });
 expectType<
   DeepPick<TestObject, "nestedObj.nestedArray.1">,
   TestObject["nestedObj"]["nestedArray"][0]
@@ -69,6 +102,14 @@ expectType<
   DeepPick<TestObject, "nestedObj.nestedArray.0.aProp1">,
   TestObject["nestedObj"]["nestedArray"][number]["aProp1"]
 >(0);
+// expectType<
+//   DeepPick<TestObject, "nestedObj.nestedArray[1].aProp1">,
+//   TestObject["nestedObj"]["nestedArray"][number]["aProp1"]
+// >(0);
+// expectType<
+//   DeepPick<TestObject, "nestedObj.nestedArray.[2].aProp1">,
+//   TestObject["nestedObj"]["nestedArray"][number]["aProp1"]
+// >(0);
 
 // 1.1 Name = '' - root object
 expectType<DeepPick<TestObject, "">, TestObject>({
@@ -92,6 +133,18 @@ type RootArray = {
     prop3: true;
   }[];
 }[];
+
+// expectType<DeepPick<RootArray, "[2]">, RootArray[0]>({
+//   prop1: "prop1",
+//   nestedObject: {
+//     prop2: 1,
+//   },
+//   nestedArray: [
+//     {
+//       prop3: true,
+//     },
+//   ],
+// });
 
 expectType<DeepPick<RootArray, "2">, RootArray[0]>({
   prop1: "prop1",
@@ -118,6 +171,9 @@ expectType<DeepPick<RootArray, ".2">, RootArray[0]>({
   ],
 });
 
+// expectType<DeepPick<RootArray, "[0].prop1">, RootArray[number]["prop1"]>(
+//   "prop1",
+// );
 expectType<DeepPick<RootArray, "1.prop1">, RootArray[number]["prop1"]>("prop1");
 
 expectType<DeepPick<RootArray, ".2.prop1">, RootArray[number]["prop1"]>(
@@ -127,6 +183,32 @@ expectType<DeepPick<RootArray, ".2.prop1">, RootArray[number]["prop1"]>(
 // @ts-expect-error
 expectType<DeepPick<RootArray, "[0].err">, string>("err");
 
+// expectType<
+//   DeepPick<RootArray, "[0].nestedArray">,
+//   RootArray[number]["nestedArray"]
+// >([{ prop3: true }]);
+
+// expectType<
+//   DeepPick<RootArray, "[0].nestedArray[0]">,
+//   RootArray[number]["nestedArray"][number]
+// >({ prop3: true });
+// expectType<
+//   DeepPick<RootArray, "[0].nestedArray.[1]">,
+//   RootArray[number]["nestedArray"][number]
+// >({ prop3: true });
+// expectType<
+//   DeepPick<RootArray, "[0].nestedArray.2">,
+//   RootArray[number]["nestedArray"][number]
+// >({ prop3: true });
+
+// expectType<
+//   DeepPick<RootArray, "[0].nestedArray[0].prop3">,
+//   RootArray[number]["nestedArray"][number]["prop3"]
+// >(true);
+// expectType<
+//   DeepPick<RootArray, "[0].nestedArray.[1].prop3">,
+//   RootArray[number]["nestedArray"][number]["prop3"]
+// >(true);
 expectType<
   DeepPick<RootArray, "0.nestedArray.2.prop3">,
   RootArray[number]["nestedArray"][number]["prop3"]
@@ -184,6 +266,10 @@ expectType<
   "prop1" | undefined
 >(undefined);
 
+// expectType<
+//   DeepPick<ObjectWithUndefined, "nestedArray[0].prop2">,
+//   "prop2" | undefined
+// >("prop2");
 expectType<
   DeepPick<ObjectWithUndefined, "nestedArray.0.prop2">,
   "prop2" | undefined
@@ -239,16 +325,42 @@ expectType<
   // @ts-expect-error
 >("errorProp1");
 
+// expectType<
+//   DeepPick<ObjectWithUnions, "nestedObject[0]">,
+//   { arrayProp2: "arrayProp2" } | undefined
+// >({ arrayProp2: "arrayProp2" });
+// expectType<
+//   DeepPick<ObjectWithUnions, "nestedObject.[1]">,
+//   { arrayProp2: "arrayProp2" } | undefined
+// >({ arrayProp2: "arrayProp2" });
 expectType<
   DeepPick<ObjectWithUnions, "nestedObject.2">,
   { arrayProp2: "arrayProp2" } | undefined
 >({ arrayProp2: "arrayProp2" });
 
+// expectType<
+//   DeepPick<ObjectWithUnions, "nestedObject[0].arrayProp2">,
+//   "arrayProp2" | undefined
+// >("arrayProp2");
+// expectType<
+//   DeepPick<ObjectWithUnions, "nestedObject.[1].arrayProp2">,
+//   "arrayProp2" | undefined
+// >("arrayProp2");
 expectType<
   DeepPick<ObjectWithUnions, "nestedObject.2.arrayProp2">,
   "arrayProp2" | undefined
 >("arrayProp2");
 
+// expectType<
+//   DeepPick<ObjectWithUnions, "nestedObject[0].errorArrayProp2">,
+//   "errorArrayProp2" | undefined
+//   // @ts-expect-error
+// >("errorArrayProp2");
+// expectType<
+//   DeepPick<ObjectWithUnions, "nestedObject.[1].errorArrayProp2">,
+//   "errorArrayProp2" | undefined
+//   // @ts-expect-error
+// >("errorArrayProp2");
 expectType<
   DeepPick<ObjectWithUnions, "nestedObject.2.errorArrayProp2">,
   "errorArrayProp2" | undefined

@@ -29,6 +29,72 @@ export type SetNullUndefined<
 // number literal (i.e. '1') is converted to number, string literal (i.e. 'prop') is left unchanged
 type GetKey<T> = T extends `${infer N extends number}` ? N : T;
 
+// type SingleDeepPick<
+//   T,
+//   P,
+//   IsNull extends boolean,
+//   IsUndefined extends boolean,
+//   Iteration extends number = 0,
+//   Intersection = UnionToIntersection<Extract<NonNullable<T>, object>>,
+//   ArrayT = Extract<T, Array<any>>,
+// > = Iteration extends 15
+//   ? never
+//   : P extends `[${number}].${infer R}`
+//     ? ArrayT extends (infer A)[]
+//       ? SingleDeepPick<
+//           A,
+//           R,
+//           CheckNull<T, IsNull>,
+//           CheckUndefined<T, IsUndefined>,
+//           Increment<Iteration>
+//         >
+//       : unknown
+//     : P extends `${infer K}.${infer R}`
+//       ? K extends `${infer KK}[${infer I}]`
+//         ? GetKey<KK> extends keyof Intersection
+//           ? SingleDeepPick<
+//               Intersection[GetKey<KK>],
+//               `[${I}].${R}`,
+//               CheckNull<T, IsNull>,
+//               CheckUndefined<T, IsUndefined>,
+//               Increment<Iteration>
+//             >
+//           : unknown
+//         : GetKey<K> extends keyof Intersection
+//           ? SingleDeepPick<
+//               Intersection[GetKey<K>],
+//               R,
+//               CheckNull<T, IsNull>,
+//               CheckUndefined<T, IsUndefined>,
+//               Increment<Iteration>
+//             >
+//           : unknown
+//       : P extends `[${number}]`
+//         ? ArrayT extends (infer A)[]
+//           ? SetNullUndefined<
+//               A,
+//               CheckNull<T, IsNull>,
+//               CheckUndefined<T, IsUndefined>
+//             >
+//           : unknown
+//         : P extends `${infer K}[${infer I}]`
+//           ? GetKey<K> extends keyof Intersection
+//             ? SingleDeepPick<
+//                 Intersection[GetKey<K>],
+//                 `[${I}]`,
+//                 CheckNull<T, IsNull>,
+//                 CheckUndefined<T, IsUndefined>,
+//                 Increment<Iteration>
+//               >
+//             : unknown
+//           : GetKey<P> extends keyof Intersection
+//             ? SetNullUndefined<
+//                 Intersection[GetKey<P>],
+//                 CheckNull<T, IsNull>,
+//                 CheckUndefined<T, IsUndefined>
+//               >
+//             : unknown;
+
 type SingleDeepPick<
   T,
   P,
