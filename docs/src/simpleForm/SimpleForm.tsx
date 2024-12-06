@@ -17,13 +17,13 @@ const resolver = yupResolver(
 
 const SimpleForm = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm({
+  const rsfFormControl = useForm({
     values: { firstName: "", lastName: "" },
     onSubmit,
     resolver,
@@ -39,23 +39,25 @@ const SimpleForm = () => {
     >
       <label>First Name</label>
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="firstName"
         rsfComponent="input"
       />
       <label>Last Name</label>
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="lastName"
         rsfComponent="input"
       />
-      {!formControl.isValid && (
+      {!rsfFormControl.isValid && (
         <>
           <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
+          <div css={{ color: "red" }}>
+            {JSON.stringify(rsfFormControl.errors)}
+          </div>
         </>
       )}
-      <button onClick={formControl.handleSubmit}>Submit</button>
+      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
     </div>
   );
 };

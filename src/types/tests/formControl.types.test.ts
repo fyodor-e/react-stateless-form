@@ -1,5 +1,5 @@
 import { FieldError, FormControl } from "../formControl";
-import { expectType, FormErrors, FormTouched } from "..";
+import { expectType, FormTouched } from "..";
 
 type Values = {
   p: "p" | "c";
@@ -8,7 +8,7 @@ type Values = {
   }[];
 };
 
-const formControl: FormControl<Values> = {
+const rsfFormControl: FormControl<Values> = {
   values: { p: "p", arr: [] },
   errors: {},
   touched: {},
@@ -23,20 +23,20 @@ const formControl: FormControl<Values> = {
   handleSubmit: () => Promise.resolve(),
 };
 
-formControl.setFieldValue("p", "c");
-formControl.setFieldValue("p", (prev) => {
+rsfFormControl.setFieldValue("p", "c");
+rsfFormControl.setFieldValue("p", (prev) => {
   expectType<Values["p"], typeof prev>(prev);
   return prev;
 });
 
-formControl.setFieldValue("arr.1", { prop2: 12 });
-formControl.setFieldValue("arr.1", (prev) => {
+rsfFormControl.setFieldValue("arr.1", { prop2: 12 });
+rsfFormControl.setFieldValue("arr.1", (prev) => {
   expectType<Values["arr"][number], typeof prev>(prev);
   return prev;
 });
 
-formControl.setFieldError("arr", { message: "error" });
-formControl.setFieldError("arr", (prev) => {
+rsfFormControl.setFieldError("arr", { message: "error" });
+rsfFormControl.setFieldError("arr", (prev) => {
   expectType<
     FieldError | ({ prop2?: FieldError | undefined } | undefined)[] | undefined,
     typeof prev
@@ -44,14 +44,14 @@ formControl.setFieldError("arr", (prev) => {
   return prev;
 });
 
-formControl.setFieldTouched("arr.1", { prop2: false });
-formControl.setFieldTouched("arr", (prev) => {
+rsfFormControl.setFieldTouched("arr.1", { prop2: false });
+rsfFormControl.setFieldTouched("arr", (prev) => {
   expectType<FormTouched<Values["arr"]> | undefined, typeof prev>(prev);
   return prev;
 });
 
-formControl.setFieldDirty("arr.1", { prop2: false });
-formControl.setFieldDirty("arr", (prev) => {
+rsfFormControl.setFieldDirty("arr.1", { prop2: false });
+rsfFormControl.setFieldDirty("arr", (prev) => {
   expectType<FormTouched<Values["arr"]> | undefined, typeof prev>(prev);
   return prev;
 });

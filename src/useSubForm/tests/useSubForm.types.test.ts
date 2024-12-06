@@ -10,7 +10,7 @@ type Values = {
   array2: { e2: number }[];
 };
 
-const formControl: FormControl<Values> = {
+const rsfFormControl: FormControl<Values> = {
   values: {
     prop1: "prop1",
     embeddedObj: {
@@ -35,7 +35,7 @@ const formControl: FormControl<Values> = {
 
 const Success = () => {
   const { values } = useSubform({
-    ...formControl,
+    ...rsfFormControl,
     name: "embeddedObj",
   });
 
@@ -44,7 +44,7 @@ const Success = () => {
 
 const NameIsPrimitive = () => {
   const { values } = useSubform({
-    ...formControl,
+    ...rsfFormControl,
     name: "prop1",
   });
 
@@ -53,7 +53,7 @@ const NameIsPrimitive = () => {
 
 const NameDoesNotExist = () => {
   const { values } = useSubform({
-    ...formControl,
+    ...rsfFormControl,
     // @ts-expect-error
     name: "incorrectProp",
   });

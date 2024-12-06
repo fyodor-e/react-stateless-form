@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { DefaultBaseProps, DeepPick, KeyPaths, FieldProps } from "../types";
+import { DefaultBaseProps, KeyPaths, FieldProps } from "../types";
 import Renderer from "./Renderer";
 import { defaultDisplayLoading } from "./defaultLoadingFunction";
 import { defaultUseConvert } from "./defaultUseConvert";
@@ -12,9 +12,9 @@ export const Field = <
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
   useConvert = defaultUseConvert as any,
-  displayLoading = defaultDisplayLoading,
-  LoadingComponent,
-  formControl,
+  rsfDisplayLoading = defaultDisplayLoading,
+  rsfLoadingComponent,
+  rsfFormControl,
   rsfName,
   rsfComponent: Component,
   ...restProps
@@ -27,21 +27,21 @@ export const Field = <
 >) => {
   const generatedProps = useConvert({
     rsfName,
-    formControl,
+    rsfFormControl,
   });
 
   const isLoading = useMemo(
     () =>
-      displayLoading &&
-      displayLoading({
+      rsfDisplayLoading &&
+      rsfDisplayLoading({
         rsfName,
-        formControl,
+        rsfFormControl,
       }),
-    [displayLoading, rsfName, formControl],
+    [rsfDisplayLoading, rsfName, rsfFormControl],
   );
 
-  if (isLoading && LoadingComponent) {
-    const L: any = LoadingComponent;
+  if (isLoading && rsfLoadingComponent) {
+    const L: any = rsfLoadingComponent;
     return <L {...generatedProps} />;
   }
 

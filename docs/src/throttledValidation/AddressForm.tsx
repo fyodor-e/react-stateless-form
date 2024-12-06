@@ -26,7 +26,7 @@ const resolver = yupResolver(
 );
 
 const useValidate: UseValidate<Address> = ({
-  formControl: { values, setFieldError },
+  rsfFormControl: { values, setFieldError },
   resolver,
   context,
   criteriaMode,
@@ -63,13 +63,13 @@ const useValidate: UseValidate<Address> = ({
 
 const AddressForm: FC = () => {
   const onSubmit = useCallback<OnSubmit<Address>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm<Address>({
+  const rsfFormControl = useForm<Address>({
     values: {
       country: "",
       state: "",
@@ -94,48 +94,48 @@ const AddressForm: FC = () => {
       }}
     >
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="country"
         rsfComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="state"
         rsfComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="city"
         rsfComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="zipCode"
         rsfComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="street1"
         rsfComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        formControl={formControl}
+        rsfFormControl={rsfFormControl}
         rsfName="street2"
         rsfComponent={SimpleInput}
         label="Street Address 2"
         css={{ gridColumn: 2, gridRow: 3 }}
       />
-      <button onClick={formControl.handleSubmit}>Submit</button>
+      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
     </div>
   );
 };

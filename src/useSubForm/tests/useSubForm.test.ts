@@ -10,7 +10,7 @@ type Values = {
   };
 };
 
-const formControl: FormControl<Values> = {
+const rsfFormControl: FormControl<Values> = {
   values: {
     nestedObj: {
       prop1: "123",
@@ -57,80 +57,80 @@ const name = "nestedObj";
 
 beforeEach(() => {
   // (getIn as any).mockReset();
-  (formControl.setFieldValue as any).mockReset();
-  (formControl.setFieldTouched as any).mockReset();
-  (formControl.setFieldError as any).mockReset();
-  (formControl.setFieldDirty as any).mockReset();
+  (rsfFormControl.setFieldValue as any).mockReset();
+  (rsfFormControl.setFieldTouched as any).mockReset();
+  (rsfFormControl.setFieldError as any).mockReset();
+  (rsfFormControl.setFieldDirty as any).mockReset();
 });
 
 test("values test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
-  expect(result.current.values).toBe(formControl.values.nestedObj);
+  expect(result.current.values).toBe(rsfFormControl.values.nestedObj);
 });
 
 test("errors test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
-  expect(result.current.errors).toBe(formControl.errors.nestedObj);
+  expect(result.current.errors).toBe(rsfFormControl.errors.nestedObj);
 });
 
 test("touched test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
-  expect(result.current.touched).toBe(formControl.touched.nestedObj);
+  expect(result.current.touched).toBe(rsfFormControl.touched.nestedObj);
 });
 
 test("dirty test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
-  expect(result.current.dirty).toBe(formControl.dirty.nestedObj);
+  expect(result.current.dirty).toBe(rsfFormControl.dirty.nestedObj);
 });
 
 test("isSubmitting/submitCount should be returned as passed", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
-  expect(result.current.isSubmitting).toBe(formControl.isSubmitting);
-  expect(result.current.submitCount).toBe(formControl.submitCount);
+  expect(result.current.isSubmitting).toBe(rsfFormControl.isSubmitting);
+  expect(result.current.submitCount).toBe(rsfFormControl.submitCount);
 });
 
 test("setFieldValue test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
   result.current.setFieldValue("prop1", "345");
-  expect(formControl.setFieldValue).toBeCalledTimes(1);
-  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(
+  expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
+  expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
     `${name}.prop1`,
   );
-  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual("345");
+  expect((rsfFormControl.setFieldValue as any).mock.calls[0][1]).toEqual("345");
 });
 
 test("setFieldError test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
   result.current.setFieldError("prop1", {
     type: "required",
     message: "message1",
   });
-  expect(formControl.setFieldError).toBeCalledTimes(1);
-  expect((formControl.setFieldError as any).mock.calls[0][0]).toEqual(
+  expect(rsfFormControl.setFieldError).toBeCalledTimes(1);
+  expect((rsfFormControl.setFieldError as any).mock.calls[0][0]).toEqual(
     `${name}.prop1`,
   );
-  expect((formControl.setFieldError as any).mock.calls[0][1]).toEqual({
+  expect((rsfFormControl.setFieldError as any).mock.calls[0][1]).toEqual({
     type: "required",
     message: "message1",
   });
@@ -138,27 +138,29 @@ test("setFieldError test", () => {
 
 test("setFieldTouched test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
   result.current.setFieldTouched("prop1", true);
 
-  expect(formControl.setFieldTouched).toBeCalledTimes(1);
-  expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
+  expect(rsfFormControl.setFieldTouched).toBeCalledTimes(1);
+  expect((rsfFormControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
     `${name}.prop1`,
   );
-  expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(true);
+  expect((rsfFormControl.setFieldTouched as any).mock.calls[0][1]).toEqual(
+    true,
+  );
 });
 
 test("setFieldDirty test", () => {
   const { result } = renderHook<any, any>(useSubform, {
-    initialProps: { ...formControl, name },
+    initialProps: { ...rsfFormControl, name },
   });
 
   result.current.setFieldDirty("prop1", true);
-  expect(formControl.setFieldDirty).toBeCalledTimes(1);
-  expect((formControl.setFieldDirty as any).mock.calls[0][0]).toEqual(
+  expect(rsfFormControl.setFieldDirty).toBeCalledTimes(1);
+  expect((rsfFormControl.setFieldDirty as any).mock.calls[0][0]).toEqual(
     `${name}.prop1`,
   );
-  expect((formControl.setFieldDirty as any).mock.calls[0][1]).toEqual(true);
+  expect((rsfFormControl.setFieldDirty as any).mock.calls[0][1]).toEqual(true);
 });

@@ -138,7 +138,7 @@ export const useForm = <
 
   const isValid = useMemo(() => Object.keys(errors).length === 0, [errors]);
 
-  const formControlWoSubmit = useMemo<
+  const rsfFormControlWoSubmit = useMemo<
     Omit<FormControl<Values>, "handleSubmit">
   >(
     () => ({
@@ -174,37 +174,39 @@ export const useForm = <
   );
 
   const validator = useValidate({
-    formControl: formControlWoSubmit,
+    rsfFormControl: rsfFormControlWoSubmit,
     criteriaMode: criteriaMode,
     context,
     resolver,
   });
 
   const initialValues = useInitialValues({
-    formControl: formControlWoSubmit,
+    rsfFormControl: rsfFormControlWoSubmit,
     initialValues: initialValuesFromProps,
   });
 
   useDirty({
-    formControl: formControlWoSubmit,
+    rsfFormControl: rsfFormControlWoSubmit,
     initialValues,
   });
 
   const handleSubmit = useFormSubmitCreator({
-    formControl: formControlWoSubmit,
+    rsfFormControl: rsfFormControlWoSubmit,
     validator,
     onSubmit,
     setSubmitCount,
     setIsSubmitting,
   });
 
-  const formControl = useMemo<FormControl<Values, SubmitProps, SubmitReturn>>(
+  const rsfFormControl = useMemo<
+    FormControl<Values, SubmitProps, SubmitReturn>
+  >(
     () => ({
-      ...formControlWoSubmit,
+      ...rsfFormControlWoSubmit,
       handleSubmit,
     }),
-    [formControlWoSubmit, handleSubmit],
+    [rsfFormControlWoSubmit, handleSubmit],
   );
 
-  return formControl;
+  return rsfFormControl;
 };

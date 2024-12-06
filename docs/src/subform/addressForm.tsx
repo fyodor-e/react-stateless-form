@@ -1,4 +1,4 @@
-import { Field, FormControl } from "react-stateless-form";
+import { Field, rsfFormControl } from "react-stateless-form";
 import * as Yup from "yup";
 import { FC } from "react";
 import SimpleInput from "./simpleInput";
@@ -22,10 +22,10 @@ export const addressValidator = Yup.object({
 });
 
 type Props = {
-  subformControl: Omit<FormControl<Address>, "handleSubmit">;
+  subrsfFormControl: Omit<rsfFormControl<Address>, "handleSubmit">;
 };
 
-const AddressForm: FC<Props> = ({ subformControl }) => {
+const AddressForm: FC<Props> = ({ subrsfFormControl }) => {
   return (
     <div
       css={{
@@ -37,42 +37,42 @@ const AddressForm: FC<Props> = ({ subformControl }) => {
       }}
     >
       <Field
-        formControl={subformControl}
+        rsfFormControl={subrsfFormControl}
         rsfName="country"
         rsfComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        formControl={subformControl}
+        rsfFormControl={subrsfFormControl}
         rsfName="state"
         rsfComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        formControl={subformControl}
+        rsfFormControl={subrsfFormControl}
         rsfName="city"
         rsfComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        formControl={subformControl}
+        rsfFormControl={subrsfFormControl}
         rsfName="zipCode"
         rsfComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        formControl={subformControl}
+        rsfFormControl={subrsfFormControl}
         rsfName="street1"
         rsfComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        formControl={subformControl}
+        rsfFormControl={subrsfFormControl}
         rsfName="street2"
         rsfComponent={SimpleInput}
         label="Street Address 2"

@@ -9,3 +9,4 @@ export * from "./isTypeEquals";
 export * from "./keyPaths";
 export * from "./unionToIntersection";
 export * from "./setterOrValue";
+export * from "./convertHook";

@@ -36,7 +36,7 @@ const resolver = yupResolver(
 
 const useConvert: ConvertHook<Values, TextFieldProps> = ({
   rsfName: name,
-  formControl: { values, errors, touched, setFieldValue, setFieldTouched },
+  rsfFormControl: { values, errors, touched, setFieldValue, setFieldTouched },
 }) => {
   const value = getIn({ values, name: name as any });
   const error = getInErrors({ errors, name: name as any });
@@ -56,13 +56,13 @@ const useConvert: ConvertHook<Values, TextFieldProps> = ({
 
 const MaterialUiForm = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm({
+  const rsfFormControl = useForm({
     values: {
       country: "",
       state: "",
@@ -91,21 +91,21 @@ const MaterialUiForm = () => {
           }}
         >
           <Field
-            formControl={formControl}
+            rsfFormControl={rsfFormControl}
             rsfName="country"
             rsfComponent={TextField}
             label="Country"
             useConvert={useConvert}
           />
           <Field
-            formControl={formControl}
+            rsfFormControl={rsfFormControl}
             rsfName="state"
             rsfComponent={TextField}
             label="State"
             useConvert={useConvert}
           />
           <Field
-            formControl={formControl}
+            rsfFormControl={rsfFormControl}
             rsfName="city"
             rsfComponent={TextField}
             label="City"
@@ -122,21 +122,21 @@ const MaterialUiForm = () => {
           }}
         >
           <Field
-            formControl={formControl}
+            rsfFormControl={rsfFormControl}
             rsfName="zipCode"
             rsfComponent={TextField}
             label="Zip Code"
             useConvert={useConvert}
           />
           <Field
-            formControl={formControl}
+            rsfFormControl={rsfFormControl}
             rsfName="street1"
             rsfComponent={TextField}
             label="Street Address 1"
             useConvert={useConvert}
           />
           <Field
-            formControl={formControl}
+            rsfFormControl={rsfFormControl}
             rsfName="street2"
             rsfComponent={TextField}
             label="Street Address 2"
@@ -145,8 +145,8 @@ const MaterialUiForm = () => {
         </Box>
       </Box>
       <Button
-        disabled={formControl.isSubmitting}
-        onClick={formControl.handleSubmit}
+        disabled={rsfFormControl.isSubmitting}
+        onClick={rsfFormControl.handleSubmit}
       >
         Submit
       </Button>

@@ -1,5 +1,5 @@
 import {
-  FormControl,
+  rsfFormControl,
   FormHelperText,
   FormLabel,
   Input,
@@ -19,7 +19,7 @@ type Props = {
 const ChakraFormInput: FC<Props> = ({ touched, error, label, ...rest }) => {
   const isInvalid = !!(error && touched);
   return (
-    <FormControl isInvalid={isInvalid}>
+    <rsfFormControl isInvalid={isInvalid}>
       <FormLabel>{label}</FormLabel>
       <Input {...rest} />
       {isInvalid ? (
@@ -27,7 +27,7 @@ const ChakraFormInput: FC<Props> = ({ touched, error, label, ...rest }) => {
       ) : (
         <FormHelperText whiteSpace="pre"> </FormHelperText>
       )}
-    </FormControl>
+    </rsfFormControl>
   );
 };
 

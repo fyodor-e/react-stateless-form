@@ -2,6 +2,7 @@ import { OnSubmit, useForm, Field } from "react-stateless-form";
 import { useCallback, useState } from "react";
 import { Button, HStack, Skeleton, VStack } from "@chakra-ui/react";
 import ChakraFormInput from "../chakra/ChakraFormInput";
+import { ChakraProvider } from "@chakra-ui/react";
 
 type Values = {
   country: string | undefined;
@@ -16,13 +17,13 @@ const LoadingComonent = () => <Skeleton w="full" h="96px" />;
 
 const FormWithLoader = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm<Values>({
+  const rsfFormControl = useForm<Values>({
     values: {
       country: "",
       state: "",
@@ -38,7 +39,7 @@ const FormWithLoader = () => {
 
   const handleReload = useCallback(() => {
     setIsLoading(true);
-    formControl.setFieldValue("", {
+    rsfFormControl.setFieldValue("", {
       country: undefined,
       state: undefined,
       city: undefined,
@@ -47,7 +48,7 @@ const FormWithLoader = () => {
       street2: undefined,
     });
     setTimeout(() => {
-      formControl.setFieldValue("", {
+      rsfFormControl.setFieldValue("", {
         country: "US",
         state: "LA",
         city: "Los Angeles",
@@ -57,63 +58,65 @@ const FormWithLoader = () => {
       });
       setIsLoading(false);
     }, 3000);
-  }, [formControl]);
+  }, [rsfFormControl]);
 
   return (
-    <VStack w="full" alignItems="flex-start">
-      <Button onClick={handleReload}>Reload</Button>
-      <HStack w="full">
-        <VStack flex="1">
-          <Field
-            formControl={formControl}
-            rsfName="country"
-            rsfComponent={ChakraFormInput}
-            label="Country"
-            LoadingComponent={LoadingComonent}
-          />
-          <Field
-            formControl={formControl}
-            rsfName="state"
-            rsfComponent={ChakraFormInput}
-            label="State"
-            LoadingComponent={LoadingComonent}
-          />
-          <Field
-            formControl={formControl}
-            rsfName="city"
-            rsfComponent={ChakraFormInput}
-            label="City"
-            LoadingComponent={LoadingComonent}
-          />
-        </VStack>
-        <VStack flex="1">
-          <Field
-            formControl={formControl}
-            rsfName="zipCode"
-            rsfComponent={ChakraFormInput}
-            label="Zip Code"
-            LoadingComponent={LoadingComonent}
-          />
-          <Field
-            formControl={formControl}
-            rsfName="street1"
-            rsfComponent={ChakraFormInput}
-            label="Street Address 1"
-            LoadingComponent={LoadingComonent}
-          />
-          <Field
-            formControl={formControl}
-            rsfName="street2"
-            rsfComponent={ChakraFormInput}
-            label="Street Address 2"
-            LoadingComponent={LoadingComonent}
-          />
-        </VStack>
-      </HStack>
-      <Button isDisabled={isLoading} onClick={formControl.handleSubmit}>
-        Submit
-      </Button>
-    </VStack>
+    <ChakraProvider>
+      <VStack w="full" alignItems="flex-start">
+        <Button onClick={handleReload}>Reload</Button>
+        <HStack w="full">
+          <VStack flex="1">
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="country"
+              rsfComponent={ChakraFormInput}
+              label="Country"
+              rsfLoadingComponent={LoadingComonent}
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="state"
+              rsfComponent={ChakraFormInput}
+              label="State"
+              rsfLoadingComponent={LoadingComonent}
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="city"
+              rsfComponent={ChakraFormInput}
+              label="City"
+              rsfLoadingComponent={LoadingComonent}
+            />
+          </VStack>
+          <VStack flex="1">
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="zipCode"
+              rsfComponent={ChakraFormInput}
+              label="Zip Code"
+              rsfLoadingComponent={LoadingComonent}
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="street1"
+              rsfComponent={ChakraFormInput}
+              label="Street Address 1"
+              rsfLoadingComponent={LoadingComonent}
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="street2"
+              rsfComponent={ChakraFormInput}
+              label="Street Address 2"
+              rsfLoadingComponent={LoadingComonent}
+            />
+          </VStack>
+        </HStack>
+        <Button isDisabled={isLoading} onClick={rsfFormControl.handleSubmit}>
+          Submit
+        </Button>
+      </VStack>
+    </ChakraProvider>
   );
 };
 

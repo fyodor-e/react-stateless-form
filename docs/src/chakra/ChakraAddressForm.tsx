@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import * as Yup from "yup";
 import ChakraFormInput from "./ChakraFormInput";
 import { Button, HStack, VStack } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 type Values = {
   country: string;
@@ -27,13 +28,13 @@ const resolver = yupResolver(
 
 const ChakraAddressForm = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ formControl: { values } }) => {
+    ({ rsfFormControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
-  const formControl = useForm({
+  const rsfFormControl = useForm({
     values: {
       country: "",
       state: "",
@@ -47,51 +48,53 @@ const ChakraAddressForm = () => {
   });
 
   return (
-    <VStack w="full" alignItems="flex-start">
-      <HStack>
-        <VStack>
-          <Field
-            formControl={formControl}
-            rsfName="country"
-            rsfComponent={ChakraFormInput}
-            label="Country"
-          />
-          <Field
-            formControl={formControl}
-            rsfName="state"
-            rsfComponent={ChakraFormInput}
-            label="State"
-          />
-          <Field
-            formControl={formControl}
-            rsfName="city"
-            rsfComponent={ChakraFormInput}
-            label="City"
-          />
-        </VStack>
-        <VStack>
-          <Field
-            formControl={formControl}
-            rsfName="zipCode"
-            rsfComponent={ChakraFormInput}
-            label="Zip Code"
-          />
-          <Field
-            formControl={formControl}
-            rsfName="street1"
-            rsfComponent={ChakraFormInput}
-            label="Street Address 1"
-          />
-          <Field
-            formControl={formControl}
-            rsfName="street2"
-            rsfComponent={ChakraFormInput}
-            label="Street Address 2"
-          />
-        </VStack>
-      </HStack>
-      <Button onClick={formControl.handleSubmit}>Submit</Button>
-    </VStack>
+    <ChakraProvider>
+      <VStack w="full" alignItems="flex-start">
+        <HStack>
+          <VStack>
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="country"
+              rsfComponent={ChakraFormInput}
+              label="Country"
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="state"
+              rsfComponent={ChakraFormInput}
+              label="State"
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="city"
+              rsfComponent={ChakraFormInput}
+              label="City"
+            />
+          </VStack>
+          <VStack>
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="zipCode"
+              rsfComponent={ChakraFormInput}
+              label="Zip Code"
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="street1"
+              rsfComponent={ChakraFormInput}
+              label="Street Address 1"
+            />
+            <Field
+              rsfFormControl={rsfFormControl}
+              rsfName="street2"
+              rsfComponent={ChakraFormInput}
+              label="Street Address 2"
+            />
+          </VStack>
+        </HStack>
+        <Button onClick={rsfFormControl.handleSubmit}>Submit</Button>
+      </VStack>
+    </ChakraProvider>
   );
 };
 
