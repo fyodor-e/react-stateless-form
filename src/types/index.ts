@@ -10,3 +10,4 @@ export * from "./keyPaths";
 export * from "./unionToIntersection";
 export * from "./setterOrValue";
 export * from "./convertHook";
+export * from "./resolver";

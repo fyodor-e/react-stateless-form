@@ -7,7 +7,7 @@ import {
   SetterOrValue,
 } from "./";
 import { SetStateAction } from "react";
-import { Resolver } from "../useForm/resolver";
+import { Resolver } from "../types";
 
 export type ValueFunction<V extends {}> = (v: V) => void;
 export type FunctionValueFunction<V extends {}> = (
@@ -19,7 +19,7 @@ export type OnSubmit<
   SubmitProps = undefined,
   SubmitReturn = void,
 > = (arg: {
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
   submitProps: SubmitProps;
 }) => Promise<SubmitReturn> | SubmitReturn;
 
@@ -28,9 +28,9 @@ export type UseFormSubmitCreatorArg<
   SubmitProps = undefined,
   SubmitReturn = void,
 > = {
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
   validator?: (
-    rsfFormControl: Omit<FormControl<Values>, "handleSubmit">,
+    formControl: Omit<FormControl<Values>, "handleSubmit">,
   ) => Promise<FormErrors<Values>>;
   onSubmit?: OnSubmit<Values, SubmitProps, SubmitReturn>;
   setSubmitCount: (submitCount: number) => void;
@@ -48,19 +48,19 @@ export type UseFormSubmitCreator<
   : (submitProps: SubmitProps) => Promise<SubmitReturn>;
 
 export type UseValidate<Values extends object> = (arg: {
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
   resolver?: Resolver<Values>;
   context?: any;
   criteriaMode?: "all" | "firstError";
 }) => () => Promise<FormErrors<Values>>;
 
 export type UseDirty<Values extends object> = (arg: {
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
   initialValues: Values | undefined;
 }) => void;
 
 export type UseInitialValues<Values extends object> = (arg: {
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
   initialValues: Values | undefined;
 }) => Values | undefined;
 
@@ -98,20 +98,28 @@ export type FormProps<
 
   isSubmitting?: boolean;
   setIsSubmitting?: (isSubmitting: boolean) => void;
-
-  initialValues?: Values;
-  values: Values;
-  setFieldValue?: SetField<Values>;
 } & (
   | {
-      errors?: FormErrors<Values>;
-      setFieldError?: undefined;
+      initialValues: Values;
+      values?: Values | undefined;
+      setFieldValue?: undefined;
     }
   | {
-      errors: FormErrors<Values>;
-      setFieldError: SetField<FormErrors<Values>>;
+      initialValues?: Values | undefined;
+      values: Values;
+      setFieldValue: SetField<Values>;
     }
 ) &
+  (
+    | {
+        errors?: FormErrors<Values>;
+        setFieldError?: undefined;
+      }
+    | {
+        errors: FormErrors<Values>;
+        setFieldError: SetField<FormErrors<Values>>;
+      }
+  ) &
   (
     | {
         touched?: FormTouched<Values>;

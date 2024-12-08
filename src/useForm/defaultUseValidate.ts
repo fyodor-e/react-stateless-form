@@ -2,7 +2,7 @@ import { FormErrors, UseValidate } from "../types";
 import { useCallback, useEffect } from "react";
 
 export const defaultUseValidate: UseValidate<any> = ({
-  rsfFormControl: { values, setFieldError },
+  formControl: { values, setFieldError },
   resolver,
   context,
   criteriaMode,

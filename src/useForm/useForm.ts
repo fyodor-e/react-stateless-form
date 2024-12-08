@@ -49,7 +49,15 @@ export const useForm = <
   //    set... functions accept function as argument.
   //    Otherwise setField... functions should be provided as arguments
   //    and setField...Local variants will never be called.
-  const [internalValues, setValuesInternal] = useState<Values>(valuesFromProps);
+  const [internalValues, setValuesInternal] = useState<Values>(
+    // Either initialValues or values are always provided
+    initialValuesFromProps ?? (valuesFromProps as any),
+  );
+
+  useEffect(() => {
+    if (valuesFromProps) setValuesInternal(valuesFromProps);
+  }, [valuesFromProps]);
+
   const [internalErrors, setErrorsInternal] = useState<FormErrors<Values>>(
     errorsFromProps ?? ({} as any),
   );
@@ -138,7 +146,7 @@ export const useForm = <
 
   const isValid = useMemo(() => Object.keys(errors).length === 0, [errors]);
 
-  const rsfFormControlWoSubmit = useMemo<
+  const formControlWoSubmit = useMemo<
     Omit<FormControl<Values>, "handleSubmit">
   >(
     () => ({
@@ -174,39 +182,37 @@ export const useForm = <
   );
 
   const validator = useValidate({
-    rsfFormControl: rsfFormControlWoSubmit,
+    formControl: formControlWoSubmit,
     criteriaMode: criteriaMode,
     context,
     resolver,
   });
 
   const initialValues = useInitialValues({
-    rsfFormControl: rsfFormControlWoSubmit,
+    formControl: formControlWoSubmit,
     initialValues: initialValuesFromProps,
   });
 
   useDirty({
-    rsfFormControl: rsfFormControlWoSubmit,
+    formControl: formControlWoSubmit,
     initialValues,
   });
 
   const handleSubmit = useFormSubmitCreator({
-    rsfFormControl: rsfFormControlWoSubmit,
+    formControl: formControlWoSubmit,
     validator,
     onSubmit,
     setSubmitCount,
     setIsSubmitting,
   });
 
-  const rsfFormControl = useMemo<
-    FormControl<Values, SubmitProps, SubmitReturn>
-  >(
+  const formControl = useMemo<FormControl<Values, SubmitProps, SubmitReturn>>(
     () => ({
-      ...rsfFormControlWoSubmit,
+      ...formControlWoSubmit,
       handleSubmit,
     }),
-    [rsfFormControlWoSubmit, handleSubmit],
+    [formControlWoSubmit, handleSubmit],
   );
 
-  return rsfFormControl;
+  return formControl;
 };

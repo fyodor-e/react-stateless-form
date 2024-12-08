@@ -3,7 +3,7 @@ import { UseDirty } from "../types";
 import { deepDirty } from "../utils";
 
 export const defaultUseDirty: UseDirty<any> = ({
-  rsfFormControl: { setFieldDirty, values },
+  formControl: { setFieldDirty, values },
   initialValues,
 }) => {
   useEffect(() => {

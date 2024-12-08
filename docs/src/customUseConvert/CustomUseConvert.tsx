@@ -80,7 +80,7 @@ const CustomUseConvert = () => {
   );
 
   const rsfFormControl = useForm({
-    values: { date: new Date(), color: colors[0] },
+    initialValues: { date: new Date(), color: colors[0] },
     onSubmit,
   });
 
