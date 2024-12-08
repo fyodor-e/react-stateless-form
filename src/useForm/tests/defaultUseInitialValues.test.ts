@@ -8,7 +8,7 @@ type Values = {
   prop2: number;
 };
 
-const rsfFormControl: Omit<FormControl<Values>, "handleSubmit"> = {
+const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
   values: { prop1: "prop1", prop2: 12 },
   errors: {},
   touched: {},
@@ -29,7 +29,7 @@ test("Should return memoized initialValues if they are provided", async () => {
   const initialValues = { prop1: "abc", prop2: 123 };
 
   const { result } = renderHook(defaultUseInitialValues, {
-    initialProps: { rsfFormControl, initialValues },
+    initialProps: { formControl, initialValues },
   });
 
   expect(result.current).toEqual(initialValues);
@@ -39,29 +39,29 @@ test("Should not change initialValues after they were initialized", async () => 
   const initialValues = { prop1: "abc", prop2: 123 };
 
   const { result, rerender } = renderHook(defaultUseInitialValues, {
-    initialProps: { rsfFormControl, initialValues },
+    initialProps: { formControl, initialValues },
   });
 
   expect(result.current).toEqual(initialValues);
 
   rerender({
-    rsfFormControl,
+    formControl,
     initialValues: { prop1: "def", prop2: 456 },
   });
 
   expect(result.current).toEqual(initialValues);
 });
 
-test("Should set initialValues when they are not undefined", async () => {
+test("Should set initialValues to values, when initialValues are undefined and values are not", async () => {
   const { result, rerender } = renderHook(defaultUseInitialValues, {
-    initialProps: { rsfFormControl, initialValues: undefined as any },
+    initialProps: { formControl, initialValues: undefined as any },
   });
 
-  expect(result.current).toEqual(undefined);
+  expect(result.current).toEqual(formControl.values);
 
   const initialValues = { prop1: "abc", prop2: 123 };
 
-  rerender({ rsfFormControl, initialValues });
+  rerender({ formControl, initialValues });
 
-  expect(result.current).toEqual(initialValues);
+  expect(result.current).toEqual(formControl.values);
 });

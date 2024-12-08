@@ -1,4 +1,4 @@
-import { FormErrors } from "../types";
+import { FormErrors } from ".";
 
 type ResolverSuccess<Values extends object> = {
   values: Values;

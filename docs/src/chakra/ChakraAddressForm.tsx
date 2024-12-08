@@ -35,7 +35,7 @@ const ChakraAddressForm = () => {
   );
 
   const rsfFormControl = useForm({
-    values: {
+    initialValues: {
       country: "",
       state: "",
       city: "",

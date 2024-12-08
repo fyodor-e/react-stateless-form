@@ -24,7 +24,7 @@ const SimpleForm = () => {
   );
 
   const rsfFormControl = useForm({
-    values: { firstName: "", lastName: "" },
+    initialValues: { firstName: "", lastName: "" },
     onSubmit,
     resolver,
   });

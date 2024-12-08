@@ -36,7 +36,7 @@ beforeEach(() => {
 void describe("1. Default props", () => {
   test("Should return FormContext", async () => {
     const formProps: FormProps<Values> = {
-      values: { prop1: "prop1", prop2: 12 },
+      initialValues: { prop1: "prop1", prop2: 12 },
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -61,7 +61,7 @@ void describe("1. Default props", () => {
 
   test("Should be able to change values, errors, touched and dirty useng set... functions", async () => {
     const formProps: FormProps<Values> = {
-      values: { prop1: "prop1", prop2: 12 },
+      initialValues: { prop1: "prop1", prop2: 12 },
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -91,7 +91,7 @@ void describe("1. Default props", () => {
 
   test("Should be able to change values, errors, touched and dirty useng setField... functions", async () => {
     const formProps: FormProps<Values> = {
-      values: { prop1: "prop1", prop2: 12 },
+      initialValues: { prop1: "prop1", prop2: 12 },
     };
 
     const { result } = renderHook(useForm<Values>, {
@@ -149,24 +149,24 @@ void describe("1. Default props", () => {
     const { handleSubmit, ...rsfFormControlWoSubmit } = result.current;
 
     expect((defaultUseValidate as any).mock.calls[0][0]).toEqual({
-      rsfFormControl: rsfFormControlWoSubmit,
+      formControl: rsfFormControlWoSubmit,
       criteriaMode,
       context,
       resolver,
     });
 
     expect((defaultUseInitialValues as any).mock.calls[0][0]).toEqual({
-      rsfFormControl: rsfFormControlWoSubmit,
+      formControl: rsfFormControlWoSubmit,
       initialValues,
     });
 
     expect((defaultUseDirty as any).mock.calls[0][0]).toEqual({
-      rsfFormControl: rsfFormControlWoSubmit,
+      formControl: rsfFormControlWoSubmit,
       initialValues,
     });
 
     expect((defaultUseFormSubmitCreator as any).mock.calls[0][0]).toEqual({
-      rsfFormControl: rsfFormControlWoSubmit,
+      formControl: rsfFormControlWoSubmit,
       validator,
       onSubmit,
       setSubmitCount,
@@ -176,6 +176,7 @@ void describe("1. Default props", () => {
 
   test("Should call setField... functions only when value, touched, error or dirty was changed", async () => {
     const formProps: FormProps<Values> = {
+      initialValues: undefined,
       values: { prop1: "prop1", prop2: 12 },
       errors: { prop1: { message: "Error" } },
       touched: { prop2: true },
@@ -211,6 +212,7 @@ describe("2. Custom setField... functions", () => {
     const setFieldDirty: any = jest.fn();
 
     const formProps: FormProps<Values> = {
+      initialValues: undefined,
       values: { prop1: "prop1", prop2: 12 },
       setFieldValue,
       errors: {},
