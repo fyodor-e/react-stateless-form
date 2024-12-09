@@ -1,4 +1,4 @@
-import { Field, rsfFormControl } from "react-stateless-form";
+import { Field, FormControl } from "react-stateless-form";
 import * as Yup from "yup";
 import { FC } from "react";
 import SimpleInput from "./simpleInput";
@@ -22,10 +22,10 @@ export const addressValidator = Yup.object({
 });
 
 type Props = {
-  subrsfFormControl: Omit<rsfFormControl<Address>, "handleSubmit">;
+  subFormControl: Omit<FormControl<Address>, "handleSubmit">;
 };
 
-const AddressForm: FC<Props> = ({ subrsfFormControl }) => {
+const AddressForm: FC<Props> = ({ subFormControl }) => {
   return (
     <div
       css={{
@@ -37,42 +37,42 @@ const AddressForm: FC<Props> = ({ subrsfFormControl }) => {
       }}
     >
       <Field
-        rsfFormControl={subrsfFormControl}
+        rsfFormControl={subFormControl}
         rsfName="country"
         rsfComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={subrsfFormControl}
+        rsfFormControl={subFormControl}
         rsfName="state"
         rsfComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={subrsfFormControl}
+        rsfFormControl={subFormControl}
         rsfName="city"
         rsfComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        rsfFormControl={subrsfFormControl}
+        rsfFormControl={subFormControl}
         rsfName="zipCode"
         rsfComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={subrsfFormControl}
+        rsfFormControl={subFormControl}
         rsfName="street1"
         rsfComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={subrsfFormControl}
+        rsfFormControl={subFormControl}
         rsfName="street2"
         rsfComponent={SimpleInput}
         label="Street Address 2"

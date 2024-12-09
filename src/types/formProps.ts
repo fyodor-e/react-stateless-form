@@ -101,7 +101,7 @@ export type FormProps<
 } & (
   | {
       initialValues: Values;
-      values?: Values | undefined;
+      values?: undefined;
       setFieldValue?: undefined;
     }
   | {

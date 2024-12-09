@@ -42,6 +42,7 @@ export type FormControl<
 
   submitCount: number;
   isSubmitting: boolean;
+  setIsSubmitting: (isSubmitting: boolean) => void;
 
   isValid: boolean;
 

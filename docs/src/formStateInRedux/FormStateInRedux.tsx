@@ -88,7 +88,7 @@ const valuesSelector = (state: RootState) => state.ordersReducer;
 
 const FormStateInRedux = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],

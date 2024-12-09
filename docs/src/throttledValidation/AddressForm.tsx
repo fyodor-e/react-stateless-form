@@ -26,7 +26,7 @@ const resolver = yupResolver(
 );
 
 const useValidate: UseValidate<Address> = ({
-  rsfFormControl: { values, setFieldError },
+  formControl: { values, setFieldError },
   resolver,
   context,
   criteriaMode,
@@ -63,14 +63,14 @@ const useValidate: UseValidate<Address> = ({
 
 const AddressForm: FC = () => {
   const onSubmit = useCallback<OnSubmit<Address>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
   const rsfFormControl = useForm<Address>({
-    values: {
+    initialValues: {
       country: "",
       state: "",
       city: "",

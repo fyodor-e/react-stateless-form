@@ -11,3 +11,4 @@ export * from "./unionToIntersection";
 export * from "./setterOrValue";
 export * from "./convertHook";
 export * from "./resolver";
+export * from "./displayLoading";
