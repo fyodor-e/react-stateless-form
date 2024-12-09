@@ -1,7 +1,7 @@
-import { DefaultDisplayLoading } from "./displayLoading";
+import { DefaultDisplayLoading } from "../types/displayLoading";
 import { getIn } from "../utils";
 
 export const defaultDisplayLoading: DefaultDisplayLoading = ({
-  rsfFormControl: { values },
+  formControl: { values },
   rsfName: name,
 }) => getIn({ values, name }) === undefined;

@@ -1,5 +1,5 @@
 import { FormControl } from "../../types";
-import { expect, jest, test } from "@jest/globals";
+import { beforeEach, expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { defaultUseInitialValues } from "../defaultUseInitialValues";
 
@@ -21,9 +21,14 @@ const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
 
   submitCount: 0,
   isSubmitting: false,
+  setIsSubmitting: jest.fn(),
 
   isValid: true,
 };
+
+beforeEach(() => {
+  (formControl.setFieldValue as any).mockReset();
+});
 
 test("Should return memoized initialValues if they are provided", async () => {
   const initialValues = { prop1: "abc", prop2: 123 };
@@ -33,6 +38,10 @@ test("Should return memoized initialValues if they are provided", async () => {
   });
 
   expect(result.current).toEqual(initialValues);
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual("");
+  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual(
+    initialValues,
+  );
 });
 
 test("Should not change initialValues after they were initialized", async () => {
@@ -52,16 +61,16 @@ test("Should not change initialValues after they were initialized", async () => 
   expect(result.current).toEqual(initialValues);
 });
 
-test("Should set initialValues to values, when initialValues are undefined and values are not", async () => {
+test("Should not set initialValues when initialValues are undefined", async () => {
   const { result, rerender } = renderHook(defaultUseInitialValues, {
     initialProps: { formControl, initialValues: undefined as any },
   });
 
-  expect(result.current).toEqual(formControl.values);
+  expect(result.current).toEqual(undefined);
 
   const initialValues = { prop1: "abc", prop2: 123 };
 
   rerender({ formControl, initialValues });
 
-  expect(result.current).toEqual(formControl.values);
+  expect(result.current).toEqual(initialValues);
 });

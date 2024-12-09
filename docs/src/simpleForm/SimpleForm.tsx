@@ -17,7 +17,7 @@ const resolver = yupResolver(
 
 const SimpleForm = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],

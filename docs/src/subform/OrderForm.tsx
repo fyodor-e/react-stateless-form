@@ -21,14 +21,14 @@ const resolver = yupResolver(
 
 const OrderForm = () => {
   const onSubmit = useCallback<OnSubmit<Order>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
   const rsfFormControl = useForm<Order>({
-    values: {
+    initialValues: {
       orderNo: 0,
       carrier: "",
       deliveryAddress: {
@@ -44,7 +44,7 @@ const OrderForm = () => {
     onSubmit,
   });
 
-  const addressrsfFormControl = useSubform({
+  const addressFormControl = useSubform({
     ...rsfFormControl,
     name: "deliveryAddress",
   });
@@ -69,7 +69,7 @@ const OrderForm = () => {
         rsfComponent={SimpleInput}
         label="Carrier"
       />
-      <AddressForm subrsfFormControl={addressrsfFormControl} />
+      <AddressForm subFormControl={addressFormControl} />
       <button onClick={rsfFormControl.handleSubmit}>Submit</button>
     </div>
   );

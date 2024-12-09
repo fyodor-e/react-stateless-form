@@ -27,7 +27,7 @@ export const Field = <
 >) => {
   const generatedProps = useConvert({
     rsfName,
-    rsfFormControl,
+    formControl: rsfFormControl,
   });
 
   const isLoading = useMemo(
@@ -35,7 +35,7 @@ export const Field = <
       rsfDisplayLoading &&
       rsfDisplayLoading({
         rsfName,
-        rsfFormControl,
+        formControl: rsfFormControl,
       }),
     [rsfDisplayLoading, rsfName, rsfFormControl],
   );

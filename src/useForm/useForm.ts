@@ -54,10 +54,6 @@ export const useForm = <
     initialValuesFromProps ?? (valuesFromProps as any),
   );
 
-  useEffect(() => {
-    if (valuesFromProps) setValuesInternal(valuesFromProps);
-  }, [valuesFromProps]);
-
   const [internalErrors, setErrorsInternal] = useState<FormErrors<Values>>(
     errorsFromProps ?? ({} as any),
   );
@@ -162,6 +158,7 @@ export const useForm = <
 
       submitCount,
       isSubmitting,
+      setIsSubmitting,
 
       isValid,
     }),
@@ -178,6 +175,7 @@ export const useForm = <
 
       submitCount,
       isSubmitting,
+      setIsSubmitting,
     ],
   );
 

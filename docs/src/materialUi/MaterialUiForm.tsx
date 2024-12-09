@@ -36,7 +36,7 @@ const resolver = yupResolver(
 
 const useConvert: ConvertHook<Values, TextFieldProps> = ({
   rsfName: name,
-  rsfFormControl: { values, errors, touched, setFieldValue, setFieldTouched },
+  formControl: { values, errors, touched, setFieldValue, setFieldTouched },
 }) => {
   const value = getIn({ values, name: name as any });
   const error = getInErrors({ errors, name: name as any });
@@ -56,7 +56,7 @@ const useConvert: ConvertHook<Values, TextFieldProps> = ({
 
 const MaterialUiForm = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],

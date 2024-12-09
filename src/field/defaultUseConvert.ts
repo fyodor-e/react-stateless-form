@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 export const defaultUseConvert: DefaultConvertHook = ({
   rsfName: name,
-  rsfFormControl: { values, errors, touched, setFieldTouched, setFieldValue },
+  formControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {
   const value = getIn({ values, name });
   const error = getInErrors<any, any>({ errors, name });

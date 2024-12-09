@@ -1,7 +1,20 @@
 import { UseInitialValues } from "../types";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 export const defaultUseInitialValues: UseInitialValues<any> = ({
   initialValues: initialValuesFromProps,
-  formControl: { values },
-}) => useMemo(() => initialValuesFromProps || values, []);
+  formControl: { setFieldValue },
+}) => {
+  const [initialValues, setInitialValues] = useState<any>(
+    initialValuesFromProps,
+  );
+
+  useEffect(() => {
+    if (!initialValues && initialValuesFromProps) {
+      setInitialValues(initialValuesFromProps);
+      setFieldValue("", initialValuesFromProps);
+    }
+  }, [initialValuesFromProps]);
+
+  return initialValues;
+};
