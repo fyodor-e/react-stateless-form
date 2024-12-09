@@ -8,7 +8,7 @@ type Values = {
 // setField... are required if errors, touched and dirty are provided
 
 const formPropsError: FormProps<Values> = {
-  values: { p: "p" },
+  initialValues: { p: "p" },
   errors: {},
   touched: {},
   dirty: {},
@@ -27,14 +27,24 @@ const formPropsSuccess: FormProps<Values> = {
 };
 
 // set... functions can be omitted (undefined)
+// Either values or initialValues should be provided
 const formPropsWoSetterFunctions: FormProps<Values> = {
-  values: { p: "p" },
+  initialValues: { p: "p" },
 };
+
+const formPropsWithValuesOnly: FormProps<Values> = {
+  values: { p: "p" },
+  setFieldValue: () => {},
+};
+
+// Either values or initialValues should be provided
+// @ts-expect-error
+const formPropsWoValuesOrInitialValues: FormProps<Values> = {};
 
 // if setErrors is provided - errors should also be provided
 // @ts-expect-error
 const formPropsWithErrors: FormProps<Values> = {
-  values: { p: "p" },
+  initialValues: { p: "p" },
   // errors is required
   setFieldError: () => {},
 };
@@ -42,7 +52,7 @@ const formPropsWithErrors: FormProps<Values> = {
 // if setTouched is provided - errors should also be provided
 // @ts-expect-error
 const formPropsWithTouched: FormProps<Values> = {
-  values: { p: "p" },
+  initialValues: { p: "p" },
   // touched is required
   setFieldTouched: () => {},
 };
@@ -50,7 +60,7 @@ const formPropsWithTouched: FormProps<Values> = {
 // if setDirty is provided - dirty should also be provided
 // @ts-expect-error
 const formPropsWithDirty: FormProps<Values> = {
-  values: { p: "p" },
+  initialValues: { p: "p" },
   // dirty is required
   setFieldDirty: () => {},
 };

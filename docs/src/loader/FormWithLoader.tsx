@@ -17,14 +17,14 @@ const LoadingComonent = () => <Skeleton w="full" h="96px" />;
 
 const FormWithLoader = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
   const rsfFormControl = useForm<Values>({
-    values: {
+    initialValues: {
       country: "",
       state: "",
       city: "",

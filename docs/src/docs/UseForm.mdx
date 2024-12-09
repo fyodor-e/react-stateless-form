@@ -22,21 +22,9 @@ and form start itselft (like `values`)
 * **`initialValues`** (Required)
   * Values to initialize form with.
   * And to compare current values with to detect if field is changed (dirty) or not.
-  Type of the initialValues will be used to infer `useForm` first type argument
-  if no other props are passed to `useForm`.
-  <br/>
-  If `values` are also passed, they will override values of the form, but not initial values
-  that are used to detect if field is changed. For example
-
-  ```jsx
-  useForm({
-    initialValues: { prop1: 'str' },
-    values: useMemo(() => ({ prop1: 'another str' }), [])
-  })
-  ```
-
-  As a result, `initialValues` will be `{ prop1: 'str' }`, values of the form will be `{ prop1: 'another str' }` and `formControl.dirty` will be `{ prop1: true }`,
-  because `intialValues.prop1` does not equal to `values.prop1`.
+Type of the initialValues will be used to infer `useForm` first type argument
+if no other props are passed to `useForm`.
+`initialValues` will be memorized only when they are not undefined. This can be used to wait for data from API and when data is loaded set initialValues to that data
 
 * **`onSubmit`** A function that will be called on submission of the form.
   It will receive single argument of object type with two properties:
@@ -44,13 +32,12 @@ and form start itselft (like `values`)
   `submitProp` which is optional argument that can be passed to `handleSubmit`.
   `onSubmit` can be async and can optionally return any value that will be return value of `handleSubmit`.
   `submitProp` and return value can be used to communicate with code which calls `handleSubmit` of `formControl`
-
-  ```jsx
+```jsx
     onSubmit: (arg: {
       rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
       submitProps: SubmitProps;
     }) => Promise<SubmitReturn> | SubmitReturn
-  ```
+```
 
 * **`resolver`** is used to validate form.
 Validation is done by external library [@hookform/resolvers](https://www.npmjs.com/package/@hookform/resolvers)
@@ -143,3 +130,44 @@ Default implementations is [here](https://github.com/fyodor-e/react-stateless-fo
 
 * **`useValidate`** is a hook to validate the form. It run on each render and sets errors if validation yeilds errors.
 It also return `validate` function that is passed to `useFormSubmitCreator`. Default implementation is [here](https://github.com/fyodor-e/react-stateless-form/blob/main/src/useForm/defaultUseValidate.ts)
+
+* **`useDirty`** is a hook to detect if field was changed (dirty). Default implementation is [here](https://github.com/fyodor-e/react-stateless-form/blob/main/src/useForm/defaultUseDirty.ts)
+
+* **`useInitialValues`** is a hook to set initial values of the form. They are used to detect if field become dirty or not and to initializa form.
+Default inplementation is [here](https://github.com/fyodor-e/react-stateless-form/blob/main/src/useForm/defaultUseInitialValues.ts)
+
+### Results
+
+`useForm` returns `formControl` object which represents the form.
+
+* **`values: Values`** current values of the form
+* **`errors: FormErrors<Values>`** errors of the form.
+* **`touched: FormTouched<Values>`** if the field is touched or not (got focus).
+* **`errors: FormTouched<Values>`** if the field is dirty (changed).
+* **`setFieldValue: (name: Name, value: SetterOrValue<Value>)`** a function to change a value.
+If name if empty string - all form values will be changed
+`name` is type checked. It should be dot notation of the path.
+For example
+
+```jsx
+    type Values = {
+      firstName: string
+      lastName: string
+      age: number
+      preferences: {
+        sendEmail: boolean
+        sendSms: boolean
+      }
+    }
+```
+
+    `name` can be `firstName`, `lastName`, `age`, `preferences`, `preferences.sendEmail`, `preferences.sendSms` or ''.
+    `value` is a value to set or a function `(prev: Value) => Value` (like in React's setState).
+    `value` is also typechecked. If `name` is `age`, `value` should be `number` or function returning `number`.
+
+* **`setFieldError: (name: Name, error: SetterOrValue<FormErrors<Value>>)`** errors setter of the form. Behave same way as `setFiledValue`
+* **`touched: (name: Name, touched: SetterOrValue<FormTouched<Value>>)`** touched setter of the form. Behave same way as `setFiledValue`
+* **`errors: (name: Name, dirty: SetterOrValue<FormDirty<Value>>)`** dirty setter of the form. Behave same way as `setFiledValue`
+* **`submitCount: number`** count of submits
+* **`isSubmitting: boolean`** flag which is set when form is submitting
+* **`handleSubmit`** submit function

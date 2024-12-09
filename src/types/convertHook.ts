@@ -5,12 +5,12 @@ export type ConvertHook<
   BaseProps extends { value?: any } = DefaultBaseProps,
 > = (props: {
   rsfName: string;
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
 }) => BaseProps;
 
 export type DefaultConvertHook = (props: {
   rsfName: string;
-  rsfFormControl: Pick<
+  formControl: Pick<
     FormControl<any>,
     "values" | "errors" | "touched" | "setFieldTouched" | "setFieldValue"
   >;

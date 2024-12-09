@@ -1,11 +1,11 @@
-import { FormControl } from "../types";
+import { FormControl } from ".";
 
 export type DisplayLoading = (props: {
   rsfName: string;
-  rsfFormControl: Omit<FormControl<any>, "handleSubmit">;
+  formControl: Omit<FormControl<any>, "handleSubmit">;
 }) => boolean;
 
 export type DefaultDisplayLoading = (props: {
   rsfName: string;
-  rsfFormControl: Pick<FormControl<any>, "values">;
+  formControl: Pick<FormControl<any>, "values">;
 }) => boolean;

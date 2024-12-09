@@ -110,7 +110,7 @@ void describe("1. Default props", () => {
     });
 
     expect(result.current.values).toEqual({
-      ...formProps.values,
+      ...formProps.initialValues,
       prop1: newValue,
     });
     expect(result.current.errors).toEqual({ prop1: newError });
@@ -129,7 +129,6 @@ void describe("1. Default props", () => {
     const setIsSubmitting: any = jest.fn();
 
     const formProps: FormProps<Values> = {
-      values: { prop1: "prop1", prop2: 12 },
       criteriaMode,
       context,
       resolver,
@@ -176,8 +175,7 @@ void describe("1. Default props", () => {
 
   test("Should call setField... functions only when value, touched, error or dirty was changed", async () => {
     const formProps: FormProps<Values> = {
-      initialValues: undefined,
-      values: { prop1: "prop1", prop2: 12 },
+      initialValues: { prop1: "prop1", prop2: 12 },
       errors: { prop1: { message: "Error" } },
       touched: { prop2: true },
       dirty: { prop1: true },

@@ -2,7 +2,7 @@ import { ElementType } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { FormControl } from "./formControl";
-import { DisplayLoading } from "../field/displayLoading";
+import { DisplayLoading } from "./displayLoading";
 import { ConvertHook } from "../types";
 
 export type DefaultBaseProps = {

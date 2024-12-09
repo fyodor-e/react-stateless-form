@@ -33,14 +33,14 @@ const resolver = yupResolver(
 
 const FormWithArray = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
   );
 
   const rsfFormControl = useForm<Values>({
-    values: {
+    initialValues: {
       warehouse: "",
       inventory: useMemo(
         () =>

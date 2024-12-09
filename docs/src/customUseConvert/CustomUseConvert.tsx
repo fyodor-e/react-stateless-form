@@ -30,7 +30,7 @@ const useReactSelectConvert: ConvertHook<
     ReactSelectProps<unknown, false, GroupBase<unknown>>,
     "value" | "onChange"
   >
-> = ({ rsfFormControl: { values, setFieldValue }, rsfName }) => {
+> = ({ formControl: { values, setFieldValue }, rsfName }) => {
   const value = getIn<any>({ name: rsfName, values });
   const onChange = useCallback<
     NonNullable<
@@ -56,7 +56,7 @@ const useDatePickerConvert: ConvertHook<
     onChange: NonNullable<DatePickerProps["onChange"]>;
     value?: undefined;
   }
-> = ({ rsfFormControl: { values, setFieldValue }, rsfName }) => {
+> = ({ formControl: { values, setFieldValue }, rsfName }) => {
   const selected = getIn<any>({ name: rsfName, values });
   const onChange = useCallback<NonNullable<DatePickerProps["onChange"]>>(
     (value: any) => {
@@ -73,7 +73,7 @@ const useDatePickerConvert: ConvertHook<
 
 const CustomUseConvert = () => {
   const onSubmit = useCallback<OnSubmit<Values>>(
-    ({ rsfFormControl: { values } }) => {
+    ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
     [],
