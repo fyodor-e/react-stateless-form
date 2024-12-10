@@ -39,7 +39,7 @@ const FormWithArray = () => {
     [],
   );
 
-  const rsfFormControl = useForm<Values>({
+  const formControl = useForm<Values>({
     initialValues: {
       warehouse: "",
       inventory: useMemo(
@@ -56,33 +56,33 @@ const FormWithArray = () => {
     resolver,
   });
 
-  const { remove } = useFieldArray({ rsfFormControl, name: "inventory" });
+  const { remove } = useFieldArray({ formControl, name: "inventory" });
 
   return (
     <ChakraProvider>
       <VStack w="full" alignItems="flex-start">
         <Field
-          rsfFormControl={rsfFormControl}
+          rsfFormControl={formControl}
           rsfName="warehouse"
           rsfComponent={ChakraFormInput}
           label="Warehouse"
         />
-        {rsfFormControl.values.inventory.map((_, i) => (
+        {formControl.values.inventory.map((_, i) => (
           <HStack key={i}>
             <Field
-              rsfFormControl={rsfFormControl}
+              rsfFormControl={formControl}
               rsfName={`inventory.${i}.name`}
               rsfComponent={ChakraFormInput}
               label="Name"
             />
             <Field
-              rsfFormControl={rsfFormControl}
+              rsfFormControl={formControl}
               rsfName={`inventory.${i}.code`}
               rsfComponent={ChakraFormInput}
               label="Code"
             />
             <Field
-              rsfFormControl={rsfFormControl}
+              rsfFormControl={formControl}
               rsfName={`inventory.${i}.quantity`}
               rsfComponent={ChakraFormInput}
               label="Quantity"
@@ -98,7 +98,7 @@ const FormWithArray = () => {
             </Button>
           </HStack>
         ))}
-        <Button onClick={rsfFormControl.handleSubmit}>Submit</Button>
+        <Button onClick={formControl.handleSubmit}>Submit</Button>
       </VStack>
     </ChakraProvider>
   );

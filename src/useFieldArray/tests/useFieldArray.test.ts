@@ -7,7 +7,7 @@ type Values = {
   nestedArray: string[];
 };
 
-const rsfFormControl: FormControl<Values> = {
+const formControl: FormControl<Values> = {
   values: { nestedArray: [] },
   touched: {},
   errors: {},
@@ -19,6 +19,7 @@ const rsfFormControl: FormControl<Values> = {
   setFieldDirty: () => {},
   submitCount: 0,
   isSubmitting: false,
+  setIsSubmitting: () => {},
   handleSubmit: () => Promise.resolve(),
 
   isValid: true,
@@ -27,20 +28,20 @@ const rsfFormControl: FormControl<Values> = {
 const name = "nestedArray";
 
 beforeEach(() => {
-  (rsfFormControl.setFieldValue as any).mockReset();
+  (formControl.setFieldValue as any).mockReset();
 });
 
 test("append test", () => {
   const testArray: string[] = ["one", "two", "three"];
   const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
     useFieldArray,
-    { initialProps: { rsfFormControl, name } },
+    { initialProps: { formControl, name } },
   );
 
   result.current.append("four");
-  expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-  expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
-  const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+  expect(formControl.setFieldValue).toBeCalledTimes(1);
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+  const setter = (formControl.setFieldValue as any).mock.calls[0][1];
   expect(setter(testArray)).toEqual(["one", "two", "three", "four"]);
 });
 
@@ -49,12 +50,12 @@ test("prepend test", () => {
 
   const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
     useFieldArray,
-    { initialProps: { rsfFormControl, name } },
+    { initialProps: { formControl, name } },
   );
 
   result.current.prepend("zero");
-  expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
-  const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+  const setter = (formControl.setFieldValue as any).mock.calls[0][1];
   expect(setter(testArray)).toEqual(["zero", "one", "two", "three"]);
 });
 
@@ -64,15 +65,13 @@ describe("insert test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.insert(0, "zero");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["zero", "one", "two", "three"]);
   });
 
@@ -81,15 +80,13 @@ describe("insert test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.insert(2, "new two");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["one", "two", "new two", "three"]);
   });
 
@@ -98,15 +95,13 @@ describe("insert test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.insert(testArray.length, "four");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["one", "two", "three", "four"]);
   });
 
@@ -115,15 +110,13 @@ describe("insert test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.insert(5, "five");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual([
       "one",
       "two",
@@ -139,15 +132,13 @@ describe("insert test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.insert(-1, "error");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 });
@@ -158,15 +149,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(0, 1);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["two", "one", "three"]);
   });
 
@@ -175,15 +164,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(0, 2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["three", "two", "one"]);
   });
 
@@ -192,15 +179,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(2, 5);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["0", "1", "5", "3", "4", "2", "6"]);
   });
 
@@ -209,15 +194,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(-1, 2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -226,15 +209,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(1, -2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -243,15 +224,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(3, 1);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -260,15 +239,13 @@ describe("swap test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.swap(1, 3);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 });
@@ -279,15 +256,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(0, 1);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["two", "one", "three"]);
   });
 
@@ -296,15 +271,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(0, 2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["two", "three", "one"]);
   });
 
@@ -313,15 +286,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(2, 5);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["0", "1", "3", "4", "5", "2", "6"]);
   });
 
@@ -330,15 +301,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(5, 2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["0", "1", "5", "2", "3", "4", "6"]);
   });
 
@@ -347,15 +316,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(-1, 2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -364,15 +331,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(1, -2);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -381,15 +346,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(3, 1);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -398,15 +361,13 @@ describe("move test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.move(1, 3);
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 });
@@ -417,15 +378,13 @@ describe("update test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.update(0, "zero");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["zero", "two", "three"]);
   });
 
@@ -434,15 +393,13 @@ describe("update test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.update(2, "new two");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(["one", "two", "new two"]);
   });
 
@@ -451,15 +408,13 @@ describe("update test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.update(-1, "error");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 
@@ -468,15 +423,13 @@ describe("update test", () => {
 
     const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
       useFieldArray,
-      { initialProps: { rsfFormControl, name } },
+      { initialProps: { formControl, name } },
     );
 
     result.current.update(testArray.length, "error");
-    expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-    expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-      name,
-    );
-    const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+    expect(formControl.setFieldValue).toBeCalledTimes(1);
+    expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+    const setter = (formControl.setFieldValue as any).mock.calls[0][1];
     expect(setter(testArray)).toEqual(testArray);
   });
 });
@@ -486,13 +439,13 @@ test("replace test", () => {
 
   const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
     useFieldArray,
-    { initialProps: { rsfFormControl, name } },
+    { initialProps: { formControl, name } },
   );
 
   result.current.replace(["1", "2", "3"]);
-  expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-  expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
-  expect((rsfFormControl.setFieldValue as any).mock.calls[0][1]).toEqual([
+  expect(formControl.setFieldValue).toBeCalledTimes(1);
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual([
     "1",
     "2",
     "3",
@@ -504,12 +457,12 @@ test("remove test", () => {
 
   const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
     useFieldArray,
-    { initialProps: { rsfFormControl, name } },
+    { initialProps: { formControl, name } },
   );
 
   result.current.remove(0, 1, 3, 5, 10);
-  expect(rsfFormControl.setFieldValue).toBeCalledTimes(1);
-  expect((rsfFormControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
-  const setter = (rsfFormControl.setFieldValue as any).mock.calls[0][1];
+  expect(formControl.setFieldValue).toBeCalledTimes(1);
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(name);
+  const setter = (formControl.setFieldValue as any).mock.calls[0][1];
   expect(setter(testArray)).toEqual(["2", "4"]);
 });

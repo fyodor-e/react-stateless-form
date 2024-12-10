@@ -14,24 +14,24 @@ export const useSubform = <
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   Value = DeepPick<Values, Name>,
 >({
-  values,
-  errors,
-  touched,
-  dirty,
+  formControl: {
+    values,
+    errors,
+    touched,
+    dirty,
 
-  setFieldValue,
-  setFieldError,
-  setFieldTouched,
-  setFieldDirty,
+    setFieldValue,
+    setFieldError,
+    setFieldTouched,
+    setFieldDirty,
 
+    ...rest
+  },
   name,
-
-  ...rest
 }: {
   name: Name;
-} & Omit<FormControl<Values>, "handleSubmit">): Value extends object
-  ? Omit<FormControl<Value>, "handleSubmit">
-  : never =>
+  formControl: Omit<FormControl<Values>, "handleSubmit">;
+}): Value extends object ? Omit<FormControl<Value>, "handleSubmit"> : never =>
   ({
     // No need to wrap in useMemo, as getIn always return same object if it was not changed
     values: getIn<any, any>({ name, values }),

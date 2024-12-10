@@ -43,6 +43,7 @@ const SimpleForm = () => {
         rsfName="firstName"
         rsfComponent="input"
       />
+      <input />
       <label>Last Name</label>
       <Field
         rsfFormControl={rsfFormControl}
