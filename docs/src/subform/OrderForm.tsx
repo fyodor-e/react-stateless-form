@@ -27,7 +27,7 @@ const OrderForm = () => {
     [],
   );
 
-  const rsfFormControl = useForm<Order>({
+  const formControl = useForm<Order>({
     initialValues: {
       orderNo: 0,
       carrier: "",
@@ -45,7 +45,7 @@ const OrderForm = () => {
   });
 
   const addressFormControl = useSubform({
-    ...rsfFormControl,
+    formControl,
     name: "deliveryAddress",
   });
 
@@ -58,19 +58,19 @@ const OrderForm = () => {
       }}
     >
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="orderNo"
         rsfComponent={SimpleInput}
         label="Order No"
       />
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="carrier"
         rsfComponent={SimpleInput}
         label="Carrier"
       />
       <AddressForm subFormControl={addressFormControl} />
-      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
+      <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );
 };

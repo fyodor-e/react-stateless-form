@@ -27,8 +27,7 @@ export type FieldProps<
   rsfComponent: ElementType<ComponentProps>;
 
   rsfLoadingComponent?: ElementType<LoadingComponentProps>;
-  rsfDisplayLoading?: DisplayLoading;
-  useConvert?: ConvertHook<Values, BaseProps>;
+  rsfUseConvert?: ConvertHook<Values, BaseProps>;
 } & Omit<ComponentProps, keyof BaseProps> &
   Partial<Omit<BaseProps, "value">> &
   (Value extends ComponentProps["value"]

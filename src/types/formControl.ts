@@ -44,6 +44,8 @@ export type FormControl<
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 
+  isLoading: boolean;
+
   isValid: boolean;
 
   handleSubmit: undefined extends SubmitProps & undefined
