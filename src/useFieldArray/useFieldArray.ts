@@ -7,10 +7,10 @@ export const useFieldArray = <
   Value = DeepPick<Values, Name>,
   ArrType = Value extends (infer A)[] ? A : never,
 >({
-  rsfFormControl: { values, setFieldValue },
+  formControl: { values, setFieldValue },
   name,
 }: {
-  rsfFormControl: FormControl<Values>;
+  formControl: FormControl<Values>;
   name: Name;
 }): {
   append: (element: ArrType) => void;
