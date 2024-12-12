@@ -1,7 +1,7 @@
 import { FormControl, FormErrors, FormTouched, SetterOrValue } from "../types";
 import { FormProps } from "../types/formProps";
 import { getIn, isChanged, setIn } from "../utils";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { defaultUseFormSubmitCreator } from "./defaultUseFormSubmitCreator";
 import { defaultUseValidate } from "./defaultUseValidate";
 import { defaultUseDirty } from "./defaultUseDirty";
@@ -39,6 +39,9 @@ export const useForm = <
 
   isSubmitting: isSubmittingFromProps,
   setIsSubmitting: setIsSubmittingFromProps,
+
+  isLoading: isLoadingFromProps,
+  setIsLoading: setIsLoadingFromProps,
 }: FormProps<Values, SubmitProps, SubmitReturn>): FormControl<
   Values,
   SubmitProps,
@@ -63,9 +66,16 @@ export const useForm = <
   const [internalDirty, setDirtyInternal] = useState<FormTouched<Values>>(
     dirtyFromProps ?? ({} as any),
   );
-  const [internalSubmitCount, setInternalSubmitCount] = useState<number>(0);
-  const [internalIsSubmitting, setInternalIsSubmitting] =
-    useState<boolean>(false);
+  const [internalSubmitCount, setInternalSubmitCount] = useState<number>(
+    submitCountFromProps ?? 0,
+  );
+  const [internalIsSubmitting, setInternalIsSubmitting] = useState<boolean>(
+    isSubmittingFromProps ?? false,
+  );
+
+  const [internalIsLoading, setInternalIsLoading] = useState<boolean>(
+    isLoadingFromProps ?? false,
+  );
 
   const setFieldValueInternal = useCallback(
     (name: any, value: SetterOrValue<any>) => {
@@ -134,11 +144,17 @@ export const useForm = <
   const setFieldTouched = setFieldTouchedFromProps ?? setFieldTouchedInternal;
   const setFieldDirty = setFieldDirtyFromProps ?? setFieldDirtyInternal;
 
-  const submitCount = submitCountFromProps ?? internalSubmitCount;
+  const submitCount =
+    (setSubmitCountFromProps && submitCountFromProps) ?? internalSubmitCount;
   const setSubmitCount = setSubmitCountFromProps ?? setInternalSubmitCount;
 
-  const isSubmitting = isSubmittingFromProps ?? internalIsSubmitting;
+  const isSubmitting =
+    (setIsSubmittingFromProps && isSubmittingFromProps) ?? internalIsSubmitting;
   const setIsSubmitting = setIsSubmittingFromProps ?? setInternalIsSubmitting;
+
+  const isLoading =
+    (setIsLoadingFromProps && isLoadingFromProps) ?? internalIsLoading;
+  const setIsLoading = setIsLoadingFromProps ?? setInternalIsLoading;
 
   const isValid = useMemo(() => Object.keys(errors).length === 0, [errors]);
 
@@ -159,6 +175,9 @@ export const useForm = <
       submitCount,
       isSubmitting,
       setIsSubmitting,
+
+      isLoading,
+      setIsLoading,
 
       isValid,
     }),

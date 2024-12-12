@@ -26,6 +26,10 @@ const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
 
   submitCount: 0,
   isSubmitting: false,
+  setIsSubmitting: jest.fn(),
+
+  isLoading: false,
+  setIsLoading: jest.fn(),
 
   isValid: true,
 };

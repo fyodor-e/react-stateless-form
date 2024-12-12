@@ -1,5 +1,6 @@
 import { FormProps } from "../formProps";
 import { expectType } from "../isTypeEquals";
+import { SetterOrValue } from "../setterOrValue";
 
 type Values = {
   p: "p";
@@ -24,6 +25,21 @@ const formPropsSuccess: FormProps<Values> = {
   setFieldError: () => {},
   setFieldTouched: () => {},
   setFieldDirty: () => {},
+
+  isLoading: false,
+  setIsLoading: (setterOrValue) => {
+    expectType<SetterOrValue<boolean>, typeof setterOrValue>(() => true);
+  },
+
+  isSubmitting: false,
+  setIsSubmitting: (setterOrValue) => {
+    expectType<SetterOrValue<boolean>, typeof setterOrValue>(() => true);
+  },
+
+  submitCount: 0,
+  setSubmitCount: (setterOrValue) => {
+    expectType<SetterOrValue<number>, typeof setterOrValue>(() => 0);
+  },
 };
 
 // set... functions can be omitted (undefined)
@@ -63,6 +79,30 @@ const formPropsWithDirty: FormProps<Values> = {
   initialValues: { p: "p" },
   // dirty is required
   setFieldDirty: () => {},
+};
+
+// if setIsLoading is provided - isLoading should also be provided
+// @ts-expect-error
+const formPropsWithDirty: FormProps<Values> = {
+  initialValues: { p: "p" },
+  // isLoading is required
+  setIsLoading: () => {},
+};
+
+// if setIsSubmitting is provided - isSubmitting should also be provided
+// @ts-expect-error
+const formPropsWithDirty: FormProps<Values> = {
+  initialValues: { p: "p" },
+  // isSubmitting is required
+  setIsSubmitting: () => {},
+};
+
+// if setSubmitCount is provided - submitCount should also be provided
+// @ts-expect-error
+const formPropsWithDirty: FormProps<Values> = {
+  initialValues: { p: "p" },
+  // submitCount is required
+  setSubmitCount: () => {},
 };
 
 // SubmitProps

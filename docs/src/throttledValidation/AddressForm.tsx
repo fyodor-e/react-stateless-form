@@ -1,7 +1,7 @@
 import { Field, OnSubmit, useForm, UseValidate } from "react-stateless-form";
 import * as Yup from "yup";
 import { FC, useCallback, useEffect, useMemo } from "react";
-import SimpleInput from "./SimpleInput123";
+import SimpleInput from "./SimpleInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { throttle } from "throttle-debounce";
 
@@ -69,7 +69,7 @@ const AddressForm: FC = () => {
     [],
   );
 
-  const rsfFormControl = useForm<Address>({
+  const formControl = useForm<Address>({
     initialValues: {
       country: "",
       state: "",
@@ -94,48 +94,48 @@ const AddressForm: FC = () => {
       }}
     >
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="country"
         rsfComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="state"
         rsfComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="city"
         rsfComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="zipCode"
         rsfComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="street1"
         rsfComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="street2"
         rsfComponent={SimpleInput}
         label="Street Address 2"
         css={{ gridColumn: 2, gridRow: 3 }}
       />
-      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
+      <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );
 };

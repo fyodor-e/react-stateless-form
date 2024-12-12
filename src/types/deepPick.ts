@@ -56,15 +56,6 @@ type SingleDeepPick<
         >
       : unknown;
 
-type C<T, P> = SingleDeepPick<T, P, false, false>;
-type O = {
-  p: {
-    o: string;
-  }[];
-};
-
-type A = C<O, "p.0.o">;
-
 export type DeepPick<T, P> =
   // First step is check for any. Any cannot be processed correctly
   0 extends 1 & T ? any : P extends "" ? T : SingleDeepPick<T, P, false, false>;

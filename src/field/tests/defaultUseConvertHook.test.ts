@@ -18,6 +18,7 @@ const formControl: FormControl<{ prop1: string; prop2: number }> = {
   isSubmitting: false,
   setIsSubmitting: jest.fn() as any,
   isLoading: false,
+  setIsLoading: jest.fn(),
   handleSubmit: () => Promise.resolve(),
 
   isValid: true,

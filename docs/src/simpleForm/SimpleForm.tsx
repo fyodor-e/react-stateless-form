@@ -23,7 +23,7 @@ const SimpleForm = () => {
     [],
   );
 
-  const rsfFormControl = useForm({
+  const formControl = useForm({
     initialValues: { firstName: "", lastName: "" },
     onSubmit,
     resolver,
@@ -39,26 +39,24 @@ const SimpleForm = () => {
     >
       <label>First Name</label>
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="firstName"
         rsfComponent="input"
       />
       <input />
       <label>Last Name</label>
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="lastName"
         rsfComponent="input"
       />
-      {!rsfFormControl.isValid && (
+      {!formControl.isValid && (
         <>
           <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>
-            {JSON.stringify(rsfFormControl.errors)}
-          </div>
+          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
         </>
       )}
-      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
+      <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );
 };
