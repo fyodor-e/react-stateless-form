@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
-    "type:test": "tsc --project tsconfig.types.test.json",
+    "test:types": "tsc --project tsconfig.types.test.json",
     "build": "tsup src !src/**/*.test.* --dts"
   },
   "author": "Fyodor Yemelyanenko",
