@@ -62,7 +62,7 @@ const MaterialUiForm = () => {
     [],
   );
 
-  const rsfFormControl = useForm({
+  const formControl = useForm({
     initialValues: {
       country: "",
       state: "",
@@ -91,25 +91,25 @@ const MaterialUiForm = () => {
           }}
         >
           <Field
-            rsfFormControl={rsfFormControl}
+            rsfFormControl={formControl}
             rsfName="country"
             rsfComponent={TextField}
             label="Country"
-            useConvert={useConvert}
+            rsfUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={rsfFormControl}
+            rsfFormControl={formControl}
             rsfName="state"
             rsfComponent={TextField}
             label="State"
-            useConvert={useConvert}
+            rsfUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={rsfFormControl}
+            rsfFormControl={formControl}
             rsfName="city"
             rsfComponent={TextField}
             label="City"
-            useConvert={useConvert}
+            rsfUseConvert={useConvert}
           />
         </Box>
         <Box
@@ -122,31 +122,31 @@ const MaterialUiForm = () => {
           }}
         >
           <Field
-            rsfFormControl={rsfFormControl}
+            rsfFormControl={formControl}
             rsfName="zipCode"
             rsfComponent={TextField}
             label="Zip Code"
-            useConvert={useConvert}
+            rsfUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={rsfFormControl}
+            rsfFormControl={formControl}
             rsfName="street1"
             rsfComponent={TextField}
             label="Street Address 1"
-            useConvert={useConvert}
+            rsfUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={rsfFormControl}
+            rsfFormControl={formControl}
             rsfName="street2"
             rsfComponent={TextField}
             label="Street Address 2"
-            useConvert={useConvert}
+            rsfUseConvert={useConvert}
           />
         </Box>
       </Box>
       <Button
-        disabled={rsfFormControl.isSubmitting}
-        onClick={rsfFormControl.handleSubmit}
+        disabled={formControl.isSubmitting}
+        onClick={formControl.handleSubmit}
       >
         Submit
       </Button>

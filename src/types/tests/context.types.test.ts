@@ -16,7 +16,10 @@ const control: FormControl<Values> = {
   setFieldDirty: () => {},
 
   isSubmitting: false,
+  setIsSubmitting: () => {},
   submitCount: 0,
+  isLoading: false,
+  setIsLoading: () => {},
   handleSubmit: () => Promise.resolve(),
 
   isValid: true,

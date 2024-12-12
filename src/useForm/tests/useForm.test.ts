@@ -43,7 +43,7 @@ void describe("1. Default props", () => {
       initialProps: formProps,
     });
 
-    expect(result.current.values).toEqual(formProps.values);
+    expect(result.current.values).toEqual(formProps.initialValues);
     expect(result.current.setFieldValue).toEqual(expect.any(Function));
 
     expect(result.current.errors).toEqual({});
@@ -87,6 +87,24 @@ void describe("1. Default props", () => {
     expect(result.current.errors).toEqual(newErrors);
     expect(result.current.touched).toEqual(newTouched);
     expect(result.current.dirty).toEqual(newDirty);
+  });
+
+  test("Should be able to change isSubmitting, isLoading useng set... functions", async () => {
+    const formProps: FormProps<Values> = {
+      initialValues: { prop1: "prop1", prop2: 12 },
+    };
+
+    const { result } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
+
+    act(() => {
+      result.current.setIsLoading(true);
+      result.current.setIsSubmitting(true);
+    });
+
+    expect(result.current.isLoading).toEqual(true);
+    expect(result.current.isSubmitting).toEqual(true);
   });
 
   test("Should be able to change values, errors, touched and dirty useng setField... functions", async () => {
@@ -195,7 +213,7 @@ void describe("1. Default props", () => {
     // Values, errors, touched and dirty should not be changed
     // Use toBe as references should not be changed (should be same objects)
     // This is important for useEffect not fire
-    expect(result.current.values).toBe(formProps.values);
+    expect(result.current.values).toBe(formProps.initialValues);
     expect(result.current.errors).toBe(formProps.errors);
     expect(result.current.touched).toBe(formProps.touched);
     expect(result.current.dirty).toBe(formProps.dirty);
@@ -251,5 +269,31 @@ describe("2. Custom setField... functions", () => {
 
     expect(setFieldDirty.mock.calls[0][0]).toEqual("");
     expect(setFieldDirty.mock.calls[0][1]).toEqual(newDirty);
+  });
+
+  test("Should be able to change isSubmitting, isLoading using set... functions", async () => {
+    const setIsLoading: any = jest.fn();
+    const setIsSubmitting: any = jest.fn();
+
+    const formProps: FormProps<Values> = {
+      initialValues: { prop1: "prop1", prop2: 12 },
+
+      isLoading: false,
+      setIsLoading,
+      isSubmitting: false,
+      setIsSubmitting,
+    };
+
+    const { result } = renderHook(useForm<Values>, {
+      initialProps: formProps,
+    });
+
+    act(() => {
+      result.current.setIsLoading(true);
+      result.current.setIsSubmitting(true);
+    });
+
+    expect(setIsLoading.mock.calls[0][0]).toEqual(true);
+    expect(setIsSubmitting.mock.calls[0][0]).toEqual(true);
   });
 });

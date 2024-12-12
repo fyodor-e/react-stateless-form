@@ -107,10 +107,13 @@ Implementation can be
 * **`setFieldDirty: SetField<FormTouched<Values>>`** dirty setter. Works same way as `setFieldValue`
 
 * **`submitCount?: number`** submit count of the form. Used when submit count should be stored in parent component.
-* **`setSubmitCount?: (submitCount: number) => void`** submit count setter. Works same way as `setFieldValue`, but do not allow function in place of value.
+* **`setSubmitCount?: (submitCount: SetterOrValue<number>) => void`** submit count setter. Works same way as `setFieldValue`.
 
-* **`isSubmitting?: boolean`** flag which is set when form is currently submitted. Used when submit flag should be stored in parent component.
-* **`setIsSubmitting?: (isSubmitting: boolean) => void`** submit flag setter. Works same way as `setFieldValue`, but do not allow function in place of value.
+* **`isSubmitting?: boolean`** flag which is set when form is currently submitting. Used when submit flag should be stored in parent component.
+* **`setIsSubmitting?: (isSubmitting: SetterOrValue<boolean>) => void`** submit flag setter. Works same way as `setFieldValue`.
+
+* **`isLoading?: boolean`** flag which is set when form data loading. Used when loading flag should be stored in parent component.
+* **`setIsLoading?: (isLoading: SetterOrValue<boolean>) => void`** loading flag setter. Works same way as `setFieldValue`.
 
 ### Parameters to customize form internals
 
@@ -168,6 +171,14 @@ For example
 * **`setFieldError: (name: Name, error: SetterOrValue<FormErrors<Value>>)`** errors setter of the form. Behave same way as `setFiledValue`
 * **`touched: (name: Name, touched: SetterOrValue<FormTouched<Value>>)`** touched setter of the form. Behave same way as `setFiledValue`
 * **`errors: (name: Name, dirty: SetterOrValue<FormDirty<Value>>)`** dirty setter of the form. Behave same way as `setFiledValue`
-* **`submitCount: number`** count of submits
-* **`isSubmitting: boolean`** flag which is set when form is submitting
-* **`handleSubmit`** submit function
+* **`submitCount: number`** count of submits. Is incremented in `useFormSubmitCreator` hook on each submit attempt.
+* **`isSubmitting: boolean`** flag which is set when form is submitting. Is set in `useFormSubmitCreator` when from do not have errors and `onSubmit` handler is about to be called. Should be reset in `onSubmit` handler.
+* **`setIsSubmitting: (isSubmitting: SetterOrValue<boolean>) => void`** submit flag setter. Works same way as `setFieldValue`.
+* **`handleSubmit`** submit function which should be called to submit the form. It can take optional argument which will be passed to `onSubmit` handler.
+ Return value of `onSubmit` will become return value of `handleSubmit`
+* **`isLoading: boolean`** flag to indicate that form data is initially loading. For example, when form is used to edit existing entity.
+When this falg is true `<Field />` components will render `rsfLoadingComponent`. This is effective way to create form skeleton.
+This flag is not set or reset automatically. It should be modified manually.
+* **`setIsLoading: (isLoading: SetterOrValue<boolean>) => void`** loading flag setter. Works same way as `setFieldValue`.
+
+

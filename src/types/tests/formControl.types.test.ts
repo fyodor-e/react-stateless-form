@@ -19,6 +19,9 @@ const rsfFormControl: FormControl<Values> = {
   setFieldDirty: () => {},
   submitCount: 0,
   isSubmitting: false,
+  setIsSubmitting: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
   isValid: true,
   handleSubmit: () => Promise.resolve(),
 };

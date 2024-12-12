@@ -1,4 +1,3 @@
-- Type inference for useField when used w/o type arg of Values is incorrect
 - DeepPick limitations
   o For union of array it will produce intersection of array objects
   type UnionWithSameKeys = {

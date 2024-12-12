@@ -79,7 +79,7 @@ const CustomUseConvert = () => {
     [],
   );
 
-  const rsfFormControl = useForm({
+  const formControl = useForm({
     initialValues: { date: new Date(), color: colors[0] },
     onSubmit,
   });
@@ -94,28 +94,26 @@ const CustomUseConvert = () => {
     >
       <label>Date</label>
       <Field
-        useConvert={useDatePickerConvert}
-        rsfFormControl={rsfFormControl}
+        rsfUseConvert={useDatePickerConvert}
+        rsfFormControl={formControl}
         rsfName="date"
         rsfComponent={DatePicker}
       />
       <label>Color</label>
       <Field
-        useConvert={useReactSelectConvert}
-        rsfFormControl={rsfFormControl}
+        rsfUseConvert={useReactSelectConvert}
+        rsfFormControl={formControl}
         rsfName="color"
         rsfComponent={Select<Color>}
         options={colors}
       />
-      {!rsfFormControl.isValid && (
+      {!formControl.isValid && (
         <>
           <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>
-            {JSON.stringify(rsfFormControl.errors)}
-          </div>
+          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
         </>
       )}
-      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
+      <button onClick={formControl.handleSubmit}>Submit</button>
     </div>
   );
 };

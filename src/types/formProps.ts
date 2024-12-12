@@ -92,12 +92,6 @@ export type FormProps<
   useDirty?: UseDirty<Values>;
 
   useInitialValues?: UseInitialValues<Values>;
-
-  submitCount?: number;
-  setSubmitCount?: (submitCount: number) => void;
-
-  isSubmitting?: boolean;
-  setIsSubmitting?: (isSubmitting: boolean) => void;
 } & (
   | {
       initialValues: Values;
@@ -138,5 +132,35 @@ export type FormProps<
     | {
         dirty: FormTouched<Values>;
         setFieldDirty: SetField<FormTouched<Values>>;
+      }
+  ) &
+  (
+    | {
+        submitCount?: number;
+        setSubmitCount?: undefined;
+      }
+    | {
+        submitCount: number;
+        setSubmitCount: (submitCount: SetterOrValue<number>) => void;
+      }
+  ) &
+  (
+    | {
+        isSubmitting?: boolean;
+        setIsSubmitting?: undefined;
+      }
+    | {
+        isSubmitting: boolean;
+        setIsSubmitting: (isSubmitting: SetterOrValue<boolean>) => void;
+      }
+  ) &
+  (
+    | {
+        isLoading?: boolean;
+        setIsLoading?: undefined;
+      }
+    | {
+        isLoading: boolean;
+        setIsLoading: (isLoading: SetterOrValue<boolean>) => void;
       }
   );

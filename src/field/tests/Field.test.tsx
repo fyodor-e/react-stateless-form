@@ -22,6 +22,7 @@ const formControl: FormControl<Values> = {
   isSubmitting: false,
   setIsSubmitting: () => {},
   isLoading: false,
+  setIsLoading: () => {},
   handleSubmit: () => Promise.resolve(),
   isValid: true,
 };
