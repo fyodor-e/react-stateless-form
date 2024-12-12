@@ -1,6 +1,6 @@
 import FormWithLoader from "./FormWithLoader.tsx";
 import FormWithLoaderRaw from "./FormWithLoader.tsx?raw";
-import RawCode from '../RawCode.tsx'
+import CodeSamplesLayout from '../CodeSamplesLayout.tsx'
 
 # Form with loader
 
@@ -20,7 +20,12 @@ During data fetching skeleton controls can be displayed in place of real form.
 `rsfLoadingComponent is doing this. This component will be displayed
 when data is loading. `rsfDisplayLoading` can be used to control
 if loader should be displayed or form control.
+<br />
+When data is loading is determined by `isLoading` parameter of the `FormProps` and `FormControl`.
 
-<RawCode code={FormWithLoaderRaw} />
-
-<FormWithLoader />
+<CodeSamplesLayout
+  codeFiles={[
+    { name: 'FormWithLoader.tsx', code: FormWithLoaderRaw },
+  ]}>
+  <FormWithLoader />
+</CodeSamplesLayout>

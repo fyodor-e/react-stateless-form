@@ -1,9 +1,16 @@
 import MaterialUiForm from "./MaterialUiForm.tsx";
 import MaterialUiFormRaw from "./MaterialUiForm.tsx?raw";
-import RawCode from '../RawCode.tsx'
+import CodeSamplesLayout from '../CodeSamplesLayout.tsx'
 
 # Form based on Material UI components
 
-<RawCode code={MaterialUiFormRaw} />
+Example of using React Stateless Form with Material UI library.
+Material UI form controls have `helperText` property to display text under control.
+To pass error text to `helperText` custom `useConvert` hook is used with the `<Field />` component.
 
-<MaterialUiForm />
+<CodeSamplesLayout
+  codeFiles={[
+    { name: 'MaterialUiForm.tsx', code: MaterialUiFormRaw },
+  ]}>
+  <MaterialUiForm />
+</CodeSamplesLayout>

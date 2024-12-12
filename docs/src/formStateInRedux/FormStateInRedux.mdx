@@ -1,9 +1,22 @@
 import FormStateInRedux from "./FormStateInRedux";
 import FormStateInReduxRaw from "./FormStateInRedux.tsx?raw";
-import RawCode from '../RawCode.tsx'
+import CodeSamplesLayout from '../CodeSamplesLayout.tsx'
 
 # Form state in Redux
 
-<RawCode code={FormStateInReduxRaw} />
+As form state can be stored in parent component it also can be stored in Redux.
+It is required to extract `value` and create `setFormValue` function.
+Value is extracted from Redux store with `useSelect`
+```jsx
+  const values = useSelector(valuesSelector);
+```
 
-<FormStateInRedux />
+`setFieldValue` can be created globally as it only use store.
+It is important to not recreate `setFieldValue` function on each `values` change.
+
+<CodeSamplesLayout
+  codeFiles={[
+    { name: 'FormStateInRedux.tsx', code: FormStateInReduxRaw },
+  ]}>
+  <FormStateInRedux />
+</CodeSamplesLayout>

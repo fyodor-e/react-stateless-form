@@ -49,6 +49,8 @@ const formControl: FormControl<Values> = {
   submitCount: 0,
   isSubmitting: false,
   setIsSubmitting: jest.fn(),
+  isLoading: false,
+  setIsLoading: jest.fn(),
   handleSubmit: () => Promise.resolve(),
 
   isValid: true,

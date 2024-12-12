@@ -16,4 +16,12 @@ export default defineConfig({
       // include: /\.(jsx|js|mdx|md|tsx|ts)$/,
     }),
   ],
+  optimizeDeps: {
+    include: ["react-stateless-form"],
+  },
+  build: {
+    commonjsOptions: {
+      include: ["../dist", /node_modules/],
+    },
+  },
 });

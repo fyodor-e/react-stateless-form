@@ -22,6 +22,8 @@ const formControl: Omit<FormControl<Values>, "handleSubmit"> = {
   submitCount: 0,
   isSubmitting: false,
   setIsSubmitting: jest.fn(),
+  isLoading: false,
+  setIsLoading: jest.fn(),
 
   isValid: true,
 };
@@ -38,10 +40,6 @@ test("Should return memoized initialValues if they are provided", async () => {
   });
 
   expect(result.current).toEqual(initialValues);
-  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual("");
-  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual(
-    initialValues,
-  );
 });
 
 test("Should not change initialValues after they were initialized", async () => {
@@ -73,4 +71,8 @@ test("Should not set initialValues when initialValues are undefined", async () =
   rerender({ formControl, initialValues });
 
   expect(result.current).toEqual(initialValues);
+  expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual("");
+  expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual(
+    initialValues,
+  );
 });

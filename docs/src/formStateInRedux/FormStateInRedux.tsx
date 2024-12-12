@@ -101,7 +101,7 @@ const FormStateInRedux = () => {
     dispatch(calcTotal());
   }, [dispatch]);
 
-  const rsfFormControl = useForm<Values>({
+  const formControl = useForm<Values>({
     values,
     setFieldValue,
     onSubmit,
@@ -118,37 +118,35 @@ const FormStateInRedux = () => {
     >
       <label>Order #</label>
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="orderNo"
         rsfComponent="input"
       />
       <label>Ordered Item</label>
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="orderedItem"
         rsfComponent="input"
       />
       <label>Quantity</label>
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="quantity"
         rsfComponent="input"
       />
       <label>Price</label>
       <Field
-        rsfFormControl={rsfFormControl}
+        rsfFormControl={formControl}
         rsfName="price"
         rsfComponent="input"
       />
-      {!rsfFormControl.isValid && (
+      {!formControl.isValid && (
         <>
           <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>
-            {JSON.stringify(rsfFormControl.errors)}
-          </div>
+          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
         </>
       )}
-      <button onClick={rsfFormControl.handleSubmit}>Submit</button>
+      <button onClick={formControl.handleSubmit}>Submit</button>
       <div
         style={{
           display: "flex",

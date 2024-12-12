@@ -1,7 +1,5 @@
-import { DeepPick } from "./deepPick";
 import { SetField } from "./formProps";
 import { FormTouched } from "./formTouched";
-import { KeyPaths } from "./keyPaths";
 import { SetterOrValue } from "./setterOrValue";
 
 export type ValidateResult = string | string[] | boolean | undefined;
@@ -42,9 +40,10 @@ export type FormControl<
 
   submitCount: number;
   isSubmitting: boolean;
-  setIsSubmitting: (isSubmitting: boolean) => void;
+  setIsSubmitting: (isSubmitting: SetterOrValue<boolean>) => void;
 
   isLoading: boolean;
+  setIsLoading: (isLoading: SetterOrValue<boolean>) => void;
 
   isValid: boolean;
 

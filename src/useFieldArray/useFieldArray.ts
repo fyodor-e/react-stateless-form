@@ -7,7 +7,7 @@ export const useFieldArray = <
   Value = DeepPick<Values, Name>,
   ArrType = Value extends (infer A)[] ? A : never,
 >({
-  formControl: { values, setFieldValue },
+  formControl: { setFieldValue },
   name,
 }: {
   formControl: FormControl<Values>;
