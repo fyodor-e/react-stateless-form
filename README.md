@@ -1,8 +1,8 @@
 # Work In Progress !!!
 
-# React Stateless Form
+# React Flexible Form
 
-React Stateless Form is a form library to create a from in React.
+React Flexible Form is a form library to create a from in React.
 
 Features:
 

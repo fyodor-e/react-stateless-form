@@ -6,7 +6,7 @@ import {
   ConvertHook,
   getIn,
   getInErrors,
-} from "react-stateless-form";
+} from "react-flexible-form";
 import { useCallback, useMemo } from "react";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -35,7 +35,7 @@ const resolver = yupResolver(
 );
 
 const useConvert: ConvertHook<Values, TextFieldProps> = ({
-  rsfName: name,
+  rffName: name,
   formControl: { values, errors, touched, setFieldValue, setFieldTouched },
 }) => {
   const value = getIn({ values, name: name as any });
@@ -91,25 +91,25 @@ const MaterialUiForm = () => {
           }}
         >
           <Field
-            rsfFormControl={formControl}
-            rsfName="country"
-            rsfComponent={TextField}
+            rffFormControl={formControl}
+            rffName="country"
+            rffComponent={TextField}
             label="Country"
-            rsfUseConvert={useConvert}
+            rffUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={formControl}
-            rsfName="state"
-            rsfComponent={TextField}
+            rffFormControl={formControl}
+            rffName="state"
+            rffComponent={TextField}
             label="State"
-            rsfUseConvert={useConvert}
+            rffUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={formControl}
-            rsfName="city"
-            rsfComponent={TextField}
+            rffFormControl={formControl}
+            rffName="city"
+            rffComponent={TextField}
             label="City"
-            rsfUseConvert={useConvert}
+            rffUseConvert={useConvert}
           />
         </Box>
         <Box
@@ -122,25 +122,25 @@ const MaterialUiForm = () => {
           }}
         >
           <Field
-            rsfFormControl={formControl}
-            rsfName="zipCode"
-            rsfComponent={TextField}
+            rffFormControl={formControl}
+            rffName="zipCode"
+            rffComponent={TextField}
             label="Zip Code"
-            rsfUseConvert={useConvert}
+            rffUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={formControl}
-            rsfName="street1"
-            rsfComponent={TextField}
+            rffFormControl={formControl}
+            rffName="street1"
+            rffComponent={TextField}
             label="Street Address 1"
-            rsfUseConvert={useConvert}
+            rffUseConvert={useConvert}
           />
           <Field
-            rsfFormControl={formControl}
-            rsfName="street2"
-            rsfComponent={TextField}
+            rffFormControl={formControl}
+            rffName="street2"
+            rffComponent={TextField}
             label="Street Address 2"
-            rsfUseConvert={useConvert}
+            rffUseConvert={useConvert}
           />
         </Box>
       </Box>

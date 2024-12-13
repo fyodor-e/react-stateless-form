@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { OnSubmit, useForm, Field, useFieldArray } from "react-stateless-form";
+import { OnSubmit, useForm, Field, useFieldArray } from "react-flexible-form";
 import { useCallback, useMemo } from "react";
 import * as Yup from "yup";
 import { Button, HStack, VStack } from "@chakra-ui/react";
@@ -62,29 +62,29 @@ const FormWithArray = () => {
     <ChakraProvider>
       <VStack w="full" alignItems="flex-start">
         <Field
-          rsfFormControl={formControl}
-          rsfName="warehouse"
-          rsfComponent={ChakraFormInput}
+          rffFormControl={formControl}
+          rffName="warehouse"
+          rffComponent={ChakraFormInput}
           label="Warehouse"
         />
         {formControl.values.inventory.map((_, i) => (
           <HStack key={i}>
             <Field
-              rsfFormControl={formControl}
-              rsfName={`inventory.${i}.name`}
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName={`inventory.${i}.name`}
+              rffComponent={ChakraFormInput}
               label="Name"
             />
             <Field
-              rsfFormControl={formControl}
-              rsfName={`inventory.${i}.code`}
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName={`inventory.${i}.code`}
+              rffComponent={ChakraFormInput}
               label="Code"
             />
             <Field
-              rsfFormControl={formControl}
-              rsfName={`inventory.${i}.quantity`}
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName={`inventory.${i}.quantity`}
+              rffComponent={ChakraFormInput}
               label="Quantity"
             />
             <Button

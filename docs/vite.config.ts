@@ -17,7 +17,7 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    include: ["react-stateless-form"],
+    include: ["react-flexible-form"],
   },
   build: {
     commonjsOptions: {

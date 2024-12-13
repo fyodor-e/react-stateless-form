@@ -1,4 +1,4 @@
-import { OnSubmit, useForm, Field } from "react-stateless-form";
+import { OnSubmit, useForm, Field } from "react-flexible-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -39,16 +39,16 @@ const SimpleForm = () => {
     >
       <label>First Name</label>
       <Field
-        rsfFormControl={formControl}
-        rsfName="firstName"
-        rsfComponent="input"
+        rffFormControl={formControl}
+        rffName="firstName"
+        rffComponent="input"
       />
       <input />
       <label>Last Name</label>
       <Field
-        rsfFormControl={formControl}
-        rsfName="lastName"
-        rsfComponent="input"
+        rffFormControl={formControl}
+        rffName="lastName"
+        rffComponent="input"
       />
       {!formControl.isValid && (
         <>

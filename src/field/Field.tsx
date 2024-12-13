@@ -9,11 +9,11 @@ export const Field = <
   LoadingComponentProps extends { [K in keyof BaseProps]?: any } = BaseProps,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
-  rsfUseConvert = defaultUseConvert as any,
-  rsfLoadingComponent,
-  rsfFormControl,
-  rsfName,
-  rsfComponent: Component,
+  rffUseConvert = defaultUseConvert as any,
+  rffLoadingComponent,
+  rffFormControl,
+  rffName,
+  rffComponent: Component,
   ...restProps
 }: FieldProps<
   Values,
@@ -22,13 +22,13 @@ export const Field = <
   LoadingComponentProps,
   Name
 >) => {
-  const generatedProps = rsfUseConvert({
-    rsfName,
-    formControl: rsfFormControl,
+  const generatedProps = rffUseConvert({
+    rffName,
+    formControl: rffFormControl,
   });
 
-  if (rsfFormControl.isLoading && rsfLoadingComponent) {
-    const L: any = rsfLoadingComponent;
+  if (rffFormControl.isLoading && rffLoadingComponent) {
+    const L: any = rffLoadingComponent;
     return <L {...generatedProps} />;
   }
 

@@ -3,7 +3,7 @@ import { getIn, getInErrors } from "../utils";
 import { useMemo } from "react";
 
 export const defaultUseConvert: DefaultConvertHook = ({
-  rsfName: name,
+  rffName: name,
   formControl: { values, errors, touched, setFieldTouched, setFieldValue },
 }) => {
   const value = getIn({ values, name });

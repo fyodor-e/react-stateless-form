@@ -8,7 +8,7 @@ type Values = {
   }[];
 };
 
-const rsfFormControl: FormControl<Values> = {
+const rffFormControl: FormControl<Values> = {
   values: { p: "p", arr: [] },
   errors: {},
   touched: {},
@@ -26,20 +26,20 @@ const rsfFormControl: FormControl<Values> = {
   handleSubmit: () => Promise.resolve(),
 };
 
-rsfFormControl.setFieldValue("p", "c");
-rsfFormControl.setFieldValue("p", (prev) => {
+rffFormControl.setFieldValue("p", "c");
+rffFormControl.setFieldValue("p", (prev) => {
   expectType<Values["p"], typeof prev>(prev);
   return prev;
 });
 
-rsfFormControl.setFieldValue("arr.1", { prop2: 12 });
-rsfFormControl.setFieldValue("arr.1", (prev) => {
+rffFormControl.setFieldValue("arr.1", { prop2: 12 });
+rffFormControl.setFieldValue("arr.1", (prev) => {
   expectType<Values["arr"][number], typeof prev>(prev);
   return prev;
 });
 
-rsfFormControl.setFieldError("arr", { message: "error" });
-rsfFormControl.setFieldError("arr", (prev) => {
+rffFormControl.setFieldError("arr", { message: "error" });
+rffFormControl.setFieldError("arr", (prev) => {
   expectType<
     FieldError | ({ prop2?: FieldError | undefined } | undefined)[] | undefined,
     typeof prev
@@ -47,14 +47,14 @@ rsfFormControl.setFieldError("arr", (prev) => {
   return prev;
 });
 
-rsfFormControl.setFieldTouched("arr.1", { prop2: false });
-rsfFormControl.setFieldTouched("arr", (prev) => {
+rffFormControl.setFieldTouched("arr.1", { prop2: false });
+rffFormControl.setFieldTouched("arr", (prev) => {
   expectType<FormTouched<Values["arr"]> | undefined, typeof prev>(prev);
   return prev;
 });
 
-rsfFormControl.setFieldDirty("arr.1", { prop2: false });
-rsfFormControl.setFieldDirty("arr", (prev) => {
+rffFormControl.setFieldDirty("arr.1", { prop2: false });
+rffFormControl.setFieldDirty("arr", (prev) => {
   expectType<FormTouched<Values["arr"]> | undefined, typeof prev>(prev);
   return prev;
 });

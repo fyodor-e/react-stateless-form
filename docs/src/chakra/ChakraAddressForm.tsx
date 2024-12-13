@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { OnSubmit, useForm, Field } from "react-stateless-form";
+import { OnSubmit, useForm, Field } from "react-flexible-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
 import ChakraFormInput from "./ChakraFormInput";
@@ -55,41 +55,41 @@ const ChakraAddressForm = () => {
         <HStack>
           <VStack>
             <Field
-              rsfFormControl={formControl}
-              rsfName="country"
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName="country"
+              rffComponent={ChakraFormInput}
               label="Country"
             />
             <Field
-              rsfFormControl={formControl}
-              rsfName="state"
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName="state"
+              rffComponent={ChakraFormInput}
               label="State"
             />
             <Field
-              rsfFormControl={formControl}
-              rsfName="city"
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName="city"
+              rffComponent={ChakraFormInput}
               label="City"
             />
           </VStack>
           <VStack>
             <Field
-              rsfFormControl={formControl}
-              rsfName="zipCode"
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName="zipCode"
+              rffComponent={ChakraFormInput}
               label="Zip Code"
             />
             <Field
-              rsfFormControl={formControl}
-              rsfName="street1"
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName="street1"
+              rffComponent={ChakraFormInput}
               label="Street Address 1"
             />
             <Field
-              rsfFormControl={formControl}
-              rsfName="street2"
-              rsfComponent={ChakraFormInput}
+              rffFormControl={formControl}
+              rffName="street2"
+              rffComponent={ChakraFormInput}
               label="Street Address 2"
             />
           </VStack>

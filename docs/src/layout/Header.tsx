@@ -12,15 +12,15 @@ const Header: FC = () => {
         gap: "10px",
       }}
     >
-      <HeaderLink to="/react-stateless-form/">React Stateless Form</HeaderLink>
+      <HeaderLink to="/react-flexible-form/">React Flexible Form</HeaderLink>
 
-      <HeaderLink css={{ marginLeft: "auto" }} to="/react-stateless-form/docs/">
+      <HeaderLink css={{ marginLeft: "auto" }} to="/react-flexible-form/docs/">
         Docs
       </HeaderLink>
 
-      <HeaderLink to="/react-stateless-form/examples/">Examples</HeaderLink>
+      <HeaderLink to="/react-flexible-form/examples/">Examples</HeaderLink>
 
-      <HeaderLink to="https://github.com/fyodore82/react-stateless-form">
+      <HeaderLink to="https://github.com/fyodore82/react-flexible-form">
         GitHub
       </HeaderLink>
     </div>
