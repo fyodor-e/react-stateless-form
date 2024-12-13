@@ -26,7 +26,7 @@ jobs:
         run: npm run build
       - run: ls
       - run: cp README.md dist && cp package.json dist
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_PUBLISH}" > ./dist/.npmrc
+      - run: npm config set //registry.npmjs.org/:_authToken=${NPM_PUBLISH}
       - run: cd ./dist && npm publish
         env:
           NPM_PUBLISH: ${{secrets.NPM_PUBLISH}}
