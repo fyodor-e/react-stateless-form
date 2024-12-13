@@ -2,9 +2,9 @@
 
 [![npm version](https://img.shields.io/npm/v/react-flexible-form.svg?style=flat-square)](https://www.npmjs.com/package/react-flexible-form)
 [![npm downloads](https://img.shields.io/npm/dm/react-flexible-form.svg?style=flat-square)](https://www.npmjs.com/package/react-flexible-form)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Freact-flexible-form%2Freact-flexible-form%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/react-flexible-form/react-flexible-form/goto?ref=main)
-[![codecov](https://codecov.io/gh/react-flexible-form/react-flexible-form/branch/main/graph/badge.svg)](https://codecov.io/gh/react-flexible-form/react-flexible-form)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=react-flexible-form/react-flexible-form)](https://dependabot.com)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ffyodor-e%2Freact-flexible-form%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/fyodor-e/react-flexible-form/goto?ref=main)
+[![codecov](https://codecov.io/gh/fyodor-e/react-flexible-form/branch/main/graph/badge.svg)](https://codecov.io/gh/fyodor-e/react-flexible-form)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=fyodor-e/react-flexible-form)](https://dependabot.com)
 <br />
 
 # React Flexible Form
