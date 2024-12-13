@@ -24,9 +24,9 @@ const formControl: FormControl<{ prop1: string; prop2: number }> = {
   isValid: true,
 };
 
-test("should return value, error and touched using passed rsfName", () => {
+test("should return value, error and touched using passed rffName", () => {
   const initialProps = {
-    rsfName: "prop1",
+    rffName: "prop1",
     formControl,
   };
 
@@ -44,7 +44,7 @@ test("should return value, error and touched using passed rsfName", () => {
 
 test("should memoize values event if other props of the formControl has been changed", () => {
   const initialProps = {
-    rsfName: "prop1",
+    rffName: "prop1",
     formControl,
   };
 
@@ -61,9 +61,9 @@ test("should memoize values event if other props of the formControl has been cha
 
   const updatedProps: {
     formControl: FormControl<{ prop1: string; prop2: number }>;
-    rsfName: string;
+    rffName: string;
   } = {
-    rsfName: initialProps.rsfName,
+    rffName: initialProps.rffName,
     formControl: {
       ...formControl,
       values: {
@@ -93,7 +93,7 @@ test("should memoize values event if other props of the formControl has been cha
 
 test("should update result when formControl is changed", () => {
   const initialProps = {
-    rsfName: "prop1",
+    rffName: "prop1",
     formControl,
   };
 
@@ -137,7 +137,7 @@ test("should update result when formControl is changed", () => {
 
 test("onBlur should call setFieldTouched", () => {
   const initialProps = {
-    rsfName: "prop1",
+    rffName: "prop1",
     formControl,
   };
 
@@ -149,14 +149,14 @@ test("onBlur should call setFieldTouched", () => {
 
   expect((formControl.setFieldTouched as any).mock.calls).toHaveLength(1);
   expect((formControl.setFieldTouched as any).mock.calls[0][0]).toEqual(
-    initialProps.rsfName,
+    initialProps.rffName,
   );
   expect((formControl.setFieldTouched as any).mock.calls[0][1]).toEqual(true);
 });
 
 test("onChange should call setFieldValue", () => {
   const initialProps = {
-    rsfName: "prop1",
+    rffName: "prop1",
     formControl,
   };
 
@@ -169,7 +169,7 @@ test("onChange should call setFieldValue", () => {
 
   expect((formControl.setFieldValue as any).mock.calls).toHaveLength(1);
   expect((formControl.setFieldValue as any).mock.calls[0][0]).toEqual(
-    initialProps.rsfName,
+    initialProps.rffName,
   );
   expect((formControl.setFieldValue as any).mock.calls[0][1]).toEqual(
     "some value",
@@ -178,7 +178,7 @@ test("onChange should call setFieldValue", () => {
 
 test("should return undefined if error is not a string", () => {
   const initialProps = {
-    rsfName: "prop1",
+    rffName: "prop1",
     formControl: {
       ...formControl,
       errors: {

@@ -1,4 +1,4 @@
-import { Field, OnSubmit, useForm, UseValidate } from "react-stateless-form";
+import { Field, OnSubmit, useForm, UseValidate } from "react-flexible-form";
 import * as Yup from "yup";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import SimpleInput from "./SimpleInput";
@@ -94,44 +94,44 @@ const AddressForm: FC = () => {
       }}
     >
       <Field
-        rsfFormControl={formControl}
-        rsfName="country"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="country"
+        rffComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={formControl}
-        rsfName="state"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="state"
+        rffComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={formControl}
-        rsfName="city"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="city"
+        rffComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        rsfFormControl={formControl}
-        rsfName="zipCode"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="zipCode"
+        rffComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={formControl}
-        rsfName="street1"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="street1"
+        rffComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={formControl}
-        rsfName="street2"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="street2"
+        rffComponent={SimpleInput}
         label="Street Address 2"
         css={{ gridColumn: 2, gridRow: 3 }}
       />

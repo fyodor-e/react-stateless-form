@@ -50,15 +50,15 @@ const ValueStringUndefinedField = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={ValueStringUndefinedComponent}
-        rsfName="stringProp"
+        rffFormControl={formControl}
+        rffComponent={ValueStringUndefinedComponent}
+        rffName="stringProp"
       />
       {/* @ts-expect-error */}
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={ValueStringUndefinedComponent}
-        rsfName="numberProp"
+        rffFormControl={formControl}
+        rffComponent={ValueStringUndefinedComponent}
+        rffName="numberProp"
       />
     </>
   );
@@ -74,15 +74,15 @@ const ValueNumberField = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={ValueNumberComponent}
-        rsfName="numberProp"
+        rffFormControl={formControl}
+        rffComponent={ValueNumberComponent}
+        rffName="numberProp"
       />
       {/* @ts-expect-error */}
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={ValueNumberComponent}
-        rsfName="stringProp"
+        rffFormControl={formControl}
+        rffComponent={ValueNumberComponent}
+        rffName="stringProp"
       />
     </>
   );
@@ -102,37 +102,37 @@ const AdditionalPropsField = () => {
   return (
     <>
       <Field
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
         requiredProp="2"
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
       />
       <Field
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
         // @ts-expect-error
         requiredProp={2} // should be a string
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
       />
       {/* @ts-expect-error */}
       <Field
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
-        rsfFormControl={formControl}
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
+        rffFormControl={formControl}
         // requiredProp="2" - missing
       />
       <Field
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
         requiredProp="2"
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
         optionalProp={123}
       />
       <Field
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
         requiredProp="2"
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
         // @ts-expect-error
         optionalProp="123" // should be a number
       />
@@ -155,23 +155,23 @@ const UseConvertWithAdditionalPropsField = () => {
   return (
     <>
       <Field
-        rsfUseConvert={useConvertWithAdditionalProps}
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
-        rsfFormControl={formControl}
+        rffUseConvert={useConvertWithAdditionalProps}
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
+        rffFormControl={formControl}
       />
       <Field
-        rsfUseConvert={useConvertWithAdditionalProps}
-        rsfComponent={AdditionalPropsComponent}
+        rffUseConvert={useConvertWithAdditionalProps}
+        rffComponent={AdditionalPropsComponent}
         // @ts-expect-error
-        rsfName="errorProp"
-        rsfFormControl={formControl}
+        rffName="errorProp"
+        rffFormControl={formControl}
       />
       <Field
-        rsfUseConvert={useConvertWithAdditionalProps}
-        rsfComponent={AdditionalPropsComponent}
-        rsfFormControl={formControl}
-        rsfName="prop1"
+        rffUseConvert={useConvertWithAdditionalProps}
+        rffComponent={AdditionalPropsComponent}
+        rffFormControl={formControl}
+        rffName="prop1"
         requiredProp="2" // may be provided
         optionalProp={1} // as well as optionalProp
       />
@@ -190,27 +190,27 @@ const ConvertWithOnlyBasePropsField = () => {
   return (
     <>
       <Field
-        rsfUseConvert={useConvertBase}
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
+        rffUseConvert={useConvertBase}
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
         requiredProp="2"
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
       />
       {/* @ts-expect-error */}
       <Field
-        rsfUseConvert={useConvertBase}
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="prop1"
+        rffUseConvert={useConvertBase}
+        rffComponent={AdditionalPropsComponent}
+        rffName="prop1"
         // requiredProp="2" - missing
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
       />
       {/* @ts-expect-error */}
       <Field
-        rsfUseConvert={useConvertBase}
-        rsfComponent={AdditionalPropsComponent}
-        rsfName="embeddedObj" // should be prop1
+        rffUseConvert={useConvertBase}
+        rffComponent={AdditionalPropsComponent}
+        rffName="embeddedObj" // should be prop1
         requiredProp="2"
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
       />
     </>
   );
@@ -252,10 +252,10 @@ const IncompatibleComponent = () => {
   return (
     <Field
       useConvert={useConvertIncompatible2}
-      rsfFormControl={formControl}
+      rffFormControl={formControl}
       // @ts-expect-error
-      rsfComponent={AnotherComponent}
-      rsfName="prop1"
+      rffComponent={AnotherComponent}
+      rffName="prop1"
     />
   );
 };
@@ -274,10 +274,10 @@ const useConvertAdditional: ConvertHook<
 const AdditionalConevrtFunctionProps = () => {
   return (
     <Field
-      rsfUseConvert={useConvertAdditional}
-      rsfFormControl={formControl}
-      rsfComponent={AlternativeComponent}
-      rsfName="prop1"
+      rffUseConvert={useConvertAdditional}
+      rffFormControl={formControl}
+      rffComponent={AlternativeComponent}
+      rffName="prop1"
     />
   );
 };
@@ -285,10 +285,10 @@ const AdditionalConevrtFunctionProps = () => {
 const AdditionalPropIsPresentInFieldProps = () => {
   return (
     <Field
-      rsfUseConvert={useConvertAdditional}
-      rsfFormControl={formControl}
-      rsfComponent={AlternativeComponent}
-      rsfName="prop1"
+      rffUseConvert={useConvertAdditional}
+      rffFormControl={formControl}
+      rffComponent={AlternativeComponent}
+      rffName="prop1"
       additionlProp=""
     />
   );
@@ -313,27 +313,27 @@ const BasePropsWithSelectedField = () => {
   return (
     <>
       <Field
-        rsfUseConvert={useConvertSelected}
-        rsfFormControl={formControl}
-        rsfComponent={ComponentWithSelectedProp}
+        rffUseConvert={useConvertSelected}
+        rffFormControl={formControl}
+        rffComponent={ComponentWithSelectedProp}
         additionlProp=""
-        rsfName="prop1"
+        rffName="prop1"
       />
       {/* Override selected prop */}
       <Field
-        rsfUseConvert={useConvertSelected}
-        rsfFormControl={formControl}
-        rsfComponent={ComponentWithSelectedProp}
-        rsfName="prop1"
+        rffUseConvert={useConvertSelected}
+        rffFormControl={formControl}
+        rffComponent={ComponentWithSelectedProp}
+        rffName="prop1"
         additionlProp=""
         selected="prop1"
       />
       {/* Incorrect selected prop value */}
       <Field
-        rsfUseConvert={useConvertSelected}
-        rsfFormControl={formControl}
-        rsfComponent={ComponentWithSelectedProp}
-        rsfName="prop1"
+        rffUseConvert={useConvertSelected}
+        rffFormControl={formControl}
+        rffComponent={ComponentWithSelectedProp}
+        rffName="prop1"
         additionlProp=""
         // @ts-expect-error
         selected="incorrect value" // should be selected='prop1'
@@ -368,15 +368,15 @@ const DefaultConvertHookField = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={DefaultConvertHookCompatibleComponent}
-        rsfName="prop1"
+        rffFormControl={formControl}
+        rffComponent={DefaultConvertHookCompatibleComponent}
+        rffName="prop1"
       />
       {/* @ts-expect-error */}
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={DefaultConvertHookCompatibleComponent}
-        rsfName="embeddedObj"
+        rffFormControl={formControl}
+        rffComponent={DefaultConvertHookCompatibleComponent}
+        rffName="embeddedObj"
       />
     </>
   );
@@ -390,9 +390,9 @@ const DefaultHookCompPropsWithRequiredField = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={DefaultHookCompPropsWithRequired}
-        rsfName="prop1"
+        rffFormControl={formControl}
+        rffComponent={DefaultHookCompPropsWithRequired}
+        rffName="prop1"
         reqProp="reqProp"
       />
     </>
@@ -411,9 +411,9 @@ const HTMLInputComponent = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
-        rsfComponent="input"
-        rsfName="prop1"
+        rffFormControl={formControl}
+        rffComponent="input"
+        rffName="prop1"
       />
     </>
   );
@@ -424,10 +424,10 @@ const HTMLDivComponent = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
+        rffFormControl={formControl}
         // @ts-expect-error
-        rsfComponent="div"
-        rsfName="prop1"
+        rffComponent="div"
+        rffName="prop1"
       />
     </>
   );
@@ -450,10 +450,10 @@ const HTMLInputIncompatibleComponent = () => {
   return (
     <>
       <Field
-        rsfUseConvert={useConvertIncompatibleForInput}
-        rsfFormControl={formControl}
-        rsfComponent="input"
-        rsfName="prop1"
+        rffUseConvert={useConvertIncompatibleForInput}
+        rffFormControl={formControl}
+        rffComponent="input"
+        rffName="prop1"
       />
     </>
   );
@@ -475,18 +475,18 @@ const ComponentWithChildrenField = () => {
   return (
     <>
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={ComponentWithChildren}
-        rsfName="prop1"
+        rffFormControl={formControl}
+        rffComponent={ComponentWithChildren}
+        rffName="prop1"
       >
         <></>
       </Field>
 
       {/* @ts-expect-error */}
       <Field
-        rsfFormControl={formControl}
-        rsfComponent={ComponentWithoutChildren}
-        rsfName="prop1"
+        rffFormControl={formControl}
+        rffComponent={ComponentWithoutChildren}
+        rffName="prop1"
       >
         <></>
       </Field>

@@ -7,7 +7,7 @@ import {
   setIn,
   getIn,
   SetField,
-} from "react-stateless-form";
+} from "react-flexible-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
@@ -118,27 +118,27 @@ const FormStateInRedux = () => {
     >
       <label>Order #</label>
       <Field
-        rsfFormControl={formControl}
-        rsfName="orderNo"
-        rsfComponent="input"
+        rffFormControl={formControl}
+        rffName="orderNo"
+        rffComponent="input"
       />
       <label>Ordered Item</label>
       <Field
-        rsfFormControl={formControl}
-        rsfName="orderedItem"
-        rsfComponent="input"
+        rffFormControl={formControl}
+        rffName="orderedItem"
+        rffComponent="input"
       />
       <label>Quantity</label>
       <Field
-        rsfFormControl={formControl}
-        rsfName="quantity"
-        rsfComponent="input"
+        rffFormControl={formControl}
+        rffName="quantity"
+        rffComponent="input"
       />
       <label>Price</label>
       <Field
-        rsfFormControl={formControl}
-        rsfName="price"
-        rsfComponent="input"
+        rffFormControl={formControl}
+        rffName="price"
+        rffComponent="input"
       />
       {!formControl.isValid && (
         <>

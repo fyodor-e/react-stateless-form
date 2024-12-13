@@ -9,8 +9,8 @@ Consider following example. It is required to enter address
 information in different places in the UI. For example address
 of the user, address of the order, address of the store and so on.
 It is good idea to create address form and reuse it in several places.
-This is where `useSubform` come into play. It accepts `rsfFormControl` from
-parent form and generate `rsfFormControl` for subform.
+This is where `useSubform` come into play. It accepts `rffFormControl` from
+parent form and generate `rffFormControl` for subform.
 <br />
 Consider following entities.
 <br />
@@ -45,9 +45,9 @@ To modify `deliveryAddress.country` we can use
 <br />
 ```jsx
   <Field
-    rsfFormControl={rsfFormControl}
-    rsfName="deliveryAddress.country"
-    rsfComponent={Input}
+    rffFormControl={rffFormControl}
+    rffName="deliveryAddress.country"
+    rffComponent={Input}
   />
 ```
 <br />
@@ -55,16 +55,16 @@ But this way country input will be bound to `Order` and cannot be used
 with address of the `Store`. `useSubform` solves this problem.
 <br />
 ```jsx
-  const addressrsfFormControl = useSubform({
-    rsfFormControl,
-    rsfName: 'deliveryAddress',
+  const addressrffFormControl = useSubform({
+    rffFormControl,
+    rffName: 'deliveryAddress',
   })
 
   return (
     <Field
-      rsfFormControl={addressrsfFormControl}
-      rsfName="country"
-      rsfComponent={Input}
+      rffFormControl={addressrffFormControl}
+      rffName="country"
+      rffComponent={Input}
     />
   )
 ```

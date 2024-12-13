@@ -5,7 +5,7 @@ import {
   Field,
   ConvertHook,
   getIn,
-} from "react-stateless-form";
+} from "react-flexible-form";
 import { useCallback } from "react";
 import DatePicker, { DatePickerProps } from "react-datepicker";
 import Select, { GroupBase, Props as ReactSelectProps } from "react-select";
@@ -30,17 +30,17 @@ const useReactSelectConvert: ConvertHook<
     ReactSelectProps<unknown, false, GroupBase<unknown>>,
     "value" | "onChange"
   >
-> = ({ formControl: { values, setFieldValue }, rsfName }) => {
-  const value = getIn<any>({ name: rsfName, values });
+> = ({ formControl: { values, setFieldValue }, rffName }) => {
+  const value = getIn<any>({ name: rffName, values });
   const onChange = useCallback<
     NonNullable<
       ReactSelectProps<unknown, false, GroupBase<unknown>>["onChange"]
     >
   >(
     (value) => {
-      setFieldValue<any>(rsfName, value);
+      setFieldValue<any>(rffName, value);
     },
-    [rsfName, setFieldValue],
+    [rffName, setFieldValue],
   );
 
   return {
@@ -56,13 +56,13 @@ const useDatePickerConvert: ConvertHook<
     onChange: NonNullable<DatePickerProps["onChange"]>;
     value?: undefined;
   }
-> = ({ formControl: { values, setFieldValue }, rsfName }) => {
-  const selected = getIn<any>({ name: rsfName, values });
+> = ({ formControl: { values, setFieldValue }, rffName }) => {
+  const selected = getIn<any>({ name: rffName, values });
   const onChange = useCallback<NonNullable<DatePickerProps["onChange"]>>(
     (value: any) => {
-      setFieldValue<any>(rsfName, value);
+      setFieldValue<any>(rffName, value);
     },
-    [rsfName, setFieldValue],
+    [rffName, setFieldValue],
   );
 
   return {
@@ -94,17 +94,17 @@ const CustomUseConvert = () => {
     >
       <label>Date</label>
       <Field
-        rsfUseConvert={useDatePickerConvert}
-        rsfFormControl={formControl}
-        rsfName="date"
-        rsfComponent={DatePicker}
+        rffUseConvert={useDatePickerConvert}
+        rffFormControl={formControl}
+        rffName="date"
+        rffComponent={DatePicker}
       />
       <label>Color</label>
       <Field
-        rsfUseConvert={useReactSelectConvert}
-        rsfFormControl={formControl}
-        rsfName="color"
-        rsfComponent={Select<Color>}
+        rffUseConvert={useReactSelectConvert}
+        rffFormControl={formControl}
+        rffName="color"
+        rffComponent={Select<Color>}
         options={colors}
       />
       {!formControl.isValid && (

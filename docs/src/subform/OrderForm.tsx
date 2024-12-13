@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Field, OnSubmit, useForm, useSubform } from "react-stateless-form";
+import { Field, OnSubmit, useForm, useSubform } from "react-flexible-form";
 import * as Yup from "yup";
 import SimpleInput from "./simpleInput";
 import AddressForm, { Address, addressValidator } from "./AddressForm";
@@ -58,15 +58,15 @@ const OrderForm = () => {
       }}
     >
       <Field
-        rsfFormControl={formControl}
-        rsfName="orderNo"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="orderNo"
+        rffComponent={SimpleInput}
         label="Order No"
       />
       <Field
-        rsfFormControl={formControl}
-        rsfName="carrier"
-        rsfComponent={SimpleInput}
+        rffFormControl={formControl}
+        rffName="carrier"
+        rffComponent={SimpleInput}
         label="Carrier"
       />
       <AddressForm subFormControl={addressFormControl} />

@@ -1,4 +1,4 @@
-import { Field, FormControl } from "react-stateless-form";
+import { Field, FormControl } from "react-flexible-form";
 import * as Yup from "yup";
 import { FC } from "react";
 import SimpleInput from "./simpleInput";
@@ -37,44 +37,44 @@ const AddressForm: FC<Props> = ({ subFormControl }) => {
       }}
     >
       <Field
-        rsfFormControl={subFormControl}
-        rsfName="country"
-        rsfComponent={SimpleInput}
+        rffFormControl={subFormControl}
+        rffName="country"
+        rffComponent={SimpleInput}
         label="Country"
         css={{ gridColumn: 1, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={subFormControl}
-        rsfName="state"
-        rsfComponent={SimpleInput}
+        rffFormControl={subFormControl}
+        rffName="state"
+        rffComponent={SimpleInput}
         label="State"
         css={{ gridColumn: 1, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={subFormControl}
-        rsfName="city"
-        rsfComponent={SimpleInput}
+        rffFormControl={subFormControl}
+        rffName="city"
+        rffComponent={SimpleInput}
         label="City"
         css={{ gridColumn: 1, gridRow: 3 }}
       />
       <Field
-        rsfFormControl={subFormControl}
-        rsfName="zipCode"
-        rsfComponent={SimpleInput}
+        rffFormControl={subFormControl}
+        rffName="zipCode"
+        rffComponent={SimpleInput}
         label="Zip Code"
         css={{ gridColumn: 2, gridRow: 1 }}
       />
       <Field
-        rsfFormControl={subFormControl}
-        rsfName="street1"
-        rsfComponent={SimpleInput}
+        rffFormControl={subFormControl}
+        rffName="street1"
+        rffComponent={SimpleInput}
         label="Street Address 1"
         css={{ gridColumn: 2, gridRow: 2 }}
       />
       <Field
-        rsfFormControl={subFormControl}
-        rsfName="street2"
-        rsfComponent={SimpleInput}
+        rffFormControl={subFormControl}
+        rffName="street2"
+        rffComponent={SimpleInput}
         label="Street Address 2"
         css={{ gridColumn: 2, gridRow: 3 }}
       />

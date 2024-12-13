@@ -66,11 +66,11 @@ const TestComponent: FC<
 > = ({ formControl, value, ...props }) => {
   return (
     <Field
-      rsfUseConvert={useConvert}
-      rsfComponent={ComponentWithRenderCounter}
-      rsfName="prop1"
+      rffUseConvert={useConvert}
+      rffComponent={ComponentWithRenderCounter}
+      rffName="prop1"
       requiredProp="2"
-      rsfFormControl={formControl}
+      rffFormControl={formControl}
       {...props}
     />
   );

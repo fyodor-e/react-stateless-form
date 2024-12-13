@@ -20,13 +20,13 @@ export type FieldProps<
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   Value = DeepPick<Values, Name>,
 > = {
-  rsfFormControl: Omit<FormControl<Values>, "handleSubmit">;
+  rffFormControl: Omit<FormControl<Values>, "handleSubmit">;
 
-  rsfName: Name;
-  rsfComponent: ElementType<ComponentProps>;
+  rffName: Name;
+  rffComponent: ElementType<ComponentProps>;
 
-  rsfLoadingComponent?: ElementType<LoadingComponentProps>;
-  rsfUseConvert?: ConvertHook<Values, BaseProps>;
+  rffLoadingComponent?: ElementType<LoadingComponentProps>;
+  rffUseConvert?: ConvertHook<Values, BaseProps>;
 } & Omit<ComponentProps, keyof BaseProps> &
   Partial<Omit<BaseProps, "value">> &
   (Value extends ComponentProps["value"]

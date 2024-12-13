@@ -10,15 +10,15 @@ During data fetching skeleton controls can be displayed in place of real form.
 
 ```
   <Field
-    rsfFormControl={rsfFormControl}
-    rsfName="country"
-    rsfComponent={Input}
-    rsfLoadingComponent={LoadingComonent}
+    rffFormControl={rffFormControl}
+    rffName="country"
+    rffComponent={Input}
+    rffLoadingComponent={LoadingComonent}
   />
 ```
 
-`rsfLoadingComponent is doing this. This component will be displayed
-when data is loading. `rsfDisplayLoading` can be used to control
+`rffLoadingComponent is doing this. This component will be displayed
+when data is loading. `rffDisplayLoading` can be used to control
 if loader should be displayed or form control.
 <br />
 When data is loading is determined by `isLoading` parameter of the `FormProps` and `FormControl`.

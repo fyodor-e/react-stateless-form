@@ -2,32 +2,30 @@
 
 `Field` is a wrapper for frorm field controls.
 It gets `value`, `error`, `touched` and `dirty` props from `formControl`
-and renders component that is passes in `rsfComponent` prop.
+and renders component that is passes in `rffComponent` prop.
 
 ```jsx
-  <Field
-    rsfFormControl={formControl}
-    rsfName='firstName'
-    rsfComponent={Input}
-  />
+<Field rffFormControl={formControl} rffName="firstName" rffComponent={Input} />
 ```
 
 ### Props
 
-All props of the `<Field />` start with rsf prefix (stands for React Stateless Form).
-This is to avoid name conflicts with rsfComponent own props that if passed to `<Field />` and will be passed to `rsfComponent` when rendering.
+All props of the `<Field />` start with rff prefix (stands for React Flexible Form).
+This is to avoid name conflicts with rffComponent own props that if passed to `<Field />` and will be passed to `rffComponent` when rendering.
 
-* **`rsfFormControl`** (Required) is a form control, return value of `useForm`
-* **`rsfName`** (Required) path to the form prop in dotted notation. Like `obj.field`.
-* **`rsfComponent`** (Required) component to render.
-* **`rsfLoadingComponent`** component that is displayed when data is loading
-* **`rsfDisplayLoading`** function that detects if data is loading to render `rsfLoadingComponent`. Default implementation is here
-* **`rsfUseConvert`** a hook that converts `formControl` to `value`, `error`, `touched`, `onChange` and `onBlur`.
- Default implementation is [here](https://github.com/fyodor-e/react-stateless-form/blob/main/src/field/defaultUseConvert.ts)
- Different components require different props. For example, HTML `<input />` element will require
+- **`rffFormControl`** (Required) is a form control, return value of `useForm`
+- **`rffName`** (Required) path to the form prop in dotted notation. Like `obj.field`.
+- **`rffComponent`** (Required) component to render.
+- **`rffLoadingComponent`** component that is displayed when data is loading
+- **`rffDisplayLoading`** function that detects if data is loading to render `rffLoadingComponent`. Default implementation is here
+- **`rffUseConvert`** a hook that converts `formControl` to `value`, `error`, `touched`, `onChange` and `onBlur`.
+  Default implementation is [here](https://github.com/fyodor-e/react-flexible-form/blob/main/src/field/defaultUseConvert.ts)
+  Different components require different props. For example, HTML `<input />` element will require
+
 ```jsx
   value: string
   onChange: (event: ChangeEvent) => void
 ```
+
 But [React Select](https://react-select.com/) has `onChange: (value: Value, ...) => void` so passing it to the `<Field />` will not work, because `onChange` is incompatible.
-This is where `rsfUseConvert` helps. It is possible to write `onChange` callback specifically for React Select and then just pass custom `useConvert` hook to any `<Field />` that wraps React Select.
+This is where `rffUseConvert` helps. It is possible to write `onChange` callback specifically for React Select and then just pass custom `useConvert` hook to any `<Field />` that wraps React Select.
