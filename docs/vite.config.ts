@@ -19,4 +19,5 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react-flexible-form"],
   },
+  base: "/react-flexible-form/",
 });
