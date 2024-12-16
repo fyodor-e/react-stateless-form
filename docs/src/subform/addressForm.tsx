@@ -1,7 +1,7 @@
 import { Field, FormControl } from "react-flexible-form";
 import * as Yup from "yup";
 import { FC } from "react";
-import SimpleInput from "./simpleInput";
+import SimpleInput from "./SimpleInput1";
 
 export type Address = {
   country: string;

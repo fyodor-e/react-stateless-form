@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "react-flexible-form-resolvers";
 import { OnSubmit, useForm, Field } from "react-flexible-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
@@ -23,7 +23,7 @@ const resolver = yupResolver(
     zipCode: Yup.string().required("Required"),
     street1: Yup.string().required("Required"),
     street2: Yup.string(),
-  }),
+  })
 );
 
 const ChakraAddressForm = () => {
@@ -33,7 +33,7 @@ const ChakraAddressForm = () => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
       setIsSubmitting(false);
     },
-    [],
+    []
   );
 
   const formControl = useForm({

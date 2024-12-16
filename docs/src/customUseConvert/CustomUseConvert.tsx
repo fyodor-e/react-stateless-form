@@ -97,7 +97,7 @@ const CustomUseConvert = () => {
         rffUseConvert={useDatePickerConvert}
         rffFormControl={formControl}
         rffName="date"
-        rffComponent={DatePicker}
+        rffComponent={DatePicker as any}
       />
       <label>Color</label>
       <Field

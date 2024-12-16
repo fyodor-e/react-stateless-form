@@ -5,9 +5,9 @@ import {
   DeepPick,
   KeyPaths,
   SetterOrValue,
-} from "./";
+} from ".";
 import { SetStateAction } from "react";
-import { Resolver } from "../types";
+import { Resolver } from ".";
 
 export type ValueFunction<V extends {}> = (v: V) => void;
 export type FunctionValueFunction<V extends {}> = (

@@ -1,7 +1,7 @@
 import { OnSubmit, useForm, Field } from "react-flexible-form";
 import { useCallback } from "react";
 import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "react-flexible-form-resolvers";
 
 type Values = {
   firstName: string;
@@ -12,7 +12,7 @@ const resolver = yupResolver(
   Yup.object({
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),
-  }),
+  })
 );
 
 const SimpleForm = () => {
@@ -20,7 +20,7 @@ const SimpleForm = () => {
     ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
-    [],
+    []
   );
 
   const formControl = useForm({

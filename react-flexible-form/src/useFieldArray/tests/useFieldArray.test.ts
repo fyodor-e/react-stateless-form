@@ -1,7 +1,7 @@
 import { FormControl } from "../../types";
 import { beforeEach, expect, test, jest, describe } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import { useFieldArray } from "../";
+import { useFieldArray } from "..";
 
 type Values = {
   nestedArray: string[];

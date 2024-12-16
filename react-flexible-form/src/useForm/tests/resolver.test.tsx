@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "react-flexible-form-resolvers";
 import { expect, test } from "@jest/globals";
 
 const schema = Yup.object({
@@ -42,9 +42,7 @@ const values = {
 test("should return correct error object", async () => {
   const { errors } = await resolver(values, undefined, {
     criteriaMode: "all",
-    names: [],
     fields: {},
-    shouldUseNativeValidation: false,
   });
 
   expect(errors).toEqual({

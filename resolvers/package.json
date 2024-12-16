@@ -1,0 +1,16 @@
+{
+  "name": "react-flexible-form-resolvers",
+  "version": "0.0.2",
+  "description": "React Flexible Form validation resolvers",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "exit 0",
+    "build": "tsup . !**/*.test.* --dts"
+  },
+  "author": "Fyodor Yemelyanenko",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "yup": "^1.5.0"
+  }
+}

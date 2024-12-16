@@ -2,7 +2,7 @@ import { Field, OnSubmit, useForm, UseValidate } from "react-flexible-form";
 import * as Yup from "yup";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import SimpleInput from "./SimpleInput";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "react-flexible-form-resolvers";
 import { throttle } from "throttle-debounce";
 
 export type Address = {
@@ -22,7 +22,7 @@ const resolver = yupResolver(
     zipCode: Yup.string().required("Required"),
     street1: Yup.string().required("Required"),
     street2: Yup.string(),
-  }),
+  })
 );
 
 const useValidate: UseValidate<Address> = ({
@@ -42,7 +42,7 @@ const useValidate: UseValidate<Address> = ({
         : { errors: {} };
       return errors;
     },
-    [resolver, context, criteriaMode],
+    [resolver, context, criteriaMode]
   );
 
   const throttleFn = useMemo(
@@ -51,7 +51,7 @@ const useValidate: UseValidate<Address> = ({
         const newErrors = await validator(values);
         setFieldError("", newErrors);
       }),
-    [validator, setFieldError],
+    [validator, setFieldError]
   );
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const AddressForm: FC = () => {
     ({ formControl: { values } }) => {
       alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
-    [],
+    []
   );
 
   const formControl = useForm<Address>({
