@@ -11,8 +11,8 @@ type IfEquals<T, U, Y = unknown, N = never> =
  * @example `expectType<number | string, typeof value>(value)`
  * TypeScript issues a type error since `value is not assignable to never`.
  * This means `typeof value` is not identical to `number | string`
- * @param actual
+ * @param _actual
  */
 export function expectType<Expected, Actual>(
-  actual: IfEquals<Actual, Expected, Actual>,
+  _actual: IfEquals<Actual, Expected, Actual>,
 ): void {}

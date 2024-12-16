@@ -5,5 +5,5 @@ export const prepareName = (name: string): string => {
     name = name.slice(1) as any;
   }
 
-  return name.replaceAll("]", "").replaceAll("[", ".").replaceAll("..", ".");
+  return name.replace(/]/gi, "").replace(/\[/gi, ".").replace(/\.\./gi, ".");
 };

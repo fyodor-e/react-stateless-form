@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "react-flexible-form-resolvers";
 import { OnSubmit, useForm, Field, useFieldArray } from "react-flexible-form";
 import { useCallback, useMemo } from "react";
 import * as Yup from "yup";
@@ -53,7 +53,8 @@ const FormWithArray = () => {
       ),
     },
     onSubmit,
-    resolver,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: resolver as any,
   });
 
   const { remove } = useFieldArray({ formControl, name: "inventory" });

@@ -1,4 +1,4 @@
-import { KeyPaths, ArrayKeyPaths, expectType } from "../";
+import { KeyPaths, ArrayKeyPaths, expectType } from "..";
 
 type NestedArray = {
   nestedArray: number[];

@@ -11,7 +11,7 @@ import { useCallback, useMemo } from "react";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "react-flexible-form-resolvers";
 import * as Yup from "yup";
 
 type Values = {
@@ -31,7 +31,7 @@ const resolver = yupResolver(
     zipCode: Yup.string().required("Required"),
     street1: Yup.string().required("Required"),
     street2: Yup.string(),
-  }),
+  })
 );
 
 const useConvert: ConvertHook<Values, TextFieldProps> = ({
@@ -59,7 +59,7 @@ const MaterialUiForm = () => {
     ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
-    [],
+    []
   );
 
   const formControl = useForm({

@@ -19,9 +19,4 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react-flexible-form"],
   },
-  build: {
-    commonjsOptions: {
-      include: ["../dist", /node_modules/],
-    },
-  },
 });

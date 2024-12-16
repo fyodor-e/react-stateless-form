@@ -2,7 +2,7 @@ import { ElementType } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
 import { FormControl } from "./formControl";
-import { ConvertHook } from "../types";
+import { ConvertHook } from ".";
 
 export type DefaultBaseProps = {
   onBlur?: () => void;
