@@ -19,7 +19,7 @@ export type Route = {
 
 const routes: Route[] = [
   {
-    path: "react-flexible-form/getting-started",
+    path: "getting-started",
     menuName: "Getting Started",
     children: [
       {
@@ -30,7 +30,7 @@ const routes: Route[] = [
     ],
   },
   {
-    path: "react-flexible-form/api",
+    path: "api",
     menuName: "API",
     children: [
       {
@@ -41,7 +41,7 @@ const routes: Route[] = [
     ],
   },
   {
-    path: "react-flexible-form/examples",
+    path: "examples",
     menuName: "Examples",
     children: [
       {

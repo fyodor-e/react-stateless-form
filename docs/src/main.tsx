@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 const router = createBrowserRouter([
   {
     element: <Layout />,
-    path: "/",
+    path: "/react-flexible-form/",
     errorElement: <ErrorPage />,
     children: routes,
   },
