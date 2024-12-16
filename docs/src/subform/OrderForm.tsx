@@ -2,7 +2,7 @@ import { yupResolver } from "react-flexible-form-resolvers";
 import { Field, OnSubmit, useForm, useSubform } from "react-flexible-form";
 import * as Yup from "yup";
 import SimpleInput from "./SimpleInput1";
-import AddressForm, { Address, addressValidator } from "./AddressForm";
+import AddressForm, { Address, addressValidator } from "./AddressForm1";
 import { useCallback } from "react";
 
 type Order = {
