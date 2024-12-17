@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormErrors } from ".";
 
 type ResolverSuccess<Values extends object> = {
   values: Values;
-  errors: undefined;
+  errors: {};
 };
 
 type ResolverError<Values extends object> = {
-  values: undefined;
+  values: {};
   errors: FormErrors<Values>;
 };
 

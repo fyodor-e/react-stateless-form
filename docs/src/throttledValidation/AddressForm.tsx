@@ -22,7 +22,7 @@ const resolver = yupResolver(
     zipCode: Yup.string().required("Required"),
     street1: Yup.string().required("Required"),
     street2: Yup.string(),
-  })
+  }),
 );
 
 const useValidate: UseValidate<Address> = ({
@@ -37,12 +37,12 @@ const useValidate: UseValidate<Address> = ({
         ? await resolver(values, context, {
             criteriaMode,
             shouldUseNativeValidation: false,
-            fields: {},
+            fields: undefined,
           })
         : { errors: {} };
       return errors;
     },
-    [resolver, context, criteriaMode]
+    [resolver, context, criteriaMode],
   );
 
   const throttleFn = useMemo(
@@ -51,7 +51,7 @@ const useValidate: UseValidate<Address> = ({
         const newErrors = await validator(values);
         setFieldError("", newErrors);
       }),
-    [validator, setFieldError]
+    [validator, setFieldError],
   );
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const AddressForm: FC = () => {
     ({ formControl: { values } }) => {
       alert(`Submitted form values: \n ${JSON.stringify(values)}`);
     },
-    []
+    [],
   );
 
   const formControl = useForm<Address>({
@@ -78,7 +78,8 @@ const AddressForm: FC = () => {
       street1: "",
       street2: undefined,
     },
-    resolver,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: resolver as any,
     onSubmit,
     useValidate,
   });

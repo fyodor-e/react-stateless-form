@@ -31,7 +31,7 @@ const resolver = yupResolver(
     zipCode: Yup.string().required("Required"),
     street1: Yup.string().required("Required"),
     street2: Yup.string(),
-  })
+  }),
 );
 
 const useConvert: ConvertHook<Values, TextFieldProps> = ({
@@ -59,7 +59,7 @@ const MaterialUiForm = () => {
     ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
-    []
+    [],
   );
 
   const formControl = useForm({
@@ -72,7 +72,8 @@ const MaterialUiForm = () => {
       street2: "",
     },
     onSubmit,
-    resolver,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: resolver as any,
   });
 
   return (
