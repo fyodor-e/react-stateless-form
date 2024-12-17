@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DefaultBaseProps, KeyPaths, FieldProps } from "../types";
 import Renderer from "./Renderer";
 import { defaultUseConvert } from "./defaultUseConvert";

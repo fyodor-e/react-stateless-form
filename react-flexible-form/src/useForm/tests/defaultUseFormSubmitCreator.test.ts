@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl } from "../../types";
 import { beforeEach, expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
@@ -90,7 +91,7 @@ test("Should return memoized handleSubmit function", async () => {
 });
 
 test("Should execute submission sequence", async () => {
-  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+  const { result } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
       formControl,
       validator,
@@ -122,7 +123,7 @@ test("Should execute submission sequence", async () => {
 });
 
 test("Should NOT submit form if any error is found by validator", async () => {
-  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+  const { result } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
       formControl,
       validator,
@@ -143,7 +144,7 @@ test("Should NOT submit form if any error is found by validator", async () => {
 });
 
 test("Should submit form if no error is present in formControl and no validator is passed", async () => {
-  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+  const { result } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
       formControl,
       validator: undefined,
@@ -161,7 +162,7 @@ test("Should submit form if no error is present in formControl and no validator 
 });
 
 test("Should NOT submit form if any error is present in formControl and no validator is passed", async () => {
-  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+  const { result } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
       formControl: {
         ...formControl,
@@ -181,7 +182,7 @@ test("Should NOT submit form if any error is present in formControl and no valid
 
 test("handleSubmit should return what onSubmit returned", async () => {
   const onSubmitRes = { ret: "ret1" };
-  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+  const { result } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
       formControl,
       validator: undefined,
@@ -197,7 +198,7 @@ test("handleSubmit should return what onSubmit returned", async () => {
 });
 
 test("handleSubmit should throw if onSubmit throw", async () => {
-  const { result, rerender } = renderHook(defaultUseFormSubmitCreator, {
+  const { result } = renderHook(defaultUseFormSubmitCreator, {
     initialProps: {
       formControl,
       validator: undefined,

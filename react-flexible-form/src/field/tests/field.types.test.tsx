@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, PropsWithChildren } from "react";
 import { Field } from "../Field";
 import { DefaultBaseProps, FormControl, ConvertHook } from "../../types";
@@ -54,7 +56,7 @@ const ValueStringUndefinedField = () => {
         rffComponent={ValueStringUndefinedComponent}
         rffName="stringProp"
       />
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error incompatible prop */}
       <Field
         rffFormControl={formControl}
         rffComponent={ValueStringUndefinedComponent}
@@ -78,7 +80,7 @@ const ValueNumberField = () => {
         rffComponent={ValueNumberComponent}
         rffName="numberProp"
       />
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error incorrect prop name */}
       <Field
         rffFormControl={formControl}
         rffComponent={ValueNumberComponent}
@@ -110,11 +112,11 @@ const AdditionalPropsField = () => {
       <Field
         rffComponent={AdditionalPropsComponent}
         rffName="prop1"
-        // @ts-expect-error
+        // @ts-expect-error prop type is incorrect
         requiredProp={2} // should be a string
         rffFormControl={formControl}
       />
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error missing required prop */}
       <Field
         rffComponent={AdditionalPropsComponent}
         rffName="prop1"
@@ -133,7 +135,7 @@ const AdditionalPropsField = () => {
         rffName="prop1"
         requiredProp="2"
         rffFormControl={formControl}
-        // @ts-expect-error
+        // @ts-expect-error prop type is incorrect
         optionalProp="123" // should be a number
       />
     </>
@@ -163,7 +165,7 @@ const UseConvertWithAdditionalPropsField = () => {
       <Field
         rffUseConvert={useConvertWithAdditionalProps}
         rffComponent={AdditionalPropsComponent}
-        // @ts-expect-error
+        // @ts-expect-error rffName is incorrect
         rffName="errorProp"
         rffFormControl={formControl}
       />
@@ -196,7 +198,7 @@ const ConvertWithOnlyBasePropsField = () => {
         requiredProp="2"
         rffFormControl={formControl}
       />
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error missing required prop */}
       <Field
         rffUseConvert={useConvertBase}
         rffComponent={AdditionalPropsComponent}
@@ -204,7 +206,7 @@ const ConvertWithOnlyBasePropsField = () => {
         // requiredProp="2" - missing
         rffFormControl={formControl}
       />
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error rffName is incorrect */}
       <Field
         rffUseConvert={useConvertBase}
         rffComponent={AdditionalPropsComponent}
@@ -230,7 +232,7 @@ const useConvertRequiredIsMissing: ConvertHook<
   Values,
   AlternativeBaseProps
 > = () =>
-  // @ts-expect-error
+  // @ts-expect-error missing prop
   ({
     onBlur: () => {},
     value: "prop1",
@@ -253,7 +255,7 @@ const IncompatibleComponent = () => {
     <Field
       useConvert={useConvertIncompatible2}
       rffFormControl={formControl}
-      // @ts-expect-error
+      // @ts-expect-error error
       rffComponent={AnotherComponent}
       rffName="prop1"
     />
@@ -335,7 +337,7 @@ const BasePropsWithSelectedField = () => {
         rffComponent={ComponentWithSelectedProp}
         rffName="prop1"
         additionlProp=""
-        // @ts-expect-error
+        // @ts-expect-error incorect value
         selected="incorrect value" // should be selected='prop1'
       />
     </>
@@ -346,7 +348,7 @@ const useConvertSelectedIncorrect: ConvertHook<
   Values,
   BasePropsWithSelected
 > = () => ({
-  // @ts-expect-error
+  // @ts-expect-error incorrect value
   selected: "prop2", // should be selected: "prop1"
   additionlProp: "",
 });
@@ -372,7 +374,7 @@ const DefaultConvertHookField = () => {
         rffComponent={DefaultConvertHookCompatibleComponent}
         rffName="prop1"
       />
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error incorrect value type */}
       <Field
         rffFormControl={formControl}
         rffComponent={DefaultConvertHookCompatibleComponent}
@@ -425,7 +427,7 @@ const HTMLDivComponent = () => {
     <>
       <Field
         rffFormControl={formControl}
-        // @ts-expect-error
+        // @ts-expect-error <div /> does not has props of <input />
         rffComponent="div"
         rffName="prop1"
       />
@@ -482,7 +484,7 @@ const ComponentWithChildrenField = () => {
         <></>
       </Field>
 
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error no children on the component */}
       <Field
         rffFormControl={formControl}
         rffComponent={ComponentWithoutChildren}

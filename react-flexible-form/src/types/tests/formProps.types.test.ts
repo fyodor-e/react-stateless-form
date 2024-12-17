@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormProps } from "../formProps";
 import { expectType } from "../isTypeEquals";
 import { SetterOrValue } from "../setterOrValue";
@@ -53,52 +54,45 @@ const formPropsWithValuesOnly: FormProps<Values> = {
   setFieldValue: () => {},
 };
 
-// Either values or initialValues should be provided
-// @ts-expect-error
+// @ts-expect-error Either values or initialValues should be provided
 const formPropsWoValuesOrInitialValues: FormProps<Values> = {};
 
-// if setErrors is provided - errors should also be provided
-// @ts-expect-error
+// @ts-expect-error if setErrors is provided - errors should also be provided
 const formPropsWithErrors: FormProps<Values> = {
   initialValues: { p: "p" },
   // errors is required
   setFieldError: () => {},
 };
 
-// if setTouched is provided - errors should also be provided
-// @ts-expect-error
+// @ts-expect-error if setTouched is provided - errors should also be provided
 const formPropsWithTouched: FormProps<Values> = {
   initialValues: { p: "p" },
   // touched is required
   setFieldTouched: () => {},
 };
 
-// if setDirty is provided - dirty should also be provided
-// @ts-expect-error
+// @ts-expect-error if setDirty is provided - dirty should also be provided
 const formPropsWithDirty: FormProps<Values> = {
   initialValues: { p: "p" },
   // dirty is required
   setFieldDirty: () => {},
 };
 
-// if setIsLoading is provided - isLoading should also be provided
-// @ts-expect-error
+// @ts-expect-error if setIsLoading is provided - isLoading should also be provided
 const formPropsWithDirty: FormProps<Values> = {
   initialValues: { p: "p" },
   // isLoading is required
   setIsLoading: () => {},
 };
 
-// if setIsSubmitting is provided - isSubmitting should also be provided
-// @ts-expect-error
+// @ts-expect-error if setIsSubmitting is provided - isSubmitting should also be provided
 const formPropsWithDirty: FormProps<Values> = {
   initialValues: { p: "p" },
   // isSubmitting is required
   setIsSubmitting: () => {},
 };
 
-// if setSubmitCount is provided - submitCount should also be provided
-// @ts-expect-error
+// @ts-expect-error if setSubmitCount is provided - submitCount should also be provided
 const formPropsWithDirty: FormProps<Values> = {
   initialValues: { p: "p" },
   // submitCount is required

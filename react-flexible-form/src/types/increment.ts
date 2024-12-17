@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Max N is 999.
 // Then Typescript fails with too deep nesting
 

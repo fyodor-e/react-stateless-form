@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl } from "../../types";
 import { beforeEach, expect, jest, test } from "@jest/globals";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -51,7 +52,7 @@ test("When validate is provided it should be called on every values change", asy
   resolver.mockReturnValueOnce(error);
   const context = { prop: "context" };
 
-  const { result, rerender } = renderHook(defaultUseValidate, {
+  const { rerender } = renderHook(defaultUseValidate, {
     initialProps: { formControl, resolver, context, criteriaMode },
   });
 

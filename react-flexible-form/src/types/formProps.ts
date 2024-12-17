@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   FormErrors,
   FormControl,
@@ -9,10 +10,8 @@ import {
 import { SetStateAction } from "react";
 import { Resolver } from ".";
 
-export type ValueFunction<V extends {}> = (v: V) => void;
-export type FunctionValueFunction<V extends {}> = (
-  v: SetStateAction<V>,
-) => void;
+export type ValueFunction<V> = (v: V) => void;
+export type FunctionValueFunction<V> = (v: SetStateAction<V>) => void;
 
 export type OnSubmit<
   Values extends object,

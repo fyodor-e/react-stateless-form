@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormControl, expectType } from "../../types";
 import { useFieldArray } from "../useFieldArray";
 
@@ -48,21 +49,21 @@ const Success = () => {
 const NameIsNotArray = () => {
   const { append } = useFieldArray({
     formControl,
-    // @ts-expect-error
+    // @ts-expect-error name should point to array
     name: "embeddedObj",
   });
 
-  // @ts-expect-error
+  // @ts-expect-error append type is not correct when name does not point to array
   expectType<typeof append, (e: Values["array"][number]) => void>(() => {});
 };
 
 const NameIsArrayIndex = () => {
   const { append } = useFieldArray({
     formControl,
-    // @ts-expect-error
+    // @ts-expect-error name should point to array
     name: "array.0",
   });
 
-  // @ts-expect-error
+  // @ts-expect-error append type is not correct when name does not point to array
   expectType<typeof append, (e: Values["array"][number]) => void>(() => {});
 };

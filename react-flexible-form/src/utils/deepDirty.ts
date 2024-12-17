@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormTouched } from "../types";
 
 export const deepDirty = <Values>(

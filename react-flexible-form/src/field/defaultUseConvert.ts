@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { DefaultConvertHook } from "../types";
 import { getIn, getInErrors } from "../utils";
 import { useMemo } from "react";

@@ -18,8 +18,6 @@ expectType<CheckUndefined<undefined, false>, true>(true);
 expectType<CheckUndefined<undefined | null, false>, true>(true);
 expectType<CheckUndefined<{ p: string }, true>, true>(true);
 
-type C = Exclude<{ p: string } | null | undefined | string[] | string, object>; // extends never ? 1 : 0
-
 // CheckUndefined with BaseType = Array<any>
 expectType<CheckUndefined<{ p: string } | undefined, false>, true>(true);
 expectType<CheckUndefined<{ p: string } | string[], false>, true>(true);

@@ -1,5 +1,5 @@
 import { getIn } from "../getIn";
-import { beforeEach, describe, expect, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
 
 type TestObject = {
   p1: "p1";

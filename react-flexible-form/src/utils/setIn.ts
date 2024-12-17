@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { KeyPaths, DeepPick } from "../types";
 import { getIn } from "./getIn";
 import { prepareName } from "./prepareName";
 
 export const setIn = <
-  Values extends {},
+  Values,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
 >({
   values,

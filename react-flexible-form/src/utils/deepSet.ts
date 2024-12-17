@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /** Will set object properties that are present in n
  * And will not touch props that are present in old but absent in n
  * @param old original object

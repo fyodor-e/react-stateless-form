@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ElementType } from "react";
 import { DeepPick } from "./deepPick";
 import { KeyPaths } from "./keyPaths";
@@ -16,7 +17,7 @@ export type FieldProps<
   Values extends object,
   ComponentProps extends { value?: any },
   BaseProps extends { value?: any } = DefaultBaseProps,
-  LoadingComponentProps extends object = {},
+  LoadingComponentProps extends object = Record<string, never>,
   Name extends KeyPaths<Values> = KeyPaths<Values>,
   Value = DeepPick<Values, Name>,
 > = {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl } from "../../types";
 import { beforeEach, expect, test, jest, describe } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
@@ -437,8 +438,6 @@ describe("update test", () => {
 });
 
 test("replace test", () => {
-  const testArray: string[] = ["one", "two", "three"];
-
   const { result } = renderHook<ReturnType<typeof useFieldArray>, any>(
     useFieldArray,
     { initialProps: { formControl, name } },

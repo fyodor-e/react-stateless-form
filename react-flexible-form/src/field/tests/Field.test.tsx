@@ -54,15 +54,16 @@ const useConvert: ConvertHook<Values> = ({ formControl }) => {
 
   return useMemo(
     () => ({
-      value: formControl.values["prop1"],
+      value: formControl.values.prop1,
       onBlur,
     }),
-    [formControl.values["prop1"]],
+    [formControl.values.prop1, onBlur],
   );
 };
 
 const TestComponent: FC<
   Partial<SimpleComponentProps> & { formControl: FormControl<Values> }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 > = ({ formControl, value, ...props }) => {
   return (
     <Field

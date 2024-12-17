@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DeepPick } from "../deepPick";
 import { expectType } from "../isTypeEquals";
 
@@ -31,7 +32,7 @@ expectType<DeepPick<TestObject, "nestedObj">, TestObject["nestedObj"]>({
 
 expectType<DeepPick<TestObject, "nestedObj.2">, "2">("2");
 
-// @ts-expect-error
+// @ts-expect-error erroneous value
 expectType<DeepPick<TestObject, "nestedObj.1">, "2">("2");
 
 expectType<DeepPick<TestObject, "nestedObj.nestedProp1">, string>("");
@@ -51,7 +52,7 @@ expectType<
   TestObject["nestedArray"][number]["prop4"]
 >("prop4");
 
-// @ts-expect-error
+// @ts-expect-error erroneous prop
 expectType<DeepPick<TestObject, "nestedArray.2.err">, string>("err");
 
 expectType<
@@ -105,7 +106,7 @@ expectType<DeepPick<RootArray, "2">, RootArray[0]>({
   ],
 });
 
-// @ts-expect-error
+// @ts-expect-error erroneous name
 expectType<DeepPick<RootArray, ".2">, RootArray[0]>({
   prop1: "prop1",
   nestedObject: {
@@ -121,10 +122,10 @@ expectType<DeepPick<RootArray, ".2">, RootArray[0]>({
 expectType<DeepPick<RootArray, "1.prop1">, RootArray[number]["prop1"]>("prop1");
 
 expectType<DeepPick<RootArray, ".2.prop1">, RootArray[number]["prop1"]>(
-  // @ts-expect-error
+  // @ts-expect-error erroneous prop
   "prop1",
 );
-// @ts-expect-error
+// @ts-expect-error erroneous prop
 expectType<DeepPick<RootArray, "[0].err">, string>("err");
 
 expectType<
@@ -206,7 +207,7 @@ expectType<
 expectType<
   DeepPick<ObjectWithUndefined, "nestedObject.prop1">,
   NonNullable<ObjectWithUndefined["nestedObject"]>["prop1"]
-  // @ts-expect-error
+  // @ts-expect-error error
 >(null);
 
 // 4. Object with unions
@@ -236,7 +237,7 @@ expectType<
 expectType<
   DeepPick<ObjectWithUnions, "nestedObject.errorProp1">,
   "errorProp1" | undefined
-  // @ts-expect-error
+  // @ts-expect-error error prop name
 >("errorProp1");
 
 expectType<
@@ -252,7 +253,7 @@ expectType<
 expectType<
   DeepPick<ObjectWithUnions, "nestedObject.2.errorArrayProp2">,
   "errorArrayProp2" | undefined
-  // @ts-expect-error
+  // @ts-expect-error error prop name
 >("errorArrayProp2");
 
 // 5. Array with unions
@@ -272,7 +273,7 @@ expectType<
 expectType<
   DeepPick<ArrayWithUnions, "nestedObject.1">,
   ArrayWithUnions["nestedObject"]["1"] | undefined
-  // @ts-expect-error
+  // @ts-expect-error erroneous prop
 >({ prop1: "prop1" });
 
 // 6. Object with any
@@ -309,6 +310,6 @@ expectType<DeepPick<RecursiveObject, "r.r.r.r.r.r.r">, RecursiveObject>({
 });
 
 expectType<DeepPick<RecursiveObject, "r.r.r.r.r.r.r.r">, RecursiveObject>(
-  // @ts-expect-error
+  // @ts-expect-error recursion too deep
   unknown,
 );

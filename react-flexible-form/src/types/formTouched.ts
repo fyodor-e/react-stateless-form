@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type FormTouched<V> =
   // Check for V = any
   0 extends 1 & V

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect, test, jest, describe, beforeEach } from "@jest/globals";
 import { setIn } from "../setIn";
 import { getIn } from "../getIn";

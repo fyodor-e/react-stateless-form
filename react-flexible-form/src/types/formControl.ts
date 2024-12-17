@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SetField } from "./formProps";
 import { FormTouched } from "./formTouched";
 import { SetterOrValue } from "./setterOrValue";

@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormErrors } from ".";
 
 type ResolverSuccess<Values extends object> = {
   values: Values;
-  errors: {};
+  errors: undefined;
 };
 
 type ResolverError<Values extends object> = {
-  values: {};
+  values: undefined;
   errors: FormErrors<Values>;
 };
 
@@ -17,7 +18,7 @@ export type ResolverResult<Values extends object> =
 interface ResolverOptions {
   criteriaMode?: "all" | "firstError";
   shouldUseNativeValidation: boolean;
-  fields: {};
+  fields: undefined;
   names?: undefined;
 }
 

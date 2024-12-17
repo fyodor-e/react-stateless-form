@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { expectType } from "../isTypeEquals";
 import { KeyPaths } from "../keyPaths";
 
@@ -20,18 +22,18 @@ type Keys = KeyPaths<TestObject>;
 const root: Keys = "";
 const p1: Keys = "p1";
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous key path is erroneous
 const p1err3: Keys = "p1.2";
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const p1err4: Keys = "p1.2.";
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const nonExisting: Keys = "nonExisting";
 
 const nestedArray: Keys = "nestedArray";
 const nestedArray1: Keys = "nestedArray.1";
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const nestedArrayErr1: Keys = "nestedArray.err";
 
 const nestedObjProp1: Keys = "nestedObj.nestedProp1";
@@ -39,14 +41,14 @@ const nestedObjProp1: Keys = "nestedObj.nestedProp1";
 const nestedObjNestetArr: Keys = "nestedObj.nestedArray";
 const nestedObjNestetArr0: Keys = "nestedObj.nestedArray.0";
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const nestedObjErr: Keys = "nestedObj.errProp";
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const nestedObjErr3: Keys = "nestedObj.2";
 
 const nestedObjNestetArr2Prop1: Keys = "nestedObj.nestedArray.2.aProp1";
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const nestedObjNestetArr2Err: Keys = "nestedObj.nestedArray.2.err";
 
 const nestedObjNestetArr2ObjNestedInArr: Keys =
@@ -55,7 +57,7 @@ const nestedObjNestetArr2ObjNestedInArr: Keys =
 const nestedObjNestetArr2ObjNestedInArrProp1: Keys =
   "nestedObj.nestedArray.2.objNestedInArr.prop1";
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const nestedObjNestetArr2ObjNestedInArrErr: Keys =
   "nestedObj.nestedArray.2.objNestedInArr.err";
 
@@ -104,11 +106,11 @@ const unionObjectKeys22: UnionObjectKeys = "nestedObj.nestedProp2";
 const unionObjectKeys3: UnionObjectKeys = `nestedObj.1`;
 const unionObjectKeys6: UnionObjectKeys = `nestedObj.1.aProp1`;
 
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const unionObjectErr2: UnionObjectKeys = "1";
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const unionObjectErr3: UnionObjectKeys = ".2";
-// @ts-expect-error
+// @ts-expect-error key path is erroneous
 const unionObjectErr6: UnionObjectKeys = "nestedObj.nestedProp1.2";
 
 expectType<KeyPaths<any>, string>("any string");

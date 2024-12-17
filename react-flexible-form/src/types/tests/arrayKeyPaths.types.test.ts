@@ -1,4 +1,4 @@
-import { KeyPaths, ArrayKeyPaths, expectType } from "..";
+import { ArrayKeyPaths, expectType } from "..";
 
 type NestedArray = {
   nestedArray: number[];
@@ -45,8 +45,6 @@ type SecondLevelNestedArrayInAnotherObject = {
   };
 };
 
-type EE = ArrayKeyPaths<SecondLevelNestedArrayInAnotherObject>;
-
 expectType<
   ArrayKeyPaths<SecondLevelNestedArrayInAnotherObject>,
   "obj.nestedArray1"
@@ -63,8 +61,6 @@ type TwoDeeplyNestedArrays = {
     }[];
   };
 };
-
-type A = ArrayKeyPaths<TwoDeeplyNestedArrays>;
 
 expectType<
   ArrayKeyPaths<TwoDeeplyNestedArrays>,

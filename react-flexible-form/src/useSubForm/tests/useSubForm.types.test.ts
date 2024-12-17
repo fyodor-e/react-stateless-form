@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormControl, expectType } from "../../types";
 import { useSubform } from "../useSubform";
 
@@ -55,9 +56,9 @@ const NameIsPrimitive = () => {
 };
 
 const NameDoesNotExist = () => {
-  const { values } = useSubform({
+  useSubform({
     formControl,
-    // @ts-expect-error
+    // @ts-expect-error incorrectProp is not in Values keys
     name: "incorrectProp",
   });
 };

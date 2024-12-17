@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl } from ".";
 
 export type DisplayLoading = (props: {
