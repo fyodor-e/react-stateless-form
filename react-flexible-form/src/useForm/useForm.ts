@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl, FormErrors, FormTouched, SetterOrValue } from "../types";
 import { FormProps } from "../types/formProps";
 import { getIn, isChanged, setIn } from "../utils";
@@ -195,6 +196,9 @@ export const useForm = <
       submitCount,
       isSubmitting,
       setIsSubmitting,
+      isLoading,
+      setIsLoading,
+      isValid,
     ],
   );
 

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { UseDirty } from "../types";
 import { deepDirty } from "../utils";

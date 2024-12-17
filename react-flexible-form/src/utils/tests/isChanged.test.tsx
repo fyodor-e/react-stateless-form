@@ -1,4 +1,5 @@
-import { expect, test, jest, describe, beforeEach } from "@jest/globals";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { expect, test, describe } from "@jest/globals";
 import { isChanged } from "../isChanged";
 
 describe("Array comparison", () => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl } from "../../types";
 import { beforeEach, expect, jest, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";

@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { KeyPaths, FormErrors } from "../types";
 import { getIn } from "./getIn";
 
 export const getInErrors = <
+  // eslint-disable-next-line @typescript-eslint/ban-types
   Errors extends FormErrors<{}> = FormErrors<{}>,
   Name extends KeyPaths<Errors> = KeyPaths<Errors>,
 >({

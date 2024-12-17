@@ -16,6 +16,6 @@ type FilterArrayKeyPaths<Key extends string = string> =
         ? CombinePath<`${Prefix}.`, FilterArrayKeyPaths<Postfix>>
         : never;
 
-export type ArrayKeyPaths<V extends any, Keys extends string = KeyPaths<V>> = {
+export type ArrayKeyPaths<V, Keys extends string = KeyPaths<V>> = {
   [Key in Keys]: FilterArrayKeyPaths<Key>;
 }[Keys];

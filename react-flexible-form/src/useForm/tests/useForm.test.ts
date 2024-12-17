@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormErrors, FormTouched, FormProps } from "../../types";
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
@@ -159,31 +160,32 @@ void describe("1. Default props", () => {
     (defaultUseValidate as any).mockReturnValueOnce(validator);
     (defaultUseInitialValues as any).mockReturnValueOnce(initialValues);
 
-    const { result, rerender } = renderHook(useForm<Values>, {
+    const { result } = renderHook(useForm<Values>, {
       initialProps: formProps,
     });
 
-    const { handleSubmit, ...rffFormControlWoSubmit } = result.current;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { handleSubmit, ...formControlWoSubmit } = result.current;
 
     expect((defaultUseValidate as any).mock.calls[0][0]).toEqual({
-      formControl: rffFormControlWoSubmit,
+      formControl: formControlWoSubmit,
       criteriaMode,
       context,
       resolver,
     });
 
     expect((defaultUseInitialValues as any).mock.calls[0][0]).toEqual({
-      formControl: rffFormControlWoSubmit,
+      formControl: formControlWoSubmit,
       initialValues,
     });
 
     expect((defaultUseDirty as any).mock.calls[0][0]).toEqual({
-      formControl: rffFormControlWoSubmit,
+      formControl: formControlWoSubmit,
       initialValues,
     });
 
     expect((defaultUseFormSubmitCreator as any).mock.calls[0][0]).toEqual({
-      formControl: rffFormControlWoSubmit,
+      formControl: formControlWoSubmit,
       validator,
       onSubmit,
       setSubmitCount,
@@ -199,7 +201,7 @@ void describe("1. Default props", () => {
       dirty: { prop1: true },
     };
 
-    const { result, rerender } = renderHook(useForm<Values>, {
+    const { result } = renderHook(useForm<Values>, {
       initialProps: formProps,
     });
 

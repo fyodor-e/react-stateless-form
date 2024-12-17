@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormErrors, UseValidate } from "../types";
 import { useCallback, useEffect } from "react";
 
@@ -12,10 +14,10 @@ export const defaultUseValidate: UseValidate<any> = ({
       ? await resolver(values, context, {
           criteriaMode,
           shouldUseNativeValidation: false,
-          fields: {},
+          fields: undefined,
         })
       : { errors: {} };
-    return errors;
+    return errors as FormErrors<any>;
   }, [resolver, context, values, criteriaMode]);
 
   useEffect(() => {

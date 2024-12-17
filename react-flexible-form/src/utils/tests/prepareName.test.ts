@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
 import { prepareName } from "../prepareName";
 
 test("should convert path to dotted notation", () => {

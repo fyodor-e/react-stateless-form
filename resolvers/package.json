@@ -10,7 +10,6 @@
   },
   "author": "Fyodor Yemelyanenko",
   "devDependencies": {
-    "@types/node": "^22.10.2",
     "yup": "^1.5.0"
   }
 }

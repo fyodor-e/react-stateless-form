@@ -9,3 +9,8 @@
         prop2: 'p';
       }[]
 };
+
+Lint
+TsConfig
+Resolvers CI
+Resolvers Readme

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl, ArrayKeyPaths, DeepPick } from "../types";
 import { useCallback } from "react";
 
@@ -28,7 +29,7 @@ export const useFieldArray = <
         Array.isArray(arr) ? [...arr, element] : arr,
       );
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const prepend = useCallback(
@@ -37,7 +38,7 @@ export const useFieldArray = <
         Array.isArray(arr) ? [element, ...arr] : arr,
       );
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const insert = useCallback(
@@ -53,7 +54,7 @@ export const useFieldArray = <
         return [...newArr.slice(0, index), element, ...newArr.slice(index)];
       });
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const swap = useCallback(
@@ -80,7 +81,7 @@ export const useFieldArray = <
         ];
       });
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const move = useCallback(
@@ -100,7 +101,7 @@ export const useFieldArray = <
         return [...newArr.slice(0, to), arr[from], ...newArr.slice(to)];
       });
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const update = useCallback(
@@ -110,14 +111,14 @@ export const useFieldArray = <
         return [...arr.slice(0, index), element, ...arr.slice(index + 1)];
       });
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const replace = useCallback(
     (elements: ArrType[]) => {
       setFieldValue(name as any, elements);
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   const remove = useCallback(
@@ -132,7 +133,7 @@ export const useFieldArray = <
         return newArr;
       });
     },
-    [setFieldValue],
+    [name, setFieldValue],
   );
 
   return {

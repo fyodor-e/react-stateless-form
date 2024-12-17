@@ -14,5 +14,6 @@ type IfEquals<T, U, Y = unknown, N = never> =
  * @param _actual
  */
 export function expectType<Expected, Actual>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _actual: IfEquals<Actual, Expected, Actual>,
 ): void {}

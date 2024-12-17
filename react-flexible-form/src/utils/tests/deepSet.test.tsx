@@ -1,4 +1,4 @@
-import { expect, test, jest, describe, beforeEach } from "@jest/globals";
+import { expect, test, describe } from "@jest/globals";
 import { deepSet } from "../deepSet";
 
 describe("promitive values", () => {

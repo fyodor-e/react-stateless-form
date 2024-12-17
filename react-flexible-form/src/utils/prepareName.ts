@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const prepareName = (name: string): string => {
   // Remove leading square bracket
   // For situation like [0].prop

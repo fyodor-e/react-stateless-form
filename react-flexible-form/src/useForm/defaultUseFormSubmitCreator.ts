@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
 import { UseFormSubmitCreator } from "../types";
 import { deepSetTouched } from "../utils";

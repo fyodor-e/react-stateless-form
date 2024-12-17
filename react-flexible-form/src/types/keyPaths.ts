@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Increment } from "./increment";
 import { UnionToIntersection } from "./unionToIntersection";
 
@@ -10,7 +11,7 @@ type GenNode<
   : `.${K}`;
 
 export type KeyPaths<
-  V extends any,
+  V,
   IsRoot extends boolean = true,
   Iteration extends number = 0,
   O extends UnionToIntersection<

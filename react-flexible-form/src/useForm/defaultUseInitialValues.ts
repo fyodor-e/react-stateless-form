@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseInitialValues } from "../types";
 import { useEffect, useState } from "react";
 
