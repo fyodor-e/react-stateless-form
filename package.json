@@ -5,6 +5,10 @@
   "description": "React Flexible Form Monorepo",
   "author": "Fyodor Yemelyanenko",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "prettier": "prettier . --write"
+  },
   "workspaces": [
     "docs",
     "react-flexible-form",

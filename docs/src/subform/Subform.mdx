@@ -1,9 +1,10 @@
-import OrderForm from './OrderForm.tsx'
+import OrderForm from "./OrderForm.tsx";
 import OrderFormRaw from "./OrderForm.tsx?raw";
 import AddressFormRaw from "./AddressForm1.tsx?raw";
-import CodeSamplesLayout from '../CodeSamplesLayout.tsx'
+import CodeSamplesLayout from "../CodeSamplesLayout.tsx";
 
 # Subform example
+
 <br />
 Consider following example. It is required to enter address
 information in different places in the UI. For example address
@@ -29,17 +30,18 @@ type Order = {
 };
 
 type Store = {
-  name: string
-  location: {
-    country: string;
-    state: string;
-    city: string;
-    zipCode: string;
-    street1: string;
-    street2?: string | undefined;
-  }
+name: string
+location: {
+country: string;
+state: string;
+city: string;
+zipCode: string;
+street1: string;
+street2?: string | undefined;
 }
-```
+}
+
+````
 <br />
 To modify `deliveryAddress.country` we can use
 <br />
@@ -49,7 +51,8 @@ To modify `deliveryAddress.country` we can use
     rffName="deliveryAddress.country"
     rffComponent={Input}
   />
-```
+````
+
 <br />
 But this way country input will be bound to `Order` and cannot be used
 with address of the `Store`. `useSubform` solves this problem.
@@ -60,13 +63,14 @@ with address of the `Store`. `useSubform` solves this problem.
     rffName: 'deliveryAddress',
   })
 
-  return (
-    <Field
+return (
+<Field
       rffFormControl={addressrffFormControl}
       rffName="country"
       rffComponent={Input}
     />
-  )
+)
+
 ```
 <br />
 Input for country is not bound to the `Order` and can be reused
@@ -80,3 +84,4 @@ with other forms.
   ]}>
   <OrderForm />
 </CodeSamplesLayout>
+```

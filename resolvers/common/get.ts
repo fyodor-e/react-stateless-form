@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isNullOrUndefined, isObjectType } from "./toNestErrors";
 
 export default <T>(obj: T, path: string, defaultValue?: unknown): any => {
@@ -10,8 +11,9 @@ export default <T>(obj: T, path: string, defaultValue?: unknown): any => {
     .filter(Boolean)
     .reduce(
       (result, key) =>
+        // eslint-disable-next-line @typescript-eslint/ban-types
         isNullOrUndefined(result) ? result : result[key as keyof {}],
-      obj
+      obj,
     );
 
   return result === undefined || result === obj

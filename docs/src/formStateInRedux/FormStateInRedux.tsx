@@ -36,7 +36,7 @@ const ordersSlice = createSlice({
   reducers: {
     setFieldValueAction: (
       state,
-      { payload: { name, value } }: PayloadAction<{ name: any; value: any }>
+      { payload: { name, value } }: PayloadAction<{ name: any; value: any }>,
     ) => {
       return setIn({ values: state, name, value });
     },
@@ -81,7 +81,7 @@ const resolver: any = yupResolver(
     orderedItem: Yup.string().required("Required"),
     quantity: Yup.number().required("Required"),
     price: Yup.number().required("Required"),
-  })
+  }),
 );
 
 const valuesSelector = (state: RootState) => state.ordersReducer;
@@ -91,7 +91,7 @@ const FormStateInRedux = () => {
     ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
-    []
+    [],
   );
 
   const values = useSelector(valuesSelector);

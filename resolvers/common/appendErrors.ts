@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default (
   name: any,
   validateAllFieldCriteria: boolean,
   errors: any,
   type: string,
-  message: any
+  message: any,
 ) =>
   validateAllFieldCriteria
     ? {

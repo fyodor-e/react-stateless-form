@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type ValidateResult = string | string[] | boolean | undefined;
 
 export type FieldError = {
@@ -13,12 +15,12 @@ export type FormErrors<V> =
   0 extends 1 & V
     ? any
     : V extends object
-    ? {
-        [K in keyof V]?: V[K] extends (infer A)[]
-          ? FieldError | (FormErrors<A> | undefined)[]
-          : FieldError | FormErrors<V[K]>;
-      }
-    : FieldError;
+      ? {
+          [K in keyof V]?: V[K] extends (infer A)[]
+            ? FieldError | (FormErrors<A> | undefined)[]
+            : FieldError | FormErrors<V[K]>;
+        }
+      : FieldError;
 
 type ResolverSuccess<Values extends object> = {
   values: Values;
@@ -43,5 +45,5 @@ export interface ResolverOptions {
 export type Resolver<Values extends object> = (
   values: Values,
   context: any | undefined,
-  options: ResolverOptions
+  options: ResolverOptions,
 ) => Promise<ResolverResult<Values>> | ResolverResult<Values>;

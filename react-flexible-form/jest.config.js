@@ -194,4 +194,5 @@ const config = {
   // watchman: true,
 };
 
+// eslint-disable-next-line no-undef
 module.exports = config;
