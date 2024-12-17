@@ -1,6 +1,6 @@
 import CustomUseConvert from "./CustomUseConvert.tsx";
 import CustomUseConvertRaw from "./CustomUseConvert.tsx?raw";
-import CodeSamplesLayout from '../CodeSamplesLayout.tsx'
+import CodeSamplesLayout from "../CodeSamplesLayout.tsx";
 
 # Custom useConvert
 
@@ -14,13 +14,13 @@ onChange: (date: Date | null) => void
 
 This is where `useConvert` come into play. It accepts `rffFormControl`
 and return props suitable to React Date Picker.
+
 <br />
 `<Field />` with React Date Picker can be reused in several places in the App,
 as `useConvert` is not bound to a specific form.
 
 <CodeSamplesLayout
-  codeFiles={[
-    { name: 'CustomUseConvert.tsx', code: CustomUseConvertRaw },
-  ]}>
+  codeFiles={[{ name: "CustomUseConvert.tsx", code: CustomUseConvertRaw }]}
+>
   <CustomUseConvert />
 </CodeSamplesLayout>

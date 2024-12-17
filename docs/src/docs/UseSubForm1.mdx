@@ -5,10 +5,11 @@ Example is an address subform. Address subform can be created once and then reus
 `useSubform` will hide parent form and will return `formControl` compatible with sub form.
 
 ```jsx
-const subFormControl = useSubform({ formControl, name })
+const subFormControl = useSubform({ formControl, name });
 ```
 
 For example
+
 ```jsx
   type Order = {
     orderNo: number
@@ -30,9 +31,10 @@ For example
 and `formControl` of the address subform will have type `FormControl<Address>`.
 
 Validation of the subform should be done at the parent level. For eample, Yup validation for the form above may look like
+
 ```jsx
 // parentFrom.tsx
-import { addressValidator } from './addressSubform'
+import { addressValidator } from "./addressSubform";
 
 const resolver = yupResolver(
   Yup.object({
@@ -55,10 +57,9 @@ export const addressValidator = Yup.object({
 
 ### Parameters
 
-* **`formControl`** is a result of calling parent's form `useForm`
-* **`name`** is a path to any object int the parent's value
+- **`formControl`** is a result of calling parent's form `useForm`
+- **`name`** is a path to any object int the parent's value
 
 ### Return value
 
-* **`formControl`** form control of the subform.
-
+- **`formControl`** form control of the subform.

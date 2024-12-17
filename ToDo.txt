@@ -10,7 +10,6 @@
       }[]
 };
 
-Lint
 Fix Resolver types
 Resolvers CI
 Resolvers Readme

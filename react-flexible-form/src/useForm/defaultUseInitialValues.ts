@@ -16,6 +16,7 @@ export const defaultUseInitialValues: UseInitialValues<any> = ({
       setInitialValues(initialValuesFromProps);
       setFieldValue("", initialValuesFromProps);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValuesFromProps]);
 
   return initialValues;

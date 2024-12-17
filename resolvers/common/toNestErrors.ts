@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import get from "./get";
 import { ResolverOptions } from "./resolver";
 
@@ -40,8 +41,8 @@ const set = (object: any, path: string, value?: unknown) => {
         isObject(objValue) || Array.isArray(objValue)
           ? objValue
           : !isNaN(+tempPath[index + 1])
-          ? []
-          : {};
+            ? []
+            : {};
     }
     object[key] = newValue;
     object = object[key];
