@@ -8,6 +8,10 @@ on:
 #     branches:
 #       - main
 
+defaults:
+  run:
+    working-directory: ./react-flexible-form
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +21,7 @@ jobs:
         with:
           node-version: 20
       - name: Install deps
-        run: npm ci
+        run: cd .. && npm ci
       - name: Run type tests
         run: npm run test:types
       - name: Run tests
