@@ -29,5 +29,5 @@
     "noFallthroughCasesInSwitch": true
   },
   /* docs/vite.config.ts is processed by another tsconfig.json */
-  "exclude": ["docs/vite.config.ts", "**/*.types.test.ts*"]
+  "exclude": ["docs/vite.config.ts", "**/*.types.test.ts*"],
 }

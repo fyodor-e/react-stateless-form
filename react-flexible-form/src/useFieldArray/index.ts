@@ -1,1 +1,1 @@
-export { useFieldArray } from "./useFieldArray";
+export * from "./useFieldArray";
