@@ -23,7 +23,7 @@ const resolver = yupResolver(
     zipCode: Yup.string().required("Required"),
     street1: Yup.string().required("Required"),
     street2: Yup.string(),
-  })
+  }),
 );
 
 const ChakraAddressForm = () => {
@@ -33,7 +33,7 @@ const ChakraAddressForm = () => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
       setIsSubmitting(false);
     },
-    []
+    [],
   );
 
   const formControl = useForm({
@@ -46,7 +46,8 @@ const ChakraAddressForm = () => {
       street2: undefined,
     },
     onSubmit,
-    resolver,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: resolver as any,
   });
 
   return (

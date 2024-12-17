@@ -11,6 +11,6 @@
 };
 
 Lint
-TsConfig
+Fix Resolver types
 Resolvers CI
 Resolvers Readme

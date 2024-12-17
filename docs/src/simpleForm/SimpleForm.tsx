@@ -12,7 +12,7 @@ const resolver = yupResolver(
   Yup.object({
     firstName: Yup.string().required("Required"),
     lastName: Yup.string().required("Required"),
-  })
+  }),
 );
 
 const SimpleForm = () => {
@@ -20,13 +20,14 @@ const SimpleForm = () => {
     ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
     },
-    []
+    [],
   );
 
   const formControl = useForm({
     initialValues: { firstName: "", lastName: "" },
     onSubmit,
-    resolver,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: resolver as any,
   });
 
   return (

@@ -1,7 +1,7 @@
-export * from "./deepDirty";
-export * from "./deepSetTouched";
-export * from "./getIn";
-export * from "./getInErrors";
-export * from "./prepareName";
-export * from "./setIn";
-export * from "./isChanged";
+export { deepDirty } from "./deepDirty";
+export { deepSetTouched } from "./deepSetTouched";
+export { getIn } from "./getIn";
+export { getInErrors } from "./getInErrors";
+export { prepareName } from "./prepareName";
+export { setIn } from "./setIn";
+export { isChanged } from "./isChanged";
