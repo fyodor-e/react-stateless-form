@@ -28,7 +28,7 @@ jobs:
         run: npm run test
       - name: Run build
         run: npm run build
-      - run: cp README.md dist && cp package.json dist
+      - run: cp ../README.md dist && cp package.json dist
       - run: cd ./dist && npm config set //registry.npmjs.org/:_authToken=${NPM_PUBLISH} && npm publish
         env:
           NPM_PUBLISH: ${{secrets.NPM_PUBLISH}}
