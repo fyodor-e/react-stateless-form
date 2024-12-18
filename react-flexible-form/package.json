@@ -4,7 +4,6 @@
   "description": "React Flexible Form",
   "main": "src/index.ts",
   "scripts": {
-    "test": "jest",
     "test:types": "tsc --project tsconfig.types.test.json",
     "build": "tsup src !src/**/*.test.* --dts",
     "copy": "copy /Y README.md dist  && copy /Y package.json dist"
@@ -12,16 +11,8 @@
   "author": "Fyodor Yemelyanenko",
   "license": "MIT",
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "@testing-library/react": "^14.2.1",
-    "babel-jest": "^29.7.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
     "react-flexible-form-resolvers": "*",
-    "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "tsup": "^6.5.0",
-    "yup": "^1.4.0"
+    "yup": "^1.5.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

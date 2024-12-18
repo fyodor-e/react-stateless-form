@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { FieldError } from "react-flexible-form/dist";
 import get from "./get";
-import { ResolverOptions } from "./resolver";
 
 export const isDateObject = (value: unknown): value is Date =>
   value instanceof Date;
@@ -50,15 +50,12 @@ const set = (object: any, path: string, value?: unknown) => {
   return object;
 };
 
-export const toNestErrors = (errors: any, options: ResolverOptions): any => {
+export const toNestErrors = (errors: Record<string, FieldError>): any => {
   const fieldErrors: any = {};
   for (const path in errors) {
-    const field = get(options.fields, path);
-    const error = Object.assign(errors[path] || {}, {
-      ref: field && field.ref,
-    });
+    const error = errors[path];
 
-    if (isNameInFieldArray(options.names || Object.keys(errors), path)) {
+    if (isNameInFieldArray(Object.keys(errors), path)) {
       const fieldArrayErrors = Object.assign({}, get(fieldErrors, path));
 
       set(fieldArrayErrors, "root", error);

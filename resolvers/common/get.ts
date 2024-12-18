@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { isNullOrUndefined, isObjectType } from "./toNestErrors";
 
-export default <T>(obj: T, path: string, defaultValue?: unknown): any => {
+export default <T>(
+  obj: T,
+  path: string | null | undefined,
+  defaultValue?: unknown,
+): any => {
   if (!path || !isObjectType(obj)) {
     return defaultValue;
   }

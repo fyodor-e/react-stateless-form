@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 export type ValidateResult = string | string[] | boolean | undefined;
 
 export type FieldError = {
@@ -22,25 +22,13 @@ export type FormErrors<V> =
         }
       : FieldError;
 
-type ResolverSuccess<Values extends object> = {
-  values: Values;
-  errors: {};
-};
-
-type ResolverError<Values extends object> = {
-  values: {};
+export type ResolverResult<Values extends object> = {
   errors: FormErrors<Values>;
 };
 
-export type ResolverResult<Values extends object> =
-  | ResolverSuccess<Values>
-  | ResolverError<Values>;
-
-export interface ResolverOptions {
+export type ResolverOptions = {
   criteriaMode?: "all" | "firstError";
-  fields: {};
-  names?: undefined;
-}
+} & Record<string, any>;
 
 export type Resolver<Values extends object> = (
   values: Values,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from "yup";
 import { FieldError, Resolver } from "../common/resolver";
-import appendErrors from "../common/appendErrors";
+import { appendErrors } from "../common/appendErrors";
 import { toNestErrors } from "../common/toNestErrors";
 
 /**
@@ -14,23 +14,25 @@ const parseErrorSchema = (
 ) => {
   return (error.inner || []).reduce<Record<string, FieldError>>(
     (previous, error) => {
-      if (!previous[error.path!]) {
-        previous[error.path!] = { message: error.message, type: error.type! };
+      if (!error.path) return previous;
+
+      if (!previous[error.path]) {
+        previous[error.path] = { message: error.message, type: error.type };
       }
 
       if (validateAllFieldCriteria) {
-        const types = previous[error.path!].types;
-        const messages = types && types[error.type!];
+        const types = previous[error.path].types;
+        const messages = types && error.type && types[error.type];
 
-        previous[error.path!] = appendErrors(
-          error.path!,
+        previous[error.path] = appendErrors({
+          name: error.path,
           validateAllFieldCriteria,
-          previous,
-          error.type!,
-          messages
-            ? ([] as string[]).concat(messages as string[], error.message)
+          errors: previous,
+          type: error.type,
+          message: Array.isArray(messages)
+            ? [...messages, error.message]
             : error.message,
-        ) as FieldError;
+        }) as FieldError;
       }
 
       return previous;
@@ -58,14 +60,7 @@ export function yupResolver<TFieldValues extends object>(
 ): Resolver<Yup.InferType<typeof schema>> {
   return async (values, context, options) => {
     try {
-      if (schemaOptions.context && process.env.NODE_ENV === "development") {
-        // eslint-disable-next-line no-console
-        console.warn(
-          "You should not used the yup options context. Please, use the 'useForm' context object instead",
-        );
-      }
-
-      const result = await schema[
+      await schema[
         resolverOptions.mode === "sync" ? "validateSync" : "validate"
       ](
         values,
@@ -73,7 +68,6 @@ export function yupResolver<TFieldValues extends object>(
       );
 
       return {
-        values: resolverOptions.raw ? values : result,
         errors: {},
       };
     } catch (e: any) {
@@ -82,10 +76,8 @@ export function yupResolver<TFieldValues extends object>(
       }
 
       return {
-        values: {},
         errors: toNestErrors(
           parseErrorSchema(e, options.criteriaMode === "all"),
-          options,
         ),
       };
     }
