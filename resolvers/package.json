@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "exit 0",
-    "build": "tsup . !**/*.test.* --dts"
+    "build": "tsup src !src/**/*.test.* --dts"
   },
   "author": "Fyodor Yemelyanenko",
   "devDependencies": {

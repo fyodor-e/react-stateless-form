@@ -3,14 +3,10 @@ name: Node.js Package
 on:
   release:
     types: [created]
-# on:
-#   push:
-#     branches:
-#       - main
 
 defaults:
   run:
-    working-directory: ./react-flexible-form
+    working-directory: ./resolvers
 
 jobs:
   build:
@@ -22,13 +18,11 @@ jobs:
           node-version: 20
       - name: Install deps
         run: cd .. && npm ci
-      - name: Run type tests
-        run: npm run test:types
       - name: Run tests
         run: npm run test
       - name: Run build
         run: npm run build
-      - run: cp ../README.md dist && cp package.json dist
+      - run: cp README.md dist && cp package.json dist
       - run: cd ./dist && npm config set //registry.npmjs.org/:_authToken=${NPM_PUBLISH} && npm publish
         env:
           NPM_PUBLISH: ${{secrets.NPM_PUBLISH}}
