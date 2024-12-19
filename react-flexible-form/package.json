@@ -1,11 +1,12 @@
 {
   "name": "react-flexible-form",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "React Flexible Form",
-  "main": "src/index.ts",
+  "main": "index.js",
+  "types": "src/index.ts",
   "scripts": {
     "test:types": "tsc --project tsconfig.types.test.json",
-    "build": "tsup src !src/**/*.test.* --dts",
+    "build": "tsup src !src/**/*.test.*",
     "copy": "copy /Y README.md dist  && copy /Y package.json dist"
   },
   "author": "Fyodor Yemelyanenko",

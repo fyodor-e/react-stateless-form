@@ -1,5 +1,8 @@
 {
   "files": [],
+  "compilerOptions": {
+    "jsxImportSource": "@emotion/react"
+  },
   "references": [
     {
       "path": "../tsconfig.json"

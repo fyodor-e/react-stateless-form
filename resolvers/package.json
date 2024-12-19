@@ -1,11 +1,12 @@
 {
   "name": "react-flexible-form-resolvers",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "React Flexible Form validation resolvers",
-  "main": "src/index.ts",
+  "main": "index.js",
+  "types": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "build": "tsup src !src/**/*.test.* --dts"
+    "build": "tsup src !src/**/*.test.*"
   },
   "author": "Fyodor Yemelyanenko",
   "devDependencies": {

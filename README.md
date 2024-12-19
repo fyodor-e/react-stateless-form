@@ -22,6 +22,9 @@ Features:
 - Partial state updates. Only object that contains updated field is changed.
 - Setter functions accept values or callbacks. `setFieldValue: (name: Name, value: (Values | (prev: Value) => Value))`
 
+<br />
+For form validation see [React Flexible Form Resolvers](https://www.npmjs.com/package/react-flexible-form-resolvers)
+
 ### Install
 
 ```jsx
@@ -31,6 +34,15 @@ Features:
 ### Usage
 
 ```jsx
+import { useCallback } from 'react';
+import { Field, OnSubmit, useForm } from 'react-flexible-form'
+
+type Values = {
+  firstName: string,
+  lastName: string,
+}
+
+export default function SomeForm () {
   const onSubmit = useCallback<OnSubmit<Values>>(
     ({ formControl: { values } }) => {
       alert(`Form values: \n ${JSON.stringify(values)}`);
@@ -52,6 +64,8 @@ Features:
         gap: "7px",
         display: "flex",
         flexDirection: "column",
+        width: '100%',
+        alignItems: 'center',
       }}
     >
       <label>First Name</label>
@@ -60,7 +74,6 @@ Features:
         rffName="firstName"
         rffComponent="input"
       />
-      <input />
       <label>Last Name</label>
       <Field
         rffFormControl={formControl}
@@ -69,8 +82,8 @@ Features:
       />
       {!formControl.isValid && (
         <>
-          <div css={{ color: "red" }}>Form have errors:</div>
-          <div css={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
+          <div style={{ color: "red" }}>Form have errors:</div>
+          <div style={{ color: "red" }}>{JSON.stringify(formControl.errors)}</div>
         </>
       )}
       <button onClick={formControl.handleSubmit}>
@@ -78,6 +91,7 @@ Features:
       </button>
     </div>
   )
+}
 ```
 
 [Documentation](https://fyodor-e.github.io/react-flexible-form/#/getting-started/overview)
