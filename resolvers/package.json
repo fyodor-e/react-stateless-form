@@ -5,7 +5,6 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "test": "exit 0",
     "build": "tsup src !src/**/*.test.* --dts"
   },
   "author": "Fyodor Yemelyanenko",

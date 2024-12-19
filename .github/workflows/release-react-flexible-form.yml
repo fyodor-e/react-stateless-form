@@ -25,7 +25,7 @@ jobs:
       - name: Run type tests
         run: npm run test:types
       - name: Run tests
-        run: npm run test
+        run: cd .. && npm run test
       - name: Run build
         run: npm run build
       - run: cp ../README.md dist && cp package.json dist
