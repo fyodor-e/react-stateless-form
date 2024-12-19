@@ -80,6 +80,6 @@ Features:
   )
 ```
 
-[Documentation](http://localhost:5173/react-flexible-form/#/getting-started/overview)
+[Documentation](https://fyodor-e.github.io/react-flexible-form/#/getting-started/overview)
 <br />
-[Examples](https://fyodor-e.github.io/react-flexible-form/examples/)
+[Examples](https://fyodor-e.github.io/react-flexible-form/#/examples/)
