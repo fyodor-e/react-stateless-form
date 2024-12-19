@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FieldError } from "react-flexible-form/dist";
 import get from "./get";
+import { FieldError } from "./resolver";
 
 export const isDateObject = (value: unknown): value is Date =>
   value instanceof Date;
