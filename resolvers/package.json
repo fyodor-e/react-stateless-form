@@ -1,6 +1,6 @@
 {
   "name": "react-flexible-form-resolvers",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "React Flexible Form validation resolvers",
   "main": "src/index.ts",
   "license": "MIT",

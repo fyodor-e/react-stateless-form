@@ -1,6 +1,6 @@
 {
   "name": "react-flexible-form",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "React Flexible Form",
   "main": "src/index.ts",
   "scripts": {
