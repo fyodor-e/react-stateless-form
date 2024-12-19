@@ -1,5 +1,5 @@
-import { FieldError, FormControl } from "../formControl";
-import { expectType, FormTouched } from "..";
+import { FormControl } from "../formControl";
+import { expectType, FieldError, FormTouched } from "..";
 
 type Values = {
   p: "p" | "c";

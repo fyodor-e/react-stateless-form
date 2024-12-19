@@ -1,29 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SetField } from "./formProps";
 import { FormTouched } from "./formTouched";
+import { FormErrors } from "./resolver";
 import { SetterOrValue } from "./setterOrValue";
-
-export type ValidateResult = string | string[] | boolean | undefined;
-
-export type FieldError = {
-  type?: string;
-  types?: {
-    [key: string]: ValidateResult;
-  };
-  message?: string;
-};
-
-export type FormErrors<V> =
-  // Check for V = any
-  0 extends 1 & V
-    ? any
-    : V extends object
-      ? {
-          [K in keyof V]?: V[K] extends (infer A)[]
-            ? FieldError | (FormErrors<A> | undefined)[]
-            : FieldError | FormErrors<V[K]>;
-        }
-      : FieldError;
 
 export type FormControl<
   Values extends object,

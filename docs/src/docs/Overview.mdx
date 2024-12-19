@@ -22,7 +22,7 @@ The main features of React Flexible Form (RSF for short) are:
 
 ## Form creation
 
-To create a form [`useForm`](/api/useForm) hook should be called.
+To create a form [`useForm`](#/api/useForm) hook should be called.
 At minimum it should have initial values property.
 Other common props are:
 
@@ -45,16 +45,16 @@ The problem is that different components need different props.
 For example html `<input />` has `onChange: (event: ChangeEvent) => void` and input value will be at `event.target.value`.
 But [`ReactSelect`](https://react-select.com/) has such `onChange: (value: SignleValue<T>)`, and `value` is the selected object.
 Same will apply how errors should be displayed and so on.
-To be able to use `Field` with any library, optional prop [`useConvert`](/api/useConvert) can be used.
+To be able to use `Field` with any library, optional prop [`useConvert`](#/api/useConvert) can be used.
 It will accept rffFormControl and rffName as arguments and should provide momoized `onChange`, `onBlur`, `value` and `error` props. Names of them can be different.
 Then `Field` can wrap any component.
-See example with custom [`useConvert`](/examples/custom-use-convert).
+See example with custom [`useConvert`](#/examples/custom-use-convert).
 
 ## Subforms
 
 As all apps are built using reusable components, it can be required to reuse part of the form.
 For example, address form can be used in many places: to enter address of the user, address of the building, devivery address and so on.
 It can be a good idea to create address form once and the reuse it in several differen forms.
-This can be done with [`useSubform`](api/useSubform) hook.
+This can be done with [`useSubform`](#/api/useSubform) hook.
 `useSubform` will also generate `rffFormControl` for use inside subform.
 But itself it will accept `rffFormControl` from parent form and `rffName` with the path to a value of the

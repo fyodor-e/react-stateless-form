@@ -5,12 +5,18 @@ export default function ErrorPage() {
   const error: any = useRouteError();
 
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error?.statusText || error?.message}</i>
-      </p>
+    <div
+      id="error-page"
+      css={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        flex: 1,
+      }}
+    >
+      <h1>404</h1>
+      <p>{error?.statusText || error?.message}</p>
     </div>
   );
 }

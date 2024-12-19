@@ -1,8 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { useOutlet } from "react-router-dom";
 import Menu from "./Menu";
 import Header from "./Header";
+import { FC, PropsWithChildren } from "react";
 
-function Layout() {
+const Layout: FC<PropsWithChildren> = ({ children }) => {
+  const outlet = useOutlet();
   return (
     <div
       css={{
@@ -44,10 +46,10 @@ function Layout() {
           overflow: "auto",
         }}
       >
-        <Outlet />
+        {outlet || children}
       </div>
     </div>
   );
-}
+};
 
 export default Layout;
