@@ -40,8 +40,7 @@ const OrderForm = () => {
         street2: undefined,
       },
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: resolver as any,
+    resolver,
     onSubmit,
   });
 

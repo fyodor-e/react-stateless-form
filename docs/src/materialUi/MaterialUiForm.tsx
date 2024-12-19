@@ -72,8 +72,7 @@ const MaterialUiForm = () => {
       street2: "",
     },
     onSubmit,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: resolver as any,
+    resolver,
   });
 
   return (

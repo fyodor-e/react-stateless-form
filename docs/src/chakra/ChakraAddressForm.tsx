@@ -46,8 +46,7 @@ const ChakraAddressForm = () => {
       street2: undefined,
     },
     onSubmit,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: resolver as any,
+    resolver,
   });
 
   return (

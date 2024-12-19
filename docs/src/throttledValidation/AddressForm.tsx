@@ -78,8 +78,7 @@ const AddressForm: FC = () => {
       street1: "",
       street2: undefined,
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: resolver as any,
+    resolver,
     onSubmit,
     useValidate,
   });

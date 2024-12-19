@@ -10,6 +10,7 @@
       }[]
 };
 
+Index.JS after build has all imported code
 Fix Resolver types
 Resolvers CI
 Resolvers Readme

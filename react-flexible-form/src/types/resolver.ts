@@ -1,27 +1,35 @@
-/* eslint-disable @typescript-eslint/ban-types */
+// Have to match resolvers/common/resolver.ts
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormErrors } from ".";
 
-type ResolverSuccess<Values extends object> = {
-  values: Values;
-  errors: {};
+export type ValidateResult = string | string[] | boolean | undefined;
+
+export type FieldError = {
+  type?: string;
+  types?: {
+    [key: string]: ValidateResult;
+  };
+  message?: string;
 };
 
-type ResolverError<Values extends object> = {
-  values: {};
+export type FormErrors<V> =
+  // Check for V = any
+  0 extends 1 & V
+    ? any
+    : V extends object
+      ? {
+          [K in keyof V]?: V[K] extends (infer A)[]
+            ? FieldError | (FormErrors<A> | undefined)[]
+            : FieldError | FormErrors<V[K]>;
+        }
+      : FieldError;
+
+export type ResolverResult<Values extends object> = {
   errors: FormErrors<Values>;
 };
 
-export type ResolverResult<Values extends object> =
-  | ResolverSuccess<Values>
-  | ResolverError<Values>;
-
-interface ResolverOptions {
+export type ResolverOptions = {
   criteriaMode?: "all" | "firstError";
-  shouldUseNativeValidation: boolean;
-  fields: undefined;
-  names?: undefined;
-}
+} & Record<string, any>;
 
 export type Resolver<Values extends object> = (
   values: Values,

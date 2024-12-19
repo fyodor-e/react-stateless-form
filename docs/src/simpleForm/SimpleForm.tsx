@@ -26,8 +26,7 @@ const SimpleForm = () => {
   const formControl = useForm({
     initialValues: { firstName: "", lastName: "" },
     onSubmit,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: resolver as any,
+    resolver,
   });
 
   return (

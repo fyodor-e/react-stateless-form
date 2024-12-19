@@ -1,7 +1,6 @@
 {
   "name": "docs",
   "private": true,
-  "version": "0.0.1",
   "type": "module",
   "homepage": "https://fyodor-e.github.io/react-flexible-form",
   "scripts": {

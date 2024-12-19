@@ -18,16 +18,18 @@ type Values = {
 const resolver = yupResolver(
   Yup.object({
     warehouse: Yup.string().required("Required"),
-    inventory: Yup.array().of(
-      Yup.object({
-        code: Yup.string().required("Required"),
-        name: Yup.string().required("Required"),
-        quantity: Yup.number()
-          .typeError("Required")
-          .min(0, "Should be positive")
-          .required("Required"),
-      }),
-    ),
+    inventory: Yup.array()
+      .of(
+        Yup.object({
+          code: Yup.string().required("Required"),
+          name: Yup.string().required("Required"),
+          quantity: Yup.number()
+            .typeError("Required")
+            .min(0, "Should be positive")
+            .required("Required"),
+        }),
+      )
+      .required("Required"),
   }),
 );
 
@@ -53,8 +55,7 @@ const FormWithArray = () => {
       ),
     },
     onSubmit,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: resolver as any,
+    resolver,
   });
 
   const { remove } = useFieldArray({ formControl, name: "inventory" });
